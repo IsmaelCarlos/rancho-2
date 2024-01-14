@@ -1,0 +1,137 @@
+.table2 {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+	color: #212529;
+	column-gap: 12px;
+}
+
+.table2 .subtitle {
+	color: #000000;
+    margin-bottom: 0.625rem;
+    text-transform: capitalize;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.table2 .vspace {
+	height: 3rem;
+}
+
+.table2 h6 {
+	color: grey;
+}
+
+.table2 .th {
+    border-top: 0;
+    border-bottom-width: 1px;
+    font-weight: 500;
+    font-size: .875rem;
+    text-transform: uppercase;
+	/* padding: .875rem 0.9375rem; */
+}
+
+.table2 .td{
+    font-size: 0.875rem;
+    /* padding: .875rem 0.9375rem; */
+}
+
+.table2 hr {
+    width: 100%;
+}
+
+
+.table2 .span-1 {
+	grid-column: span 1;
+}
+
+.table2 .span-2 {
+	grid-column: span 2;
+}
+
+.table2 .span-3 {
+	grid-column: span 3;
+}
+
+.table2 .span-4 {
+	grid-column: span 4;
+}
+
+.table2 .span-5 {
+	grid-column: span 5;
+}
+
+.table2 .span-6 {
+	grid-column: span 6;
+}
+
+.table2 .span-7 {
+	grid-column: span 7;
+}
+
+.table2 .span-8 {
+	grid-column: span 8;
+}
+
+.table2 .span-9 {
+	grid-column: span 9;
+}
+
+.table2 .span-10 {
+	grid-column: span 10;
+}
+
+.table2 .span-11 {
+	grid-column: span 11;
+}
+
+.table2 .span-12 {
+	grid-column: span 12;
+}
+
+.table2 .span-13 {
+	grid-column: span 13;
+}
+
+.table2 .span-14 {
+	grid-column: span 14;
+}
+
+.table2 .span-15 {
+	grid-column: span 15;
+}
+
+.table2 .span-16 {
+	grid-column: span 16;
+}
+
+.table2 .span-17 {
+	grid-column: span 17;
+}
+
+.table2 .span-18 {
+	grid-column: span 18;
+}
+
+.table2 .span-19 {
+	grid-column: span 19;
+}
+
+.table2 .span-20 {
+	grid-column: span 20;
+}
+
+.table2 .span-21 {
+	grid-column: span 21;
+}
+
+.table2 .span-22 {
+	grid-column: span 22;
+}
+
+.table2 .span-23 {
+	grid-column: span 23;
+}
+
+.table2 .span-24 {
+	grid-column: span 24;
+}

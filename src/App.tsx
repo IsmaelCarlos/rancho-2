@@ -1,4 +1,4 @@
-import './App.css'
+import logo from '@/assets/images/logotipo.png';
 
 function App() {
 
@@ -28,7 +28,7 @@ function App() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <div className="row">
-                        <img src="images/logotipo.png" className="logo_image" />
+                        <img src={ logo } className="logo_image" />
                     </div>
 
                     <button className="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
@@ -57,7 +57,8 @@ function App() {
             </nav>
 
             <h2 className="mb-4">
-
+                { /**@ts-ignore */ }
+                { verificaHora() }
             </h2>
 
             <div className="container">

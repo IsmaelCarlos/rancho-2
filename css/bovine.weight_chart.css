@@ -1,0 +1,14 @@
+.zc-body { background:#ecf2f6; }
+
+.chart--container {
+  height: 100%;
+  width: 100%;
+  /* min-height: 530px; */
+}
+
+.zc-ref {
+  display: none;
+}
+.bovine_data{
+  text-align: center;
+}
