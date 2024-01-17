@@ -1,3 +1,5 @@
+
+import { IMaskInput } from "react-imask";
 import React, { useState } from 'react';
 import type { CascaderProps } from 'antd';
 import {
@@ -57,7 +59,7 @@ const Registration_people: React.FC = () => {
         <Form.Item name="prefix" noStyle>
             <Select style={{ width: 70 }}>
                 <Option value="55">+55</Option>
-        
+
             </Select>
         </Form.Item>
     );
@@ -77,7 +79,7 @@ const Registration_people: React.FC = () => {
         if (!value) {
             setAutoCompleteResult([]);
         } else {
-            setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
+            setAutoCompleteResult(['@.gmail.com', '@.hotmail.com'].map((domain) => `${value}${domain}`));
         }
     };
 
@@ -97,83 +99,71 @@ const Registration_people: React.FC = () => {
                 style={{ maxWidth: 600 }}
                 scrollToFirstError
             >
-               
+
 
                 <Form.Item
+
                     name="Nome"
                     label="Nome"
-                    tooltip="Digite o nome completos"
+                    tooltip="Digite o nome completo"
                     rules={[{ required: true, message: 'Por favor insira seu nome!', whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
 
+
+
                 <Form.Item
-                    name="phone"
-                    label="Phone Number"
+
+                    name="cpf"
+                    label="CPF"
+                    tooltip="Informe  o CPF"
+                    rules={[{ required: true, message: 'Por favor insira o CPF', whitespace: true }]}
+
+
+                >
+                    {/* <IMaskInput
+                        mask="000.000.000-00"
+                        placeholder="Digite o seu CPF"
+                    /> */}
+                    <Input />
+                </Form.Item>
+
+                <Form.Item
+                    name="genero"
+                    label="Gênero"
+                    tooltip="Selecione o Gênero que se identifica"
+                    rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
+                >
+                    <Select placeholder="Selecionar Gênero">
+                        <Option value="Masculino">Masculino</Option>
+                        <Option value="Femenino">Femenino</Option>
+                        <Option value="Outros">Outros</Option>
+                    </Select>
+                </Form.Item>
+
+                <Form.Item
+                    name="telefone"
+                    label="Telefone"
                     tooltip="Digite o número de contato"
                     rules={[{ required: true, message: 'Por favor insira seu número' }]}
                 >
                     <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
                 </Form.Item>
 
+               
                 <Form.Item
-                    name="donation"
-                    label="Donation"
-                    rules={[{ required: true, message: 'Please input donation amount!' }]}
+                    name="email"
+                    label="Email"
+                    rules={[{ required: true, message: 'Por favor insira seu email!' }]}
                 >
-                    <InputNumber addonAfter={suffixSelector} style={{ width: '100%' }} />
-                </Form.Item>
-
-                <Form.Item
-                    name="website"
-                    label="Website"
-                    rules={[{ required: true, message: 'Please input website!' }]}
-                >
-                    <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
+                    <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="email">
                         <Input />
                     </AutoComplete>
                 </Form.Item>
 
-                <Form.Item
-                    name="intro"
-                    label="Intro"
-                    rules={[{ required: true, message: 'Please input Intro' }]}
-                >
-                    <Input.TextArea showCount maxLength={100} />
-                </Form.Item>
 
-                <Form.Item
-                    name="gender"
-                    label="Gender"
-                    rules={[{ required: true, message: 'Please select gender!' }]}
-                >
-                    <Select placeholder="select your gender">
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                        <Option value="other">Other</Option>
-                    </Select>
-                </Form.Item>
-
-                <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="captcha"
-                                noStyle
-                                rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Button>Get captcha</Button>
-                        </Col>
-                    </Row>
-                </Form.Item>
-
-
-                <Form.Item
+                {/* <Form.Item
                     name="email"
                     label="E-mail"
                     rules={[
@@ -187,8 +177,11 @@ const Registration_people: React.FC = () => {
                         },
                     ]}
                 >
+                     <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="email">
+                        <Input />
+                    </AutoComplete>
                     <Input />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                     name="password"
@@ -250,7 +243,7 @@ const Registration_people: React.FC = () => {
                     </Button>
                 </Form.Item>
             </Form>
-      </div>
+        </div>
     );
 };
 
