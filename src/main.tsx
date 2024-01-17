@@ -4,6 +4,7 @@ import App from '@/App.tsx'
 
 import Login from '@/screens/Login'
 import Registration_people from '@/screens/Registration_people'
+import Registration_farm from '@/screens/Registration_farm'
 import Teste from '@/screens/Teste'
 
 import {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: '/teste',
                 element: <Teste />
+            },
+            {
+                path: '/registration_farm',
+                element: <Registration_farm />
             },
         ]
     },

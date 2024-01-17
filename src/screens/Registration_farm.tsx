@@ -106,14 +106,26 @@ const Registration_people: React.FC = () => {
 
                 <Form.Item
 
-                    name="nome"
-                    label="Nome"
-                    tooltip="Digite o nome completo"
-                    rules={[{ required: true, message: 'Por favor insira seu nome!', whitespace: true }]}
+                    name="brinco"
+                    label="ID Brinco"
+                    tooltip="Cadastrar o Brinvo pelo RFID"
+                    rules={[{ required: true, message: 'Verifique se cadastrou o brinco corretamente!', whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
 
+                <Form.Item
+                    name="raca"
+                    label="Raça"
+                    tooltip="Selecione a Raça do Bovino"
+                    rules={[{ required: true, message: 'Por favor seleciona a Raça!' }]}
+                >
+                    <Select placeholder="Selecionar Gênero">
+                        <Option value="nelore">Nelore</Option>
+                        <Option value="angus">Angus</Option>
+                        <Option value="senepol">Senepol</Option>
+                    </Select>
+                </Form.Item>
 
 
                 <Form.Item
@@ -147,18 +159,7 @@ const Registration_people: React.FC = () => {
                 </Form.Item>
                 
 
-                <Form.Item
-                    name="genero"
-                    label="Gênero"
-                    tooltip="Selecione o Gênero que se identifica"
-                    rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
-                >
-                    <Select placeholder="Selecionar Gênero">
-                        <Option value="Masculino">Masculino</Option>
-                        <Option value="Femenino">Femenino</Option>
-                        <Option value="Outros">Outros</Option>
-                    </Select>
-                </Form.Item>
+                
 
                 <Form.Item
                     name="telefone"
@@ -257,11 +258,13 @@ const Registration_people: React.FC = () => {
                 </Form.Item> */}
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        <NavLink to='/registration_farm'>
-                            Salvar
+                        Salvar
+                    </Button>
+                    <Button type="primary" htmlType="submit">
+                        <NavLink to='/registration'>
+                            Voltar
                         </NavLink>
                     </Button>
-                   
                 </Form.Item>
             </Form>
         </div>
