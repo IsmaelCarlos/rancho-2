@@ -8333,8 +8333,10 @@ a[data-toggle="collapse"] {
     border-color: #3e64ff !important; }
 
 .logo_image{
-  width: 280px;
+  width: 160px;
   height: 150px;
+  margin-left: 100px;
+  
 }
 .icon_image{
   width: 35px;
