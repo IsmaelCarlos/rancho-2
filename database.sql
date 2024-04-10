@@ -1,4 +1,6 @@
--- telefone type
+-- Data
+CREATE DOMAIN date_type AS VARCHAR(75);
+-- Telefone type
 CREATE DOMAIN telefone_type AS VARCHAR(19);
 -- Cnpj type
 CREATE DOMAIN cnpj_type AS VARCHAR(18);
@@ -15,7 +17,7 @@ CREATE TYPE zona_enum AS ENUM ('RURAL', 'URBANA');
 -- Enum pecuaria
 CREATE TYPE pecuaria_enum AS ENUM('fazenda_corte', 'fazenda_leiteiro', 'pastagem_manejo', 'fazenda_ovinos', 'fazend_suinos', 'fazenda_mista');
 
-create table fazenda(
+CREATE TABLE fazenda(
 	id_fazenda SERIAL,
 	id_endereco SERIAL,
 	nome VARCHAR(100),
@@ -24,7 +26,7 @@ create table fazenda(
 	primary key(id_fazenda)
 );
 
-create table endereco (
+CREATE TABLE endereco (
 	id_endereco SERIAL,
 	cep_endereco cep_type,
 	rua VARCHAR(255),
@@ -44,7 +46,7 @@ create table endereco (
 create index endereco_cep_endreco_idx
 on endereco (cep_endereco);
 
-create table pessoa (
+CREATE TABLE pessoa (
 	id_pessoa SERIAL,
 	id_endereco SERIAL,
 	nome VARCHAR(255),
@@ -57,6 +59,19 @@ create table pessoa (
 	primary key(id_pessoa)
 );
 
+CREATE TABLE bovino (
+	id_bovino SERIAL,
+	id_pessoa_proprietario_anterior SERIAL,
+	id_pessoa_proprietario_atual SERIAL,
+	identificacao VARCHAR(255),
+	data_nascimento date_type,
+	data_entrada_confinamento date_type,
+	peso_nascimento INT,
+	peso_confinamento INT,
+	peso_atual INT,
+	primary key(id_bovino)
+ );
+
 -- Funções
 CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
 BEGIN
@@ -64,10 +79,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Telefone format check constraint
+CREATE OR REPLACE FUNCTION validate_cpf_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN telefone ~ '^\d{3}\.\d{3}\.\d{3}-\d{2}$';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION validate_cnpj_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN telefone ~ '^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$';
+END;
+$$ LANGUAGE plpgsql;
+
+-- Telefone format check constraint on pessoa
 ALTER TABLE pessoa
 ADD CONSTRAINT telefone_format_check
 CHECK (validate_telefone_format(telefone));
+
+-- Cpf format check constraint on pessoa
+ALTER TABLE pessoa
+ADD CONSTRAINT pessoa_format_check
+CHECK (validate_cpf_format(cpf));
 
 
 
@@ -81,4 +113,18 @@ foreign key (id_endereco) references endereco(id_endereco);
 alter table pessoa
 add constraint fk_pessoa_endereco
 foreign key (id_endereco) references endereco(id_endereco);
+
+-- Relacionamento: bovino }o--|| pessoa
+ALTER TABLE bovino
+ADD CONSTRAINT fk_pessoa_proprietario_autal
+FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa);
+ALTER TABLE bovino
+ADD CONSTRAINT fk_pessoa_proprietario_anterior
+FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa);
+
+
+
+
+
+
 
