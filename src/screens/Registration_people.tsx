@@ -76,7 +76,7 @@ const Registration_people: React.FC = () => {
         if (!value) {
             setAutoCompleteResult([]);
         } else {
-            setAutoCompleteResult(['@.gmail.com', '@.hotmail.com'].map((domain) => `${value}${domain}`));
+            setAutoCompleteResult(['@gmail.com', '@hotmail.com'].map((domain) => `${value}${domain}`));
         }
     };
 
@@ -159,7 +159,7 @@ const Registration_people: React.FC = () => {
                         <Option value="Outros">Outros</Option>
                     </Select>
                 </Form.Item>
-
+                    
                 <Form.Item
                     name="telefone"
                     label="Telefone"
@@ -240,21 +240,7 @@ const Registration_people: React.FC = () => {
 
 
 
-                {/* <Form.Item
-                    name="agreement"
-                    valuePropName="checked"
-                    rules={[
-                        {
-                            validator: (_, value) =>
-                                value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-                        },
-                    ]}
-                    {...tailFormItemLayout}
-                >
-                    <Checkbox>
-                        I have read the <a href="">agreement</a>
-                    </Checkbox>
-                </Form.Item> */}
+            
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
                         <NavLink to='/registration_farm'>

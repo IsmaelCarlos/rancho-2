@@ -5,6 +5,9 @@ import App from '@/App.tsx'
 import Login from '@/screens/Login'
 import Registration_people from '@/screens/Registration_people'
 import Registration_farm from '@/screens/Registration_farm'
+import Perfil_user from '@/screens/Perfil_user'
+import Resgistration_bovine from '@/screens/Registration_bovine'
+
 import Teste from '@/screens/Teste'
 
 import {
@@ -30,9 +33,18 @@ const router = createBrowserRouter([
                 element: <Teste />
             },
             {
-                path: '/registration_farm',
-                element: <Registration_farm />
+                path: 'registration_farm',
+                element: <Registration_farm/>
             },
+            {
+                path: '/perfil_user',
+                element: <Perfil_user/>
+            },
+            {
+                path: '/registration_bovine',
+                element: <Resgistration_bovine/>
+            }
+      
         ]
     },
     
