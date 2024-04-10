@@ -1,0 +1,56 @@
+erDiagram
+    fazenda{
+       id_fazenda SERIAL
+        id_endereco SERIAL
+        nome VARCHAR(100)
+        tamanho_hectare FLOAT
+        pecuaria pecuaria_enum
+    }
+
+    endereco{
+        id_endereco SERIAL
+        cep_endereco cep_type
+        rua VARCHAR(255)
+        bairro VARCHAR(255)
+        cidade VARCHAR(120)
+        estado estados_enum
+        pais VARCHAR(50)
+        numero INT
+        quadra INT
+        lote INT
+        complemento VARCHAR(120)
+        zona zona_enum
+    }
+
+    pessoa {
+        id_pessoa SERIAL
+        id_endereco SERIAL
+        nome VARCHAR(255)
+        cpf cpf_type
+        nascimento VARCHAR(80)
+        genero 	generos_enum
+        telefone telefone_type
+        email VARCHAR(255)
+        senha VARCHAR(512)
+    }
+
+    bovino {
+        id_bovino SERIAL
+        id_pessoa_proprietario_anterior SERIAL(FK)
+        id_pessoa_proprietario_atual SERIAL(FK)
+        identificacao VARCHAR(255)
+        data_nascimento date_type
+        data_entrada_confinamento date_type
+        peso_nascimento INT
+        peso_confinamento INT
+        peso_atual INT
+    }
+
+    brinco {
+        id_brinco SERIAL
+        tag_id VARCHAR(255)
+    }
+
+    fazenda }o--|| endereco : "contém"
+    pessoa }o--|| endereco : "contém"
+    bovino }o--|| pessoa : ""
