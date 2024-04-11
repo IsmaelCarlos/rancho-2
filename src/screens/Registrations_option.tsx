@@ -7,9 +7,13 @@ import {
 } from "react-icons/tb";
 import { HiOutlineDocumentReport as ReportIcon } from "react-icons/hi";
 import { SiMlflow as ProcessingIcon } from "react-icons/si";
-// import { GiCow as RegisterIcon } from "react-icons/gi";
+import { GiCow as RegisterIcon } from "react-icons/gi";
+// import { FaFileMedical as RegisterMedical} from "react-icons/fa";
+// import { GiHealthCapsule as  RegisterMedical} from "react-icons/gi";
+import { FaSuitcaseMedical as RegisterMedical} from "react-icons/fa6";
+import { BsBagPlusFill as RegisterRation} from "react-icons/bs";
 // import { HiMiniSquaresPlus as RegisterIcon} from "react-icons/hi2";
-import { PiCirclesThreePlusFill as RegisterIcon} from "react-icons/pi";
+// import { PiCirclesThreePlusFill as RegisterIcon} from "react-icons/pi";
 
 
 const Perfil_user: React.FC = () => {
@@ -18,11 +22,11 @@ const Perfil_user: React.FC = () => {
       <div className="row">
         <div className="col">
           {/* <i className="fa-light fa-folder-tree"></i> */}
-          <a href="registration_option" className="card opcao_menu ">
+          <a href="registration_bovine" className="card opcao_menu ">
 
             <RegisterIcon size={60} style={{ color: 'blue' }} />
             <div className="overlay"></div>
-            <p>Cadastrar </p>
+            <p>Bovino </p>
           </a>
         </div>
 
@@ -31,9 +35,9 @@ const Perfil_user: React.FC = () => {
 
           <a href="#" className="card opcao_menu ">
             {/* <img src="../images/Icons/consultar.png" className="icone_perfil_user"> */}
-            <SearchIcon size={60} style={{ color: 'blue' }} />
+            <RegisterMedical size={60} style={{ color: 'blue' }} />
             <div className="overlay"></div>
-            <p>Consultar </p>
+            <p>Farmácia </p>
           </a>
         </div>
 
@@ -41,9 +45,9 @@ const Perfil_user: React.FC = () => {
         <div className="col">
           <a href="report.html" className="card opcao_menu ">
             {/* <img src="../images/Icons/relatorio.png" className="icone_perfil_user"> */}
-            <ReportIcon size={60} style={{ color: 'blue' }} />
+            <RegisterRation size={60} style={{ color: 'blue' }} />
             <div className="overlay"></div>
-            <p>Relatórios</p>
+            <p>Rações</p>
           </a>
 
         </div>

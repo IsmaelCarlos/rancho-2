@@ -93,13 +93,13 @@ const Registration_bovine: React.FC = () => {
 
     return (
 
-        <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
 
 
             <div style={{ display: 'flex' }}>
 
-                <div style={{ width: 240 }} >
+                <div  >
                     <Form.Item
 
                         name="raca_bovino"
@@ -107,7 +107,7 @@ const Registration_bovine: React.FC = () => {
                         tooltip="Selecione a raça do bovino de sua Fazenda/confinamento."
                         rules={[{ required: true, message: 'Por favor seleciona a raça!' }]}
                     >
-                        <Select placeholder="Raças Bolvina"  >
+                        <Select placeholder="Raças Bolvina" style={{ width: 250 }}>
                             <option value="agnus">Agnus</option>
                             <option value="nelore">Nelore</option>
                             <option value="brahman">Brahman</option>
@@ -127,7 +127,7 @@ const Registration_bovine: React.FC = () => {
                         </Select>
                     </Form.Item>
                 </div>
-                <div style={{ width: 240 }}>
+                <div >
                     <Form.Item
 
                         name="classificacao_bovino"
@@ -135,10 +135,10 @@ const Registration_bovine: React.FC = () => {
                         tooltip="Localização de área de zona rural ou zona urbana da Fazenda."
                         rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
                     >
-                        <Select placeholder="Classificação do Bovino">
-                      
-                    <option value="cruzado">Cruzado</option>
-                    <option value="gol" title="Gado de Origem Leiteira">Gol</option>
+                        <Select placeholder="Classificação do Bovino" style={{ width: 250 }}>
+
+                            <option value="cruzado">Cruzado</option>
+                            <option value="gol" title="Gado de Origem Leiteira">Gol</option>
                         </Select>
                     </Form.Item>
                 </div>
@@ -146,16 +146,23 @@ const Registration_bovine: React.FC = () => {
             </div>
 
             <Form.Item
-             
-
-                name="nome_fazenda"
+                name="uid_bovino"
                 label=" "
-                tooltip="Identificação do Bovino"
-                rules={[{ required: true, message: 'Por favor insira o nome!', whitespace: true }]}
+                tooltip="Identificação do brinco, o número que contem no brinco"
+                rules={[{ required: true, message: 'Por favor informe a identificação do brinco', whitespace: true }]}
             >
-                <Input placeholder="teste"/>
+                <Input placeholder="Identificação do brinco" />
             </Form.Item>
 
+
+            <Form.Item
+                name="proprietario_anterior"
+                label=" "
+                tooltip="Informe à fazenda onde o bovino foi comprado."
+                rules={[{ required: true, message: 'Informe à fazenda onde o bovino foi comprado.', whitespace: true }]}
+            >
+                <Input placeholder="Informe à fazenda onde o bovino foi comprado." />
+            </Form.Item>
 
 
 
@@ -165,29 +172,63 @@ const Registration_bovine: React.FC = () => {
                 <div >
 
                     <Form.Item
+                        name="data_nascimento_bovino"
+                        label=" "
 
-                        name="estado"
-                        label="Estado"
-                        tooltip="Informe o Estado"
-
-                        rules={[{ required: true, message: 'Por favor insira o Estado', whitespace: true }]}
-
+                        tooltip="Selecione a data de Nascimento"
+                        rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
                     >
-                        <Input  />
-                    </Form.Item>
+                        <Space direction="vertical" >
+
+                            <DatePicker onChange={onChange} placeholder="Data de Nascimento" style={{ width: 250 }} />
+
+                        </Space>
+                    </Form.Item >
                 </div>
 
                 <div >
                     <Form.Item
+                        name="data_nascimento"
+                        label=" "
+                        tooltip="Selecione a entrada no Confinamento"
+                        rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
+                    >
+                        <Space direction="vertical">
 
-                        name="cidade"
-                        label="Cidade"
-                        tooltip="Informe a Cidade"
+                            <DatePicker onChange={onChange} placeholder="Data do Confinamento" style={{ width: 250 }} />
 
-                        rules={[{ required: true, message: 'Por favor insira a Cidade', whitespace: true }]}
+                        </Space>
+                    </Form.Item>
+                </div>
+
+            </div>
+
+            <div style={{ display: 'flex' }}>
+
+                <div >
+                    <Form.Item
+
+                        name="peso_nascimento"
+                        label=" "
+                        tooltip="Informe o peso em @ do nascimento do Bovino"
+
+                        rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
 
                     >
-                        <Input style={{ maxWidth: 182 }} />
+                        <Input style={{width:250}} placeholder="Peso de Nascimento"/>
+                    </Form.Item>
+                </div>
+                <div >
+                    <Form.Item
+
+                        name="peso_confinamento"
+                        label=" "
+                        tooltip="Informe o peso em @ da chegada do Bovino no confinamento"
+
+                        rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
+
+                    >
+                        <Input style={{width:250}} placeholder="Peso de entrada no Confinamento"/>
                     </Form.Item>
                 </div>
 
@@ -195,56 +236,32 @@ const Registration_bovine: React.FC = () => {
 
 
             <Form.Item
-                name="tipo_fazenda"
-                label="Pecuária "
-                tooltip="Tipos de fazendas pecuárias, cada uma especializada em diferentes aspectos da criação de animais."
-                rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
+                name="tipo_bovino"
+                label=" "
+                tooltip="Tipos de bovino, cada uma especializada em diferentes aspectos do destino."
+                rules={[{ required: true, message: 'Por favor seleciona o tipo de destino do bovino!' }]}
             >
-                <Select placeholder="Selecionar o tipo de Fazendas Pecuárias">
-                    <Option value="fazenda_corte">Fazendas de gado de corte</Option>
-                    <Option value="fazenda_leiteiro">Fazendas de gado leiteiro</Option>
-                    <Option value="pastagem_manejo">Pastagens e Manejo de Rebanho</Option>
-                    <Option value="fazenda_ovinos">Fazendas de criação de ovinos</Option>
-                    <Option value="fazend_suinos">Fazendas de suínos</Option>
-                    <Option value="fazenda_mista">Fazendas mistas</Option>
+                <Select placeholder="Selecionar o Destino do Bovino">
+                    <Option value="bovino_corte">Bovino de corte</Option>
+                    <Option value="bovino_leiteiro">Bovino leiteiro</Option>
                 </Select>
             </Form.Item>
 
 
-            <div style={{ display: 'flex' }}>
-
-                <div >
-
-                    <Form.Item
-
-                        name="alqueiro"
-                        label="Alqueiro"
-                        tooltip="Alqueire é uma referência para definir o tamanho de uma área rural "
-
-                        rules={[{ required: true, message: 'Por favor insira o tamanho do Alqueiro', whitespace: true }]}
-
-                    >
-                        <Input style={{ maxWidth: 184 }} />
-                    </Form.Item>
-                </div>
-
-
-
-            </div>
-
+            
 
 
 
 
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">
-                    <NavLink to='/perfil_user'>
+                    <NavLink to='#'>
                         Salvar
                     </NavLink>
                 </Button>
 
                 <Button type="primary" htmlType="submit">
-                    <NavLink to='/registration'>
+                    <NavLink to='/perfil_user'>
                         Voltar
                     </NavLink>
                 </Button>

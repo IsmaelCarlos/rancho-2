@@ -61,6 +61,7 @@ CREATE TABLE pessoa (
 
 CREATE TABLE bovino (
 	id_bovino SERIAL,
+	id_fazenda SERIAL,
 	id_pessoa_proprietario_anterior SERIAL,
 	id_pessoa_proprietario_atual SERIAL,
 	identificacao VARCHAR(255),
@@ -122,7 +123,10 @@ ALTER TABLE bovino
 ADD CONSTRAINT fk_pessoa_proprietario_anterior
 FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa);
 
-
+-- Relacionamento: bovino }o--|| fazenda
+ALTER TABLE bovino
+ADD CONSTRAINT fk_fazenda_bovino
+FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
 
 

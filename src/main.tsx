@@ -6,7 +6,9 @@ import Login from '@/screens/Login'
 import Registration_people from '@/screens/Registration_people'
 import Registration_farm from '@/screens/Registration_farm'
 import Perfil_user from '@/screens/Perfil_user'
-import Resgistration_bovine from '@/screens/Registration_bovine'
+import Registration_bovine from '@/screens/Registration_bovine'
+import Registration_option from '@/screens/Registrations_option'
+// import Management from '@/screens/Management'
 
 import Teste from '@/screens/Teste'
 
@@ -42,8 +44,16 @@ const router = createBrowserRouter([
             },
             {
                 path: '/registration_bovine',
-                element: <Resgistration_bovine/>
+                element: <Registration_bovine/>
+            },
+            {
+                path:'/registration_option',
+                element:<Registration_option/>
             }
+            // {
+            //     path'/management',
+            //     element:<Management/>
+            // }
       
         ]
     },

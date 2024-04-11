@@ -54,3 +54,4 @@ erDiagram
     fazenda }o--|| endereco : "contém"
     pessoa }o--|| endereco : "contém"
     bovino }o--|| pessoa : ""
+    bovino }o--|| fazenda : ""
