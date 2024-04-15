@@ -261,7 +261,7 @@ const Registration_bovine: React.FC = () => {
                 </Button>
 
                 <Button type="primary" htmlType="submit">
-                    <NavLink to='/perfil_user'>
+                    <NavLink to='/registration_option'>
                         Voltar
                     </NavLink>
                 </Button>

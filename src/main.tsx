@@ -8,6 +8,8 @@ import Registration_farm from '@/screens/Registration_farm'
 import Perfil_user from '@/screens/Perfil_user'
 import Registration_bovine from '@/screens/Registration_bovine'
 import Registration_option from '@/screens/Registrations_option'
+import Registration_pharmacy from '@/screens/Registration_pharmacy'
+import Registration_food from '@/screens/Registration_food'
 // import Management from '@/screens/Management'
 
 import Teste from '@/screens/Teste'
@@ -49,6 +51,14 @@ const router = createBrowserRouter([
             {
                 path:'/registration_option',
                 element:<Registration_option/>
+            },
+            {
+                path: '/registration_pharmacy',
+                element:<Registration_pharmacy/>
+            },
+            {
+                path: '/registration_food',
+                element: <Registration_food/>
             }
             // {
             //     path'/management',
