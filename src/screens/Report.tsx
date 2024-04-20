@@ -13,7 +13,7 @@ import {
 } from 'antd';
 
 
-const Perfil_user: React.FC = () => {
+const Report: React.FC = () => {
 
 	const navigate = useNavigate();
 	
@@ -23,7 +23,7 @@ const Perfil_user: React.FC = () => {
 			display: 'flex',
 			flexDirection: 'column',
 			gap: 25,
-		}}>
+			}}>
 			<div>
 				<div className="row">
 					<div className="col">
@@ -177,4 +177,4 @@ const Perfil_user: React.FC = () => {
 		</div>
 	);
 };
-export default Perfil_user
+export default Report

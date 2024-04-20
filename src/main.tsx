@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from '@/App.tsx'
-
 import Login from '@/screens/Login'
 import Registration_people from '@/screens/Registration_people'
 import Registration_farm from '@/screens/Registration_farm'
@@ -10,6 +9,8 @@ import Registration_bovine from '@/screens/Registration_bovine'
 import Registration_option from '@/screens/Registrations_option'
 import Registration_pharmacy from '@/screens/Registration_pharmacy'
 import Registration_food from '@/screens/Registration_food'
+import Report from '@/screens/Report'
+import Report_bovine from '@/screens/Report_bovine'
 // import Management from '@/screens/Management'
 
 import Teste from '@/screens/Teste'
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
                 element: <Teste />
             },
             {
-                path: 'registration_farm',
+                path: '/registration_farm',
                 element: <Registration_farm/>
             },
             {
@@ -59,6 +60,14 @@ const router = createBrowserRouter([
             {
                 path: '/registration_food',
                 element: <Registration_food/>
+            },
+            {
+                path: '/report',
+                element: <Report/>
+            },
+            {
+                path:  '/report_bovine',
+                element: <Report_bovine/>
             }
             // {
             //     path'/management',

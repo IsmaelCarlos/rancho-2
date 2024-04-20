@@ -16,8 +16,11 @@ import {
     Row,
     Select,
 } from 'antd';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { } from 'react-icons'
+import BackNSave from "@/components/BackNSave";
+
+export const NUMERO_PI = 3.1415;
 
 const { Option } = Select;
 
@@ -52,7 +55,9 @@ const tailFormItemLayout = {
     },
 };
 
-const Registration_pharmacy: React.FC = () => {
+export default function() {
+
+    const navigate = useNavigate();
 
     const [form] = Form.useForm();
 
@@ -111,13 +116,7 @@ const Registration_pharmacy: React.FC = () => {
                             <option value="antibioticos">Antibióticos</option>
                             <option value="anti_inflamatorios">Anti-inflamatórios</option>
                             <option value="antiparasitarios">Antiparasitários</option>
-                            <option value="matabicheira">Matabicheira</option>
-                            <option value="pomadas">Pomadas</option>
-                            <option value="tratamento_cascos">Produtos para tratamento de cascos</option>
-                            <option value="mosquicidas">Mosquicidas</option>
-                            <option value="carrapaticidas">Carrapaticidas</option>
-                            <option value="vitaminicos_minerais">Suplementos vitamínicos e minerais</option>
-                            <option value="antitoxicos">Antitóxicos</option>
+                            <option value="vacina">Vacinas</option>
                         </Select>
                     </Form.Item>
                 </div>
@@ -170,10 +169,16 @@ const Registration_pharmacy: React.FC = () => {
                         rules={[{ required: true, message: 'Por favor seleciona a unidade' }]}
                     >
                         <Select placeholder="Unidade de Media" style={{ width: 230 }}>
-                            <option value="grama" title="grama">g</option>
-                            <option value="mili">ml</option>
-                            <option value="antiparasitarios">cp</option>
-                            
+                            <option value="micrograma" title = "Microgramas">µg</option>
+                            <option value="miligrama" title = "Miligramas">mg</option>
+                            <option value="grama" title="Gramas">g</option>
+                            <option value="mililitro" title="Mililitros">mL</option>
+                            <option value="comprimido" title = "Comprimidos">CP</option>
+                            <option value="ampola" title = "Ampolas">AM</option>
+                            <option value="tubos" title = "Tubos">TB</option>
+                            <option value="frasco" title = "Frascos">FR</option>
+                            <option value="caixa" title = "Caixas">CX</option>
+                            <option value="litro" title = "Litros">L</option>
                         </Select>
                     </Form.Item>
                 </div>
@@ -215,29 +220,16 @@ const Registration_pharmacy: React.FC = () => {
                 </div>
 
             </div>
-
             
-
-            
-
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='#'>
-                        Salvar
-                    </NavLink>
-                </Button>
-
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='/registration_option'>
-                        Voltar
-                    </NavLink>
-                </Button>
-
-            </Form.Item>
-            {/* </Form> */}
+            <BackNSave
+                onBackClick={() => {
+                    navigate(-1);
+                }}
+                onSaveClick={() => {
+                    alert('Cliquei em salvar');
+                }}
+            />
 
         </div>
     );
 };
-
-export default Registration_pharmacy;

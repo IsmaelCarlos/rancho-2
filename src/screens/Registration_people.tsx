@@ -126,10 +126,7 @@ const Registration_people: React.FC = () => {
 
 
                 >
-                    {/* <IMaskInput
-                        mask="000.000.000-00"
-                        placeholder="Digite o seu CPF"
-                    /> */}
+                   
                     <Input />
                 </Form.Item>
 

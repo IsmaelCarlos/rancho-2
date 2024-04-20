@@ -15,9 +15,14 @@ import {
     InputNumber,
     Row,
     Select,
+    ConfigProvider,
 } from 'antd';
-import { NavLink } from "react-router-dom";
-import { } from 'react-icons'
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaChevronLeft as BackIcon } from "react-icons/fa6";
+import { IoSaveSharp as SaveIcon } from "react-icons/io5";
+import BackNSave from '@/components/BackNSave';
+
+
 
 const { Option } = Select;
 
@@ -90,6 +95,7 @@ const Registration_bovine: React.FC = () => {
         console.log(date, dateString);
     };
 
+    const navigate = useNavigate();
 
     return (
 
@@ -248,26 +254,15 @@ const Registration_bovine: React.FC = () => {
             </Form.Item>
 
 
-            
 
-
-
-
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='#'>
-                        Salvar
-                    </NavLink>
-                </Button>
-
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='/registration_option'>
-                        Voltar
-                    </NavLink>
-                </Button>
-
-            </Form.Item>
-            {/* </Form> */}
+            <BackNSave
+                onBackClick={() => {
+                    navigate(-1);
+                }}
+                onSaveClick={() => {
+                    alert('Cliquei em salvar');
+                }}
+            />
 
         </div>
     );

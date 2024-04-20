@@ -18,6 +18,8 @@ import {
 } from 'antd';
 import { NavLink } from "react-router-dom";
 import { } from 'react-icons'
+import BackNSave from '@/components/BackNSave'
+import { useNavigate } from 'react-router-dom'
 
 const { Option } = Select;
 
@@ -53,6 +55,8 @@ const tailFormItemLayout = {
 };
 
 const Registration_food: React.FC = () => {
+
+    const navigate = useNavigate();
 
     const [form] = Form.useForm();
 
@@ -163,9 +167,9 @@ const Registration_food: React.FC = () => {
                         rules={[{ required: true, message: 'Por favor seleciona a unidade' }]}
                     >
                         <Select placeholder="Unidade de Media" style={{ width: 230 }}>
-                            <option value="grama" title="grama">g</option>
-                            <option value="mili">ml</option>
-                            <option value="antiparasitarios">cp</option>
+                            <option value="tonela" title="Toneladas">t</option>
+                            <option value="quilos" title="Quilos">kg</option>
+                            <option value="litro" title="Litros">L</option>
 
                         </Select>
                     </Form.Item>
@@ -212,22 +216,14 @@ const Registration_food: React.FC = () => {
 
 
 
-
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='#'>
-                        Salvar
-                    </NavLink>
-                </Button>
-
-                <Button type="primary" htmlType="submit">
-                    <NavLink to='/registration_option'>
-                        Voltar
-                    </NavLink>
-                </Button>
-
-            </Form.Item>
-            {/* </Form> */}
+            <BackNSave
+                onBackClick={() => {
+                    navigate(-1);
+                }}
+                onSaveClick={() => {
+                    // alert('Cliquei em salvar');
+                }}
+            />
 
         </div>
     );
