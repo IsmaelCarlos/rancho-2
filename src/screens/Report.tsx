@@ -28,7 +28,7 @@ const Report: React.FC = () => {
 				<div className="row">
 					<div className="col">
 						{/* <i className="fa-light fa-folder-tree"></i> */}
-						<a href="registration_bovine" className="card opcao_menu ">
+						<a href="report_bovine" className="card opcao_menu ">
 
 							<RegisterIcon size={60} style={{ color: 'blue' }} />
 							<div className="overlay"></div>

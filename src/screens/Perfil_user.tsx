@@ -39,7 +39,7 @@ const Perfil_user: React.FC = () => {
 
 
         <div className="col">
-          <a href="report.html" className="card opcao_menu ">
+          <a href="Report" className="card opcao_menu ">
             {/* <img src="../images/Icons/relatorio.png" className="icone_perfil_user"> */}
             <ReportIcon size={60} style={{ color: 'blue' }} />
             <div className="overlay"></div>

@@ -39,14 +39,14 @@ const Report_bovine: React.FC = () => {
 
     return (
         <div>
-            <div id="myChart" className="chart--container" style={{ height: '420px' }}>
+            {/* <div id="myChart" className="chart--container" style={{ height: '420px' }}>
                 <a href="#" rel="noopener" className="zc-ref"></a>
-            </div>
+            </div> */}
             <div className="row">
                 <div className="col py-3">
                     <div className="row justify-content-center">
                         <div className="col-lg-12 stretch-card">
-                            <div className="card">
+                            <div >
                                 <div className="card-body">
                                     <h4 className="card-title">Relatórios</h4>
                                     <p className="card-description">
