@@ -2,7 +2,7 @@ import { bovine as bovines } from '@/data/bonive';
 import { useNavigate, useParams } from "react-router";
 import React, { useEffect } from 'react';
 import { Flex } from 'antd';
-import BackNSave from '@/components/CommonButtons';
+import CommonButtons from '@/components/CommonButtons';
 
 import '@/css/tables_bovines_report_v2.css';
 
@@ -30,7 +30,7 @@ const Bovine: React.FC = ()=>{
 
                                 <div id="dados_imprimir" className="table-responsive">
                                     <div className="table2">
-                                        <h4 className="span-24" id="identificador">Relatórios do Bovino <text></text>
+                                        <h4 className="span-24" id="identificador">Relatórios do Bovino { id }<text></text>
                                         </h4>
                                         <h4 className="span-24 subtitle" id="proprietario" >Proprietário
                                             <text></text></h4>
@@ -134,17 +134,20 @@ const Bovine: React.FC = ()=>{
                                         <div className="span-24 vspace"></div>
                                         {/* Fim Terceira Linha de dados  */}
 
-                                        <div className="tr span-24">
-                                            <p id="relatorio"> <text>{ bovine?.relatorio }</text></p>
-                                        </div>
+                                        {
+                                            bovine?.relatorio &&
+                                            <div className="tr span-24">
+                                                <h5>Relatório prescrito pelo Zootecnista: </h5>
+                                                <p id="relatorio"> <text>{ bovine?.relatorio }</text></p>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
-                                <div id="paginacao" style={{display: 'flex', gap:15}}>
-                                    <button></button>
-                                    <p>0</p>
-                                    <button></button>
-                                </div>
-                                <BackNSave onBackClick={() => navigate(-1)} />
+                                <CommonButtons
+                                    onBackClick={() => navigate(-1)}
+                                    onNextClick={() => navigate(`/bovine/${parseInt(id??'0')+1}`)}
+                                    onPreviousClick={() => navigate(`/bovine/${parseInt(id??'0')-1}`)}
+                                />
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [
             {
                 name: 'VAC RAIVA BOVINA RAIVACEL MULTI 25 DS 50ML',
@@ -44,7 +44,7 @@ export const bovine = [
         data_nascimento: '24/03/2023',
         peso_inicial: 2,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: 'O boi morreu',
         vacina: [
         ],
     },
@@ -60,7 +60,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [        
         ],
     },
@@ -76,7 +76,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [
         ],        
     },
@@ -92,7 +92,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [          
         ],
     },
@@ -108,7 +108,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [
         ],
     },
@@ -124,7 +124,7 @@ export const bovine = [
         data_nascimento: '24/06/2023',
         peso_inicial: 3,
         peso_atual: 15,
-        relatorio: 'Relatório prescrito pelo Zootecnista',
+        relatorio: '',
         vacina: [
         ],
     }

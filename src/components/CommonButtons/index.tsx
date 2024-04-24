@@ -3,18 +3,26 @@ import {
     ConfigProvider,
 } from 'antd';
 import { PropsWithChildren } from 'react';
-import { FaChevronLeft as BackIcon } from "react-icons/fa6";
 import { IoSaveSharp as SaveIcon } from "react-icons/io5";
+import {
+    FaChevronLeft as BackIcon,
+    FaChevronRight as NextIcon,
+    FaChevronLeft as PreviousIcon,
+} from "react-icons/fa6";
 
 type Propriedades =  PropsWithChildren<{
     onBackClick?: () => void
     onSaveClick?: () => void
+    onNextClick?: () => void
+    onPreviousClick?: () => void
 }>
 
 export default function(
     {
         onBackClick,
-        onSaveClick
+        onSaveClick,
+        onNextClick,
+        onPreviousClick
     }: Propriedades
 ){
 
@@ -32,6 +40,33 @@ export default function(
                 icon={<BackIcon size={10} />}
             >
                 Voltar
+            </Button>
+        }
+        
+
+        {
+            onPreviousClick &&
+            <Button
+                type='primary'
+                onClick={() => {
+                    onPreviousClick && onPreviousClick();
+                }}
+                icon={<PreviousIcon size={10} />}
+            >
+                Anterior
+            </Button>
+        }
+
+        {
+            onNextClick &&
+            <Button
+                type='primary'
+                onClick={() => {
+                    onNextClick && onNextClick();
+                }}
+                icon={<NextIcon size={10} />}
+            >
+                Próximo
             </Button>
         }
 
