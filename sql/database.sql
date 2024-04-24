@@ -16,6 +16,13 @@ CREATE TYPE estados_enum AS ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES'
 CREATE TYPE zona_enum AS ENUM ('RURAL', 'URBANA');
 -- Enum pecuaria
 CREATE TYPE pecuaria_enum AS ENUM('fazenda_corte', 'fazenda_leiteiro', 'pastagem_manejo', 'fazenda_ovinos', 'fazend_suinos', 'fazenda_mista');
+-- Enum medicamento 
+create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Antiparasitários','Vacinas');
+-- Enum unidade de medida
+create type unidade_medida_enum as enum('ug','mg','g','mL','CP','AM','TB','FR','CX','CX2','CX3','L', 'T','kg');
+-- Enum racao
+create type racao_enum as ENUM('Ração', 'Protéina','Suplemento');
+
 
 CREATE TABLE fazenda(
 	id_fazenda SERIAL,
@@ -51,7 +58,7 @@ CREATE TABLE pessoa (
 	id_endereco SERIAL,
 	nome VARCHAR(255),
 	cpf cpf_type,
-	nascimento VARCHAR(80),
+	nascimento date_type,
 	genero 	generos_enum,
 	telefone telefone_type,
 	email VARCHAR(255),
@@ -62,6 +69,8 @@ CREATE TABLE pessoa (
 CREATE TABLE bovino (
 	id_bovino SERIAL,
 	id_fazenda SERIAL,
+--	id_medicamento SERIAL,
+--	id_racao SERIAL,
 	id_pessoa_proprietario_anterior SERIAL,
 	id_pessoa_proprietario_atual SERIAL,
 	identificacao VARCHAR(255),
@@ -72,6 +81,51 @@ CREATE TABLE bovino (
 	peso_atual INT,
 	primary key(id_bovino)
  );
+create table medicamento(
+	id_medicamento SERIAL,
+--	id_medicamento_aplicado SERIAL,
+	tipo_medicamento medicamento_enum,
+	fabricante_medicamento VARCHAR(255),
+	quatindade INT,
+	unidade_medida unidade_medida_enum,
+	data_validade date_type,
+	data_registro date_type,
+	primary key(id_medicamento)
+);
+
+create table racao(
+	id_racao SERIAL,
+--	id_racao_aplicado SERIAL,
+	tipo_racao racao_enum,
+	fabricante_racao VARCHAR(255),
+	quatindade INT,
+	unidade_medida unidade_medida_enum,
+	data_validade date_type,
+	data_registro date_type,
+	primary key(id_racao)
+);
+
+create table estoque(
+	id_estoque SERIAL,
+	id_medicamento SERIAL,
+	id_racao SERIAL,
+	quantidade INT,
+	primary key(id_estoque)
+);
+
+create table medicamento_aplicado(
+	id_medicamento_aplicado SERIAL,
+	id_bovino SERIAL,
+	id_medicamento SERIAL,
+	primary key(id_medicamento_aplicado)
+);
+
+create table racao_aplicado(
+	id_racao_aplicado SERIAL,
+	id_bovino SERIAL,
+	id_racao SERIAL,
+	primary key(id_racao_aplicado)
+);
 
 -- Funções
 CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
@@ -123,12 +177,36 @@ ALTER TABLE bovino
 ADD CONSTRAINT fk_pessoa_proprietario_anterior
 FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa);
 
+
 -- Relacionamento: bovino }o--|| fazenda
 ALTER TABLE bovino
 ADD CONSTRAINT fk_fazenda_bovino
 FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
+alter table medicamento_aplicado
+add constraint fk_bovino
+foreign key (id_bovino) references bovino(id_bovino),
+add constraint fk_medicamento
+foreign key (id_medicamento) references medicamento(id_medicamento);
+
+-- Relacionamento: bovino }o--|| vacina
+--alter table bovino
+--add constraint fk_medicamento
+--foreign key (id_medicamento) references vacina(id_medicamento);
+
+-- Relacionamento: bovino }o--|| racao
 
 
+alter table racao_aplicado
+add constraint fk_bovino
+foreign key (id_bovino) references bovino(id_bovino),
+add constraint fk_racao
+foreign key (id_racao) references racao(id_racao);
+
+alter table estoque
+add constraint fk_medicamento
+foreign key (id_medicamento) references  medicamento(id_medicamento),
+add constraint fk_racao
+foreign key (id_racao) references racao(id_racao);
 
 
