@@ -75,7 +75,7 @@ const router = createBrowserRouter([
                 element: <Report_bovine/>
             },
             {
-                path: '/bovine',
+                path: '/bovine/:id',
                 element: <Bovine/>
             }
             // {

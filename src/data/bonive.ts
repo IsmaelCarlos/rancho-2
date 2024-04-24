@@ -14,7 +14,18 @@ export const bovine = [
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
         vacina: [
-            'VAC RAIVA BOVINA RAIVACEL MULTI 25 DS 50ML',
+            {
+                name: 'VAC RAIVA BOVINA RAIVACEL MULTI 25 DS 50ML',
+                tipo_vacina:'Antibacteriana',
+                dosagem_quantidade_vacina:'2mL',
+                data_vacina:'27/06/2023'
+            },
+            {
+                name: 'VAC2 MULTI 25 DS 50ML',
+                tipo_vacina:'asdf',
+                dosagem_quantidade_vacina:'2mL',
+                data_vacina:'27/06/2023'
+            }
             
         ],
         tipo_vacina:'Antibacteriana',
@@ -35,12 +46,7 @@ export const bovine = [
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
         vacina: [
-            'Vacina 1',
-          
         ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
     },
     {
         id: 3,
@@ -55,14 +61,8 @@ export const bovine = [
         peso_inicial: 3,
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
-        vacina: [
-          
-            'Vaca louca',
-        
+        vacina: [        
         ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
     },
     {
         id: 4,
@@ -78,14 +78,7 @@ export const bovine = [
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
         vacina: [
-       
-            'Raiva',
-          
-        ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
-        
+        ],        
     },
     {
         id: 5,
@@ -100,13 +93,8 @@ export const bovine = [
         peso_inicial: 3,
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
-        vacina: [
-            'Vacina 1',
-          
+        vacina: [          
         ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
     },
     {
         id: 6,
@@ -122,12 +110,7 @@ export const bovine = [
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
         vacina: [
-            'Vacina 1',
-          
         ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
     },
     {
         id: 7,
@@ -143,11 +126,6 @@ export const bovine = [
         peso_atual: 15,
         relatorio: 'Relatório prescrito pelo Zootecnista',
         vacina: [
-            'Vacina 1',
-            
         ],
-        tipo_vacina:'',
-        dosagem_quantidade_vacina:'',
-        data_vacina:'27/06/2023'
     }
 ]

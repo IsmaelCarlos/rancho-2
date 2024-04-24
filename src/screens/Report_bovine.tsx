@@ -70,7 +70,7 @@ const Report_bovine: React.FC = () => {
                                             <tbody>
                                                 {
                                                     bovine.map(element => {
-                                                        return <tr key={element.id} >
+                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/bovine/${element.id}`)} key={element.id} >
                                                             <td>{ element.id }</td>
                                                             <td style={{ textAlign: element.raca ? 'center' : undefined }}>{ element.raca || '-' }</td>
                                                             <td>{ element.data_nascimento }</td>
