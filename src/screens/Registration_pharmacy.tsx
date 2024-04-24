@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import { NavLink, useNavigate } from "react-router-dom";
 import { } from 'react-icons'
-import BackNSave from "@/components/BackNSave";
+import BackNSave from "@/components/CommonButtons";
 
 export const NUMERO_PI = 3.1415;
 

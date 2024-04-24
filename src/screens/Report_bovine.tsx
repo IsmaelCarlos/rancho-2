@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { FaChevronLeft as BackIcon } from 'react-icons/fa6';
-import BackNSave from '@/components/BackNSave';
+import BackNSave from '@/components/CommonButtons';
 import { bovine } from '@/data/bonive';
 
 import { useNavigate } from "react-router";

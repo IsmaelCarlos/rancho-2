@@ -20,7 +20,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaChevronLeft as BackIcon } from "react-icons/fa6";
 import { IoSaveSharp as SaveIcon } from "react-icons/io5";
-import BackNSave from '@/components/BackNSave';
+import BackNSave from '@/components/CommonButtons';
 
 
 

@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import { NavLink } from "react-router-dom";
 import { } from 'react-icons'
-import BackNSave from '@/components/BackNSave'
+import BackNSave from '@/components/CommonButtons'
 import { useNavigate } from 'react-router-dom'
 
 const { Option } = Select;

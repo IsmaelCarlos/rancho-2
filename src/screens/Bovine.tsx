@@ -2,7 +2,7 @@ import { bovine as bovines } from '@/data/bonive';
 import { useNavigate, useParams } from "react-router";
 import React, { useEffect } from 'react';
 import { Flex } from 'antd';
-import BackNSave from '@/components/BackNSave';
+import BackNSave from '@/components/CommonButtons';
 
 import '@/css/tables_bovines_report_v2.css';
 
