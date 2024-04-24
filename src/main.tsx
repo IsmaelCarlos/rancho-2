@@ -11,6 +11,7 @@ import Registration_pharmacy from '@/screens/Registration_pharmacy'
 import Registration_food from '@/screens/Registration_food'
 import Report from '@/screens/Report'
 import Report_bovine from '@/screens/Report_bovine'
+import Bovine from '@/screens/Bovine'
 // import Management from '@/screens/Management'
 
 import Teste from '@/screens/Teste'
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
             {
                 path:  '/report_bovine',
                 element: <Report_bovine/>
+            },
+            {
+                path: '/bovine',
+                element: <Bovine/>
             }
             // {
             //     path'/management',

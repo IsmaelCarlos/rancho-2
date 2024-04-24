@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { FaChevronLeft as BackIcon } from 'react-icons/fa6';
 import BackNSave from '@/components/BackNSave';
-import { bovine } from '@/data/bonive'
+import { bovine } from '@/data/bonive';
 
 import { useNavigate } from "react-router";
 // import { FaChevronLeft as BackIcon } from "react-icons/fa6";
@@ -23,7 +23,7 @@ const Report_bovine: React.FC = () => {
     const corPesoAtual = (peso: number): string => {
         const pesoNum = peso;
         if (pesoNum < 8)
-            return 'danger';
+            return  'danger';
         else if (pesoNum < 17)
             return 'warning';
         else if (pesoNum >= 17)
