@@ -14,6 +14,10 @@ import Report_bovine from '@/screens/Report_bovine'
 import Bovine from '@/screens/Bovine'
 // import Management from '@/screens/Management'
 
+import './css/bootstrap.css';
+import './css/noticia.css';
+import './css/style.css';
+
 import Teste from '@/screens/Teste'
 
 import {
