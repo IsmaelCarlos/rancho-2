@@ -39,7 +39,7 @@ const Report: React.FC = () => {
 
 					<div className="col">
 
-						<a href="registration_pharmacy" className="card opcao_menu ">
+						<a href="report_pharmacy" className="card opcao_menu ">
 							{/* <img src="../images/Icons/consultar.png" className="icone_perfil_user"> */}
 							<RegisterMedical size={60} style={{ color: 'blue' }} />
 							<div className="overlay"></div>

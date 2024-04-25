@@ -30,10 +30,10 @@ const Bovine: React.FC = ()=>{
 
                                 <div id="dados_imprimir" className="table-responsive">
                                     <div className="table2">
-                                        <h4 className="span-24" id="identificador">Relatórios do Bovino { id }<text></text>
+                                        <h4 className="span-24" id="identificador">Relatórios do Bovino <text>de numerção { id } { bovine?.raca } {bovine?.classificacao}</text>
                                         </h4>
-                                        <h4 className="span-24 subtitle" id="proprietario" >Proprietário
-                                            <text></text></h4>
+                                        <h4 className="span-24 subtitle" id="proprietario" >Proprietário 
+                                            <text> {bovine?.proprietario}</text></h4>
 
                                         <div className="span-24 vspace"></div>
 
@@ -45,6 +45,7 @@ const Bovine: React.FC = ()=>{
                                         <div className="th span-6">Peso de Nascimento @</div>
                                         <div className="th span-6">Peso Atual @</div>
                                         <div className="th span-6">Raça</div>
+                                        {/* <div className="th span-6">Classificação</div> */}
                                         <hr className="span-24"/>
 
                                         <div className="td span-6">
@@ -144,7 +145,7 @@ const Bovine: React.FC = ()=>{
                                     </div>
                                 </div>
                                 <CommonButtons
-                                    onBackClick={() => navigate(-1)}
+                                    onBackClick={() => navigate('/report')}
                                     onNextClick={() => navigate(`/bovine/${parseInt(id??'0')+1}`)}
                                     onPreviousClick={() => navigate(`/bovine/${parseInt(id??'0')-1}`)}
                                 />

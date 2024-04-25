@@ -2,7 +2,8 @@ export const bovine = [
     {
         foto_bovino: '../images/Bovinos/Nelore/1.png',
         id: 1,
-        proprietario: 'Ismael Carlos ',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Racao para Bovinos de Corte Fort Semi 18',
         silo: 'Milho',
         suplemento: 'Bovinos Proteinado ',
@@ -34,7 +35,8 @@ export const bovine = [
     },
     {
         id: 2,
-        proprietario: '23Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',
@@ -50,7 +52,8 @@ export const bovine = [
     },
     {
         id: 3,
-        proprietario: 'Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',
@@ -66,7 +69,8 @@ export const bovine = [
     },
     {
         id: 4,
-        proprietario: 'Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',
@@ -82,7 +86,8 @@ export const bovine = [
     },
     {
         id: 5,
-        proprietario: 'Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',
@@ -98,7 +103,8 @@ export const bovine = [
     },
     {
         id: 6,
-        proprietario: 'Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',
@@ -114,7 +120,8 @@ export const bovine = [
     },
     {
         id: 7,
-        proprietario: 'Ismael Carlos',
+        proprietario: 'Ismael Carlos do Nascimento Galvão',
+        classificacao:'Cruzado',
         racao: 'Ração para Bovinos de Corte Fort Semi 18',
         silo: '',
         suplemento: 'Bovinos Proteinado ',

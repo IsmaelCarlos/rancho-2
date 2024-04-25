@@ -55,6 +55,7 @@ var ctt = 0;
 
 var identificador = document.querySelector("#identificador")
 var proprietario = document.querySelector("#proprietario")
+var classificao = document.querySelector("#classificacao")
 var racao = document.querySelector("#racao")
 var silo = document.querySelector("#silo")
 var raca = document.querySelector("#raca")
