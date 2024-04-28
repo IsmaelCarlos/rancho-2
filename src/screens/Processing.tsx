@@ -4,8 +4,8 @@ import '../../css/menu_opcao.css';
 import {
     TbDeviceTabletSearch as SearchIcon,
 } from "react-icons/tb";
-import { HiOutlineDocumentReport as ReportIcon } from "react-icons/hi";
-import { SiMlflow as ProcessingIcon } from "react-icons/si";
+// import { HiOutlineDocumentReport as ReportIcon } from "react-icons/hi";
+// import { SiMlflow as ProcessingIcon } from "react-icons/si";
 // import { PiCirclesThreePlusFill as RegisterIcon } from "react-icons/pi";
 import { TbVaccine  as RegisterIcon} from "react-icons/tb";
 

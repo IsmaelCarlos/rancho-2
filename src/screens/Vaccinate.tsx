@@ -146,13 +146,21 @@ const Vaccinate: React.FC = () => {
             </Form.Item>
 
 
-            <Form.Item
+            {/* <Form.Item
                 name="obcervacao"
                 label=" "
-                tooltip="Informe à fazenda onde o bovino foi comprado."
-                rules={[{ required: true, message: 'Informe à fazenda onde o bovino foi comprado.', whitespace: true }]}
+                tooltip="Caso tenha alguma observação para o bovino"
+            
             >
-                <Input placeholder="Informe à fazenda onde o bovino foi comprado." />
+                <Input placeholder="Observação." />
+            </Form.Item> */}
+
+            <Form.Item
+                name="observacao"
+                label=" "
+                tooltip="Digite uma observação caso tenha uma. Este Campo não é obrigatório, mas ter o máximo de informação melhor para o desempenho do bovino."
+            >
+                <Input.TextArea placeholder="Observação." autoSize={{ minRows: 1, maxRows: 6 }} spellCheck={true} />
             </Form.Item>
 
 
@@ -163,38 +171,19 @@ const Vaccinate: React.FC = () => {
                 <div >
 
                     <Form.Item
-                        name="data_nascimento_bovino"
+                        name="data_bovino"
                         label=" "
 
-                        tooltip="Selecione a data de Nascimento"
-                        rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
+                        tooltip="Selecione a data da vacinacao"
+                        rules={[{ required: true, message: 'Por favor selecione a Data da vacinação', whitespace: true }]}
                     >
                         <Space direction="vertical" >
 
-                            <DatePicker onChange={onChange} placeholder="Data de Nascimento" style={{ width: 250 }} />
+                            <DatePicker onChange={onChange} placeholder="Data da Vacinação" style={{ width: 250 }} />
 
                         </Space>
                     </Form.Item >
                 </div>
-
-                <div >
-                    <Form.Item
-                        name="data_nascimento"
-                        label=" "
-                        tooltip="Selecione a entrada no Confinamento"
-                        rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
-                    >
-                        <Space direction="vertical">
-
-                            <DatePicker onChange={onChange} placeholder="Data do Confinamento" style={{ width: 250 }} />
-
-                        </Space>
-                    </Form.Item>
-                </div>
-
-            </div>
-
-            <div style={{ display: 'flex' }}>
 
                 <div >
                     <Form.Item
@@ -206,7 +195,25 @@ const Vaccinate: React.FC = () => {
                         rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
 
                     >
-                        <Input style={{width:250}} placeholder="Peso de Nascimento"/>
+                        <Input style={{ width: 250 }} placeholder="Peso de Nascimento" />
+                    </Form.Item>
+                </div>
+
+            </div>
+
+            {/* <div style={{ display: 'flex' }}>
+
+                <div >
+                    <Form.Item
+
+                        name="peso_nascimento"
+                        label=" "
+                        tooltip="Informe o peso em @ do nascimento do Bovino"
+
+                        rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
+
+                    >
+                        <Input style={{ width: 250 }} placeholder="Peso de Nascimento" />
                     </Form.Item>
                 </div>
                 <div >
@@ -219,14 +226,14 @@ const Vaccinate: React.FC = () => {
                         rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
 
                     >
-                        <Input style={{width:250}} placeholder="Peso de entrada no Confinamento"/>
+                        <Input style={{ width: 250 }} placeholder="Peso de entrada no Confinamento" />
                     </Form.Item>
                 </div>
 
-            </div>
+            </div> */}
 
 
-            <Form.Item
+            {/* <Form.Item
                 name="tipo_bovino"
                 label=" "
                 tooltip="Tipos de bovino, cada uma especializada em diferentes aspectos do destino."
@@ -236,7 +243,7 @@ const Vaccinate: React.FC = () => {
                     <Option value="bovino_corte">Bovino de corte</Option>
                     <Option value="bovino_leiteiro">Bovino leiteiro</Option>
                 </Select>
-            </Form.Item>
+            </Form.Item> */}
 
 
 
