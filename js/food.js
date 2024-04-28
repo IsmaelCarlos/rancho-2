@@ -10,17 +10,9 @@ var data_validade = document.querySelector("#data_validade")
 var quantidade = document.querySelector("#quantidade")
 
 
-var quantidade_frasco = document.querySelector("#quantidade_frasco")
+var peso_saco = document.querySelector("#peso_saco")
 
 
-
-
-
-
-
-
-
-// var empresa_racao = document.querySelector("#empresa_racao")
 
 
 
@@ -29,24 +21,12 @@ function update(i) {
     var dado = dados[i]
     identificador.querySelector('text').innerHTML = dado.id
     data_validade.querySelector('text').innerHTML = dado.data_validade
-    data_registro.querySelector('text').innerHTML = dado.data_registro
     proprietario.querySelector('text').innerHTML = dado.proprietario
     nome.querySelector('text').innerHTML = dado.nome
-    // console.log("PESO ATUAL", dado.peso_atual, peso_atual)
     tipo.querySelector('text').innerHTML = dado.tipo
-    // proprietario.querySelector('text').innerHTML = dado.proprietario
     quantidade.querySelector('text').innerHTML = dado.quatidade
-    quantidade_frasco.querySelector('text').innerHTML = dado.quantidade_frasco
-    bula_medicamento.querySelector('texte').innerHTML = dado.bula_medicamento
-    // raca.querySelector('text').innerHTML = dado.raca
-    // suplemento.querySelector('text').innerHTML = dado.suplemento
-    // tipo_vacina.querySelector('text').innerHTML = dado.tipo_vacina
-    // data_vacina.querySelector('text').innerHTML = dado.data_vacina
-    // dosagem_quantidade_vacina.querySelector('text').innerHTML = dado.dosagem_quantidade_vacina
-    // tipo_capim.querySelector('text').innerHTML = dado.tipo_capim
-    // empresa_racao.querySelector('text').innerHTML = dado.empresa_racao
-
-
+    peso_saco.querySelector('text').innerHTML = dado.pesosaco
+    
     vacina.innerHTML = ''
     dado.vacina.forEach(function (vac) {
         var li = document.createElement('li')

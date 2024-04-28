@@ -49,7 +49,7 @@ const Report: React.FC = () => {
 
 
 					<div className="col">
-						<a href="registration_food" className="card opcao_menu ">
+						<a href="report_food" className="card opcao_menu ">
 							{/* <img src="../images/Icons/relatorio.png" className="icone_perfil_user"> */}
 							<RegisterRation size={60} style={{ color: 'blue' }} />
 							<div className="overlay"></div>
@@ -167,7 +167,7 @@ const Report: React.FC = () => {
 				<Button
 					type='primary'
 					onClick={() => {
-						navigate(-1);
+						navigate('/perfil_user');
 					}}
 					icon={<BackIcon size={10} />}
 				>

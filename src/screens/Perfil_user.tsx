@@ -50,7 +50,7 @@ const Perfil_user: React.FC = () => {
 
 
         <div className="col">
-          <a href="processing.html" className="card human-resources">
+          <a href="Processing" className="card human-resources">
             {/* <img src="../images/Icons/processo.png" className="icone_perfil_user"> */}
             <ProcessingIcon size={60} style={{ color: 'blue' }} />
             <div className="overlay"></div>

@@ -36,8 +36,8 @@ function update(i) {
     tipo.querySelector('text').innerHTML = dado.tipo
     // proprietario.querySelector('text').innerHTML = dado.proprietario
     quantidade.querySelector('text').innerHTML = dado.quatidade
-    quantidade_frasco.querySelector('text').innerHTML = dado.quantidade_frasco
-    bula_medicamento.querySelector('texte').innerHTML = dado.bula_medicamento
+    peso_saco.querySelector('text').innerHTML = dado.peso_saco
+    detalhes_racao.querySelector('texte').innerHTML = dado.detalhes_racao
     // raca.querySelector('text').innerHTML = dado.raca
     // suplemento.querySelector('text').innerHTML = dado.suplemento
     // tipo_vacina.querySelector('text').innerHTML = dado.tipo_vacina

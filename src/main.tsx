@@ -9,9 +9,15 @@ import Registration_bovine from '@/screens/Registration_bovine'
 import Registration_option from '@/screens/Registrations_option'
 import Registration_pharmacy from '@/screens/Registration_pharmacy'
 import Registration_food from '@/screens/Registration_food'
+import Report_bovine from '@/screens/Report_bovine' 
+import Report_pharmacy from './screens/Report_pharmacy'
 import Report from '@/screens/Report'
-import Report_bovine from '@/screens/Report_bovine'
 import Bovine from '@/screens/Bovine'
+import Medication from '@/screens/Medication'
+import Report_food from '@/screens/Report_food'
+import Food from '@/screens/Food'
+import Processing from './screens/Processing'
+import Vaccinate from './screens/Vaccinate'
 // import Management from '@/screens/Management'
 
 import './css/bootstrap.css';
@@ -24,6 +30,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from 'react-router-dom';
+
 
 const router = createBrowserRouter([
     {
@@ -77,6 +84,30 @@ const router = createBrowserRouter([
             {
                 path: '/bovine/:id',
                 element: <Bovine/>
+            },
+            {   
+                path: '/report_pharmacy',
+                element: <Report_pharmacy/>
+            },
+            {
+                path: '/medication/:id',
+                element: <Medication/>
+            },
+            {
+                path: '/report_food',
+                element: <Report_food/>
+            },
+            {
+                path: '/food/:id',
+                element: <Food/>
+            },
+            {
+                path: '/processing',
+                element: <Processing/>
+            },
+            {
+                path: '/vaccinate',
+                element:<Vaccinate/>
             }
             // {
             //     path'/management',
