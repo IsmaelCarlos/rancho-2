@@ -128,33 +128,45 @@ create table racao_aplicado(
 );
 
 -- Funções
-CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN telefone ~ '^\+\d{2}\s\(\d{2}\)\s\d?\d{4}-\d{4}$';
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION validate_cpf_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN telefone ~ '^\d{3}\.\d{3}\.\d{3}-\d{2}$';
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION validate_cnpj_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN telefone ~ '^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$';
-END;
-$$ LANGUAGE plpgsql;
-
--- Telefone format check constraint on pessoa
-ALTER TABLE pessoa
-ADD CONSTRAINT telefone_format_check
-CHECK (validate_telefone_format(telefone));
-
--- Cpf format check constraint on pessoa
-ALTER TABLE pessoa
-ADD CONSTRAINT pessoa_format_check
-CHECK (validate_cpf_format(cpf));
+--CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
+--begin
+--	IF telefone IS NULL THEN
+--        RETURN TRUE;
+--    END IF;
+--   
+--    RETURN telefone ~ '^\+\d{2}\s\(\d{2}\)\s\d?\d{4}-\d{4}$';
+--END;
+--$$ LANGUAGE plpgsql;
+--
+--CREATE OR REPLACE FUNCTION validate_cpf_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+--begin
+--	IF telefone IS NULL THEN
+--        RETURN TRUE;
+--    END IF;
+--   
+--    RETURN telefone ~ '^\d{3}\.\d{3}\.\d{3}-\d{2}$';
+--END;
+--$$ LANGUAGE plpgsql;
+--
+--CREATE OR REPLACE FUNCTION validate_cnpj_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+--begin
+--	IF telefone IS NULL THEN
+--        RETURN TRUE;
+--    END IF;
+--   
+--    RETURN telefone ~ '^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$';
+--END;
+--$$ LANGUAGE plpgsql;
+--
+---- Telefone format check constraint on pessoa
+--ALTER TABLE pessoa
+--ADD CONSTRAINT telefone_format_check
+--CHECK (validate_telefone_format(telefone));
+--
+---- Cpf format check constraint on pessoa
+--ALTER TABLE pessoa
+--ADD CONSTRAINT pessoa_format_check
+--CHECK (validate_cpf_format(cpf));
 
 
 
@@ -210,3 +222,25 @@ add constraint fk_racao
 foreign key (id_racao) references racao(id_racao);
 
 
+CREATE OR REPLACE VIEW pessoa_view AS
+SELECT
+    p.*,
+    (
+        SELECT json_build_object(
+            'id_endereco', e.id_endereco,
+			'cep_endereco', e.cep_endereco,
+			'rua', e.rua,
+			'bairro', e.bairro,
+			'cidade', e.cidade,
+			'estado', e.estado,
+			'pais', e.pais,
+			'numero', e.numero,
+			'quadra', e.quadra,
+			'lote', e.lote,
+			'complemento', e.complemento,
+			'zona', e.zona
+		)
+        FROM endereco e
+        WHERE e.id_endereco = p.id_endereco
+    ) AS endereco
+FROM pessoa p;
