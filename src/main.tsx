@@ -18,6 +18,7 @@ import Report_food from '@/screens/Report_food'
 import Food from '@/screens/Food'
 import Processing from './screens/Processing'
 import Vaccinate from './screens/Vaccinate'
+import Brinco from './screens/brinco'
 // import Management from '@/screens/Management'
 
 import './css/bootstrap.css';
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
             {
                 path: '/vaccinate',
                 element:<Vaccinate/>
+            },
+            {
+                path: '/brinco',
+                element:<Brinco/>
             }
             // {
             //     path'/management',
