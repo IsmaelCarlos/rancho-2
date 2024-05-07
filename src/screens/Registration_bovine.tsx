@@ -1,6 +1,7 @@
 
 import { IMaskInput } from "react-imask";
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import type { CascaderProps } from 'antd';
 // import React from 'react';
 import type { DatePickerProps } from 'antd';
@@ -17,7 +18,7 @@ import {
     Select,
     ConfigProvider,
 } from 'antd';
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation, useLoaderData } from "react-router-dom";
 import { FaChevronLeft as BackIcon } from "react-icons/fa6";
 import { IoSaveSharp as SaveIcon } from "react-icons/io5";
 import BackNSave from '@/components/CommonButtons';
@@ -59,6 +60,12 @@ const tailFormItemLayout = {
 
 const Registration_bovine: React.FC = () => {
 
+    const { search } = useLocation();
+
+    const queryParams = new URLSearchParams(search);
+
+    const idBrincoRef = useRef<HTMLElement>(null);
+
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
@@ -69,7 +76,6 @@ const Registration_bovine: React.FC = () => {
         <Form.Item name="prefix" noStyle>
             <Select style={{ width: 70 }}>
                 <Option value="55">+55</Option>
-
             </Select>
         </Form.Item>
     );
@@ -94,6 +100,13 @@ const Registration_bovine: React.FC = () => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         console.log(date, dateString);
     };
+
+    useEffect(() => {
+        if(idBrincoRef.current){
+            // @ts-ignore
+            idBrincoRef.current.input.value = queryParams.get('id_brinco');
+        }
+    }, [ ]);
 
     const navigate = useNavigate();
 
@@ -157,7 +170,8 @@ const Registration_bovine: React.FC = () => {
                 tooltip="Identificação do brinco, o número que contem no brinco"
                 rules={[{ required: true, message: 'Por favor informe a identificação do brinco', whitespace: true }]}
             >
-                <Input placeholder="Identificação do brinco" />
+                {/* @ts-ignore */}
+                <Input ref={idBrincoRef} placeholder=" " disabled title="ID do Brinco"/>
             </Form.Item>
 
 
