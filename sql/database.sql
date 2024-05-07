@@ -1,3 +1,6 @@
+CREATE DATABASE rancho;
+\c rancho;
+
 -- Data
 CREATE DOMAIN date_type AS VARCHAR(75);
 -- Telefone type
