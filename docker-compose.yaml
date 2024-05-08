@@ -13,3 +13,4 @@ services:
         volumes:
             - ./sql/database.sql:/docker-entrypoint-initdb.d/01_db_creation.sql
             - ./sql/massa_de_dados.sql:/docker-entrypoint-initdb.d/02_massa_de_dados.sql
+            - ./sql/medicamento.sql:/docker-entrypoint-initdb.d/03_medicamento.sql

@@ -20,7 +20,7 @@ CREATE TYPE zona_enum AS ENUM ('RURAL', 'URBANA');
 -- Enum pecuaria
 CREATE TYPE pecuaria_enum AS ENUM('fazenda_corte', 'fazenda_leiteiro', 'pastagem_manejo', 'fazenda_ovinos', 'fazend_suinos', 'fazenda_mista');
 -- Enum medicamento 
-create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Antiparasitários','Vacinas');
+create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Antiparasitários','Vacinas','Vitamínico');
 -- Enum unidade de medida
 create type unidade_medida_enum as enum('ug','mg','g','mL','CP','AM','TB','FR','CX','CX2','CX3','L', 'T','kg');
 -- Enum racao
@@ -72,6 +72,7 @@ CREATE TABLE pessoa (
 CREATE TABLE bovino (
 	id_bovino SERIAL,
 	id_fazenda SERIAL,
+	id_brinco SERIAL,
 --	id_medicamento SERIAL,
 --	id_racao SERIAL,
 	id_pessoa_proprietario_anterior SERIAL,
@@ -84,15 +85,24 @@ CREATE TABLE bovino (
 	peso_atual INT,
 	primary key(id_bovino)
  );
+ 
+ CREATE TABLE brinco(
+	id_brinco SERIAL,
+	UID_brinco VARCHAR(255),
+	PRIMARY KEY(id_brinco)
+ );
+
 create table medicamento(
 	id_medicamento SERIAL,
 --	id_medicamento_aplicado SERIAL,
 	tipo_medicamento medicamento_enum,
 	fabricante_medicamento VARCHAR(255),
 	quatindade INT,
+	volume_medicamento INT,
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
+	bula VARCHAR(3000),
 	primary key(id_medicamento)
 );
 
@@ -105,6 +115,7 @@ create table racao(
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
+	informacao_racao VARCHAR(3000),
 	primary key(id_racao)
 );
 
@@ -198,6 +209,10 @@ ALTER TABLE bovino
 ADD CONSTRAINT fk_fazenda_bovino
 FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
+ALTER TABLE bovino
+ADD CONSTRAINT fk_brinco
+FOREIGN KEY (id_brinco) REFERENCES brinco(id_brinco);
+
 alter table medicamento_aplicado
 add constraint fk_bovino
 foreign key (id_bovino) references bovino(id_bovino),
@@ -223,6 +238,8 @@ add constraint fk_medicamento
 foreign key (id_medicamento) references  medicamento(id_medicamento),
 add constraint fk_racao
 foreign key (id_racao) references racao(id_racao);
+
+
 
 
 CREATE OR REPLACE VIEW pessoa_view AS
