@@ -71,12 +71,13 @@ CREATE TABLE pessoa (
 
 CREATE TABLE bovino (
 	id_bovino SERIAL,
-	id_fazenda SERIAL,
-	id_brinco SERIAL,
+	-- id_fazenda SERIAL NULL,
+	display_brinco VARCHAR(180),
+	uid_brinco VARCHAR(180),
 --	id_medicamento SERIAL,
 --	id_racao SERIAL,
-	id_pessoa_proprietario_anterior SERIAL,
-	id_pessoa_proprietario_atual SERIAL,
+	-- id_pessoa_proprietario_anterior SERIAL NULL,
+	-- id_pessoa_proprietario_atual SERIAL NULL,
 	identificacao VARCHAR(255),
 	data_nascimento date_type,
 	data_entrada_confinamento date_type,
@@ -84,13 +85,7 @@ CREATE TABLE bovino (
 	peso_confinamento INT,
 	peso_atual INT,
 	primary key(id_bovino)
- );
- 
- CREATE TABLE brinco(
-	id_brinco SERIAL,
-	UID_brinco VARCHAR(255),
-	PRIMARY KEY(id_brinco)
- );
+);
 
 create table medicamento(
 	id_medicamento SERIAL,
@@ -198,23 +193,22 @@ alter table pessoa
 add constraint fk_pessoa_endereco
 foreign key (id_endereco) references endereco(id_endereco);
 
--- Relacionamento: bovino }o--|| pessoa
-ALTER TABLE bovino
-ADD CONSTRAINT fk_pessoa_proprietario_autal
-FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa);
-ALTER TABLE bovino
-ADD CONSTRAINT fk_pessoa_proprietario_anterior
-FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa);
+-- -- Relacionamento: bovino }o--|| pessoa
+-- ALTER TABLE bovino
+-- ADD CONSTRAINT fk_pessoa_proprietario_atual
+-- FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa)
+-- ON DELETE SET NULL;
+-- ALTER TABLE bovino
+-- ADD CONSTRAINT fk_pessoa_proprietario_anterior
+-- FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa)
+-- ON DELETE SET NULL;
 
 
--- Relacionamento: bovino }o--|| fazenda
-ALTER TABLE bovino
-ADD CONSTRAINT fk_fazenda_bovino
-FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
-
-ALTER TABLE bovino
-ADD CONSTRAINT fk_brinco
-FOREIGN KEY (id_brinco) REFERENCES brinco(id_brinco);
+-- -- Relacionamento: bovino }o--|| fazenda
+-- ALTER TABLE bovino
+-- ADD CONSTRAINT fk_fazenda_bovino
+-- FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
+-- ON DELETE SET NULL;
 
 alter table medicamento_aplicado
 add constraint fk_bovino
