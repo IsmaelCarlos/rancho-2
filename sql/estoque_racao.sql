@@ -1,0 +1,5 @@
+-- \c rancho;
+-- INSERT INTO estoque (id_racao, quantidade_racao)
+-- SELECT id_racao, SUM(quantidade_racao)
+-- FROM racao
+-- GROUP BY id_racao;
