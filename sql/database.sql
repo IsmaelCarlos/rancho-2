@@ -29,7 +29,7 @@ create type racao_enum as ENUM('Ração', 'Proteína','Suplemento','Sal','Nutric
 
 CREATE TABLE fazenda(
 	id_fazenda SERIAL,
-	id_endereco SERIAL,
+	id_endereco INTEGER NULL,
 	nome VARCHAR(100),
 	tamanho_hectare FLOAT,
 	pecuaria pecuaria_enum,
@@ -58,7 +58,7 @@ on endereco (cep_endereco);
 
 CREATE TABLE pessoa (
 	id_pessoa SERIAL,
-	id_endereco SERIAL,
+	id_endereco INTEGER NULL,
 	nome VARCHAR(255),
 	cpf cpf_type,
 	nascimento date_type,
@@ -88,7 +88,7 @@ CREATE TABLE bovino (
 
 create table medicamento(
 	id_medicamento SERIAL,
---	id_medicamento_aplicado SERIAL,
+	id_medicamento_aplicado INTEGER NULL,
 	tipo_medicamento medicamento_enum,
 	fabricante_medicamento VARCHAR(255),
 	quantidade_medicamento INT,
@@ -102,7 +102,7 @@ create table medicamento(
 
 create table racao(
 	id_racao SERIAL,
---	id_racao_aplicado SERIAL,
+	id_racao_aplicado INTEGER NULL,
 	tipo_racao racao_enum,
 	nome_racao VARCHAR(255),
 	fabricante_racao VARCHAR(255),
@@ -117,8 +117,8 @@ create table racao(
 
 create table estoque(
 	id_estoque SERIAL,
-	id_medicamento SERIAL,
-	id_racao SERIAL,
+	id_medicamento INTEGER NULL,
+	id_racao INTEGER NULL,
 	quantidade_medicamento INT,
 	quantidade_racao INT,
 	primary key(id_estoque)
@@ -126,15 +126,15 @@ create table estoque(
 
 create table medicamento_aplicado(
 	id_medicamento_aplicado SERIAL,
-	id_bovino SERIAL,
-	id_medicamento SERIAL,
+	id_bovino INTEGER NULL,
+	id_medicamento INTEGER NULL,
 	primary key(id_medicamento_aplicado)
 );
 
 create table racao_aplicado(
 	id_racao_aplicado SERIAL,
-	id_bovino SERIAL,
-	id_racao SERIAL,
+	id_bovino INTEGER NULL,
+	id_racao INTEGER NULL,
 	primary key(id_racao_aplicado)
 );
 
