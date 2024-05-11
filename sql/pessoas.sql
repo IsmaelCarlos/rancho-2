@@ -1,0 +1,35 @@
+\c rancho;
+
+INSERT INTO pessoa (
+    id_endereco,
+    nome,
+    cpf,
+    nascimento,
+    genero,
+    telefone,
+    email,
+    senha
+) VALUES
+    (1,'Ismael Carlos do Nascimento Galvão','02020623250','1996-06-11','Masculino','62982244942','leamsicarlos100@gmail.com','ismael123'),
+    (2,'Ana Silva','365.487.820-20','1985-03-25','Feminino','61994455667','ana.silva@example.com','senha123'),
+    (3,'João Oliveira','963.147.840-10','1990-12-15','Masculino','11999998888','joao.oliveira@example.com','senha456'),
+    (4,'Mariana Santos','745.632.510-70','1982-08-02','Feminino','11987654321','mariana.santos@example.com','senha789'),
+    (5,'Pedro Souza','852.471.630-80','1976-05-18','Masculino','21955557777','pedro.souza@example.com','senhaabc'),
+    (6,'Camila Pereira','693.185.270-40','1993-11-30','Feminino','81999887766','camila.pereira@example.com','senhaxyz'),
+    (7,'Lucas Costa','471.630.825-60','1988-09-09','Masculino','11977776666','lucas.costa@example.com','senhawww'),
+    (8,'Juliana Lima','524.965.130-00','1997-04-12','Feminino','21988889999','juliana.lima@example.com','senha999'),
+    (9,'Gabriel Mendes','198.745.360-90','1989-07-20','Masculino','81933334444','gabriel.mendes@example.com','senha888'),
+    (10,'Amanda Oliveira','652.130.985-40','1995-02-28','Feminino','11933332222','amanda.oliveira@example.com','senha777'),
+    (11,'Marcos Silva','365.258.741-20','1979-10-05','Masculino','61998765432','marcos.silva@example.com','senha666'),
+    (12,'Carla Santos','987.321.654-10','1984-04-22','Feminino','11999998888','carla.santos@example.com','senha555'),
+    (13,'Rafael Pereira','254.963.871-70','1992-06-15','Masculino','11987654321','rafael.pereira@example.com','senha444'),
+    (14,'Isabela Lima','654.123.987-30','1987-08-11','Feminino','21955556666','isabela.lima@example.com','senha333'),
+    (15,'Fernando Oliveira','745.896.321-80','1981-12-03','Masculino','81999887766','fernando.oliveira@example.com','senha222'),
+    (16,'Laura Costa','321.789.654-50','1996-03-28','Feminino','11977775555','laura.costa@example.com','senha111'),
+    (17,'Ricardo Pereira','987.456.321-10','1980-07-15','Masculino','21988884444','ricardo.pereira@example.com','senhabbb'),
+    (18,'Vanessa Silva','123.654.789-60','1994-01-10','Feminino','81933338888','vanessa.silva@example.com','senhaccc'),
+    (19,'Gustavo Santos','147.258.369-20','1983-05-22','Masculino','61998762222','gustavo.santos@example.com','senhaddd'),
+    (20,'Patrícia Lima','987.654.321-10','1991-09-18','Feminino','11999991111','patricia.lima@example.com','senhaeee'),
+    (21,'Rodrigo Oliveira','654.321.987-40','1977-11-07','Masculino','11987651111','rodrigo.oliveira@example.com','senhafff'),
+    (22,'Fernanda Silva','963.852.741-20','1998-02-14','Feminino','21955553333','fernanda.silva@example.com','senhaggg'),
+    (23,'Bruno Santos','654.987.321-70','1986-06-29','Masculino','81999880000','bruno.santos@example.com','senhahhh');

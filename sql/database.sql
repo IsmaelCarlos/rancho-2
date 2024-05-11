@@ -12,7 +12,7 @@ CREATE DOMAIN cpf_type AS VARCHAR(14);
 -- Cep type
 CREATE DOMAIN cep_type AS VARCHAR(9);
 -- Enum dos generos
-CREATE TYPE generos_enum AS ENUM('Masculino', 'Femenino', 'Outros');
+CREATE TYPE generos_enum AS ENUM('Masculino', 'Feminino', 'Outros');
 -- Enum do estado
 CREATE TYPE estados_enum AS ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO');
 -- Enum da zona
@@ -71,19 +71,18 @@ CREATE TABLE pessoa (
 
 CREATE TABLE bovino (
 	id_bovino SERIAL,
-	-- id_fazenda SERIAL NULL,
+	id_fazenda INTEGER NULL,
 	display_brinco VARCHAR(180),
 	uid_brinco VARCHAR(180),
---	id_medicamento SERIAL,
---	id_racao SERIAL,
-	-- id_pessoa_proprietario_anterior SERIAL NULL,
-	-- id_pessoa_proprietario_atual SERIAL NULL,
+	id_medicamento SERIAL,
+	id_racao SERIAL,
+	id_pessoa_proprietario_atual INTEGER NULL,
 	identificacao VARCHAR(255),
 	data_nascimento date_type,
 	data_entrada_confinamento date_type,
-	peso_nascimento INT,
-	peso_confinamento INT,
-	peso_atual INT,
+	peso_nascimento FLOAT,
+	peso_confinamento FLOAT,
+	peso_atual FLOAT,
 	primary key(id_bovino)
 );
 
@@ -193,22 +192,16 @@ alter table pessoa
 add constraint fk_pessoa_endereco
 foreign key (id_endereco) references endereco(id_endereco);
 
--- -- Relacionamento: bovino }o--|| pessoa
--- ALTER TABLE bovino
--- ADD CONSTRAINT fk_pessoa_proprietario_atual
--- FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa)
--- ON DELETE SET NULL;
--- ALTER TABLE bovino
--- ADD CONSTRAINT fk_pessoa_proprietario_anterior
--- FOREIGN KEY (id_pessoa_proprietario_anterior) REFERENCES pessoa(id_pessoa)
--- ON DELETE SET NULL;
+-- Relacionamento: bovino }o--|| pessoa
+ALTER TABLE bovino
+ADD CONSTRAINT fk_pessoa_proprietario_atual
+FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa);
 
 
--- -- Relacionamento: bovino }o--|| fazenda
--- ALTER TABLE bovino
--- ADD CONSTRAINT fk_fazenda_bovino
--- FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
--- ON DELETE SET NULL;
+-- Relacionamento: bovino }o--|| fazenda
+ALTER TABLE bovino
+ADD CONSTRAINT fk_fazenda_bovino
+FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);;
 
 alter table medicamento_aplicado
 add constraint fk_bovino
@@ -263,3 +256,19 @@ SELECT
         WHERE e.id_endereco = p.id_endereco
     ) AS endereco
 FROM pessoa p;
+
+CREATE OR REPLACE VIEW bovino_view AS 
+SELECT 
+	p.*,
+	(
+		SELECT json_build_object(
+			'id_fazenda' , e.id_fazenda,
+			'id_endereco', e.id_endereco,
+			'nome_fazenda', e.nome,
+			'tamanho_hectare', e.tamanho_hectare,
+			'pecuaria', e.pecuaria
+		)
+		FROM fazenda e
+        WHERE e.id_fazenda = p.id_fazenda
+	) AS fazenda 
+FROM bovino p;
