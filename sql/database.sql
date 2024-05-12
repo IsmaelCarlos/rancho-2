@@ -22,9 +22,12 @@ CREATE TYPE pecuaria_enum AS ENUM('Fazenda corte', 'Fazenda leiteiro', 'Pastagem
 -- Enum medicamento 
 create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Antiparasitários','Vacinas','Vitamínico');
 -- Enum unidade de medida
-create type unidade_medida_enum as enum('ug','mg','g','mL','CP','AM','TB','FR','CX','CX2','CX3','L', 'T','kg');
+create type unidade_medida_enum as enum('ug','mg','g','mL','CP','AP','TB','FR','CX','CX2','CX3','L', 'T','kg', 'SC');
 -- Enum racao
 create type racao_enum as ENUM('Ração', 'Proteína','Suplemento','Sal','Nutricional');
+
+
+CREATE TYPE tipo_estoque AS ENUM('medicamento', 'racao');
 
 
 CREATE TABLE fazenda(
@@ -118,8 +121,9 @@ create table estoque(
 	id_estoque SERIAL,
 	id_medicamento INTEGER NULL,
 	id_racao INTEGER NULL,
-	quantidade_medicamento INT,
-	quantidade_racao INT,
+	tipo tipo_estoque NOT NULL,
+	quantidade INT,
+	unidade unidade_medida_enum,
 	primary key(id_estoque)
 );
 
@@ -227,7 +231,7 @@ alter table estoque
 add constraint fk_medicamento
 foreign key (id_medicamento) references  medicamento(id_medicamento);
 
-alter table racao
+alter table estoque
 add constraint fk_racao
 foreign key (id_racao) references racao(id_racao);
 
