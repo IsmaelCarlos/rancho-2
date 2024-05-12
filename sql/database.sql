@@ -18,7 +18,7 @@ CREATE TYPE estados_enum AS ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES'
 -- Enum da zona
 CREATE TYPE zona_enum AS ENUM ('RURAL', 'URBANA');
 -- Enum pecuaria
-CREATE TYPE pecuaria_enum AS ENUM('fazenda_corte', 'fazenda_leiteiro', 'pastagem_manejo', 'fazenda_ovinos', 'fazend_suinos', 'fazenda_mista');
+CREATE TYPE pecuaria_enum AS ENUM('Fazenda corte', 'Fazenda leiteiro', 'Pastagem de manejo', 'Fazenda de ovinos', 'Fazenda de suinos', 'Fazenda mista');
 -- Enum medicamento 
 create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Antiparasitários','Vacinas','Vitamínico');
 -- Enum unidade de medida
@@ -58,12 +58,12 @@ on endereco (cep_endereco);
 
 CREATE TABLE pessoa (
 	id_pessoa SERIAL,
-	id_endereco INTEGER NULL,
+	id_endereco INTEGER NULL, -- foreign key OK
 	nome VARCHAR(255),
 	cpf cpf_type,
 	nascimento date_type,
 	genero 	generos_enum,
-	telefone telefone_type,
+	telefone telefone_type NULL,
 	email VARCHAR(255),
 	senha VARCHAR(512),
 	primary key(id_pessoa)
@@ -71,13 +71,12 @@ CREATE TABLE pessoa (
 
 CREATE TABLE bovino (
 	id_bovino SERIAL,
-	id_fazenda INTEGER NULL,
+	id_fazenda INTEGER NULL, -- foreign key  OK
 	display_brinco VARCHAR(180),
 	uid_brinco VARCHAR(180),
-	id_medicamento SERIAL,
-	id_racao SERIAL,
-	id_pessoa_proprietario_atual INTEGER NULL,
-	identificacao VARCHAR(255),
+	id_medicamento INTEGER NULL, -- foreing key a fazer
+	id_racao INTEGER NULL, -- foreing key a fazer
+	id_pessoa_proprietario_atual INTEGER NULL, -- foreing key a fazer
 	data_nascimento date_type,
 	data_entrada_confinamento date_type,
 	peso_nascimento FLOAT,
@@ -92,7 +91,7 @@ create table medicamento(
 	tipo_medicamento medicamento_enum,
 	fabricante_medicamento VARCHAR(255),
 	quantidade_medicamento INT,
-	volume_medicamento INT,
+	volume_medicamento FLOAT,
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
@@ -102,7 +101,7 @@ create table medicamento(
 
 create table racao(
 	id_racao SERIAL,
-	id_racao_aplicado INTEGER NULL,
+	id_racao_aplicado INTEGER NULL, --foreing key a fazer
 	tipo_racao racao_enum,
 	nome_racao VARCHAR(255),
 	fabricante_racao VARCHAR(255),
@@ -138,46 +137,46 @@ create table racao_aplicado(
 	primary key(id_racao_aplicado)
 );
 
--- Funções
---CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
---begin
---	IF telefone IS NULL THEN
+-- -- Funções
+-- CREATE OR REPLACE FUNCTION validate_telefone_format(telefone VARCHAR) RETURNS BOOLEAN AS $$
+-- begin
+-- 	IF telefone IS NULL THEN
 --        RETURN TRUE;
---    END IF;
---   
+--    	END IF;
+  
 --    RETURN telefone ~ '^\+\d{2}\s\(\d{2}\)\s\d?\d{4}-\d{4}$';
---END;
---$$ LANGUAGE plpgsql;
---
---CREATE OR REPLACE FUNCTION validate_cpf_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
---begin
---	IF telefone IS NULL THEN
+-- END;
+-- $$ LANGUAGE plpgsql;
+-- --
+-- CREATE OR REPLACE FUNCTION validate_cpf_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+-- begin
+-- 	IF telefone IS NULL THEN
 --        RETURN TRUE;
 --    END IF;
---   
+  
 --    RETURN telefone ~ '^\d{3}\.\d{3}\.\d{3}-\d{2}$';
---END;
---$$ LANGUAGE plpgsql;
---
---CREATE OR REPLACE FUNCTION validate_cnpj_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
---begin
---	IF telefone IS NULL THEN
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- CREATE OR REPLACE FUNCTION validate_cnpj_format(cpf VARCHAR) RETURNS BOOLEAN AS $$
+-- begin
+-- 	IF telefone IS NULL THEN
 --        RETURN TRUE;
 --    END IF;
---   
+  
 --    RETURN telefone ~ '^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$';
---END;
---$$ LANGUAGE plpgsql;
---
----- Telefone format check constraint on pessoa
---ALTER TABLE pessoa
---ADD CONSTRAINT telefone_format_check
---CHECK (validate_telefone_format(telefone));
---
----- Cpf format check constraint on pessoa
---ALTER TABLE pessoa
---ADD CONSTRAINT pessoa_format_check
---CHECK (validate_cpf_format(cpf));
+-- END;
+-- $$ LANGUAGE plpgsql;
+
+-- -- Telefone format check constraint on pessoa
+-- ALTER TABLE pessoa
+-- ADD CONSTRAINT telefone_format_check
+-- CHECK (validate_telefone_format(telefone));
+
+-- -- Cpf format check constraint on pessoa
+-- ALTER TABLE pessoa
+-- ADD CONSTRAINT pessoa_format_check
+-- CHECK (validate_cpf_format(cpf));
 
 
 
@@ -201,12 +200,12 @@ FOREIGN KEY (id_pessoa_proprietario_atual) REFERENCES pessoa(id_pessoa);
 -- Relacionamento: bovino }o--|| fazenda
 ALTER TABLE bovino
 ADD CONSTRAINT fk_fazenda_bovino
-FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);;
+FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
 alter table medicamento_aplicado
 add constraint fk_bovino
 foreign key (id_bovino) references bovino(id_bovino),
-add constraint fk_medicamento
+add constraint fk_medicamento_
 foreign key (id_medicamento) references medicamento(id_medicamento);
 
 -- Relacionamento: bovino }o--|| vacina
@@ -222,6 +221,7 @@ add constraint fk_bovino
 foreign key (id_bovino) references bovino(id_bovino),
 add constraint fk_racao
 foreign key (id_racao) references racao(id_racao);
+
 
 alter table estoque
 add constraint fk_medicamento
@@ -272,3 +272,27 @@ SELECT
         WHERE e.id_fazenda = p.id_fazenda
 	) AS fazenda 
 FROM bovino p;
+
+CREATE OR REPLACE VIEW fazenda_view AS 
+SELECT 
+	p.*,
+	(
+		SELECT json_build_object(
+			'id_endereco', e.id_endereco,
+			'cep_endereco', e.cep_endereco,
+			'rua', e.rua,
+			'bairro', e.bairro,
+			'cidade', e.cidade,
+			'estado', e. estado,
+			'pais', e.pais,
+			'numero', e.numero,
+			'quadra', e.quadra,
+			'lote', e.lote,
+			'complemento', e.complemento,
+			'zona', e.zona
+		)
+		FROM endereco e
+        WHERE e.id_endereco = p.id_endereco
+	) AS endereco 
+FROM fazenda p;
+

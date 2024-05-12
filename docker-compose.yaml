@@ -16,5 +16,6 @@ services:
             - ./sql/medicamento.sql:/docker-entrypoint-initdb.d/03_medicamento.sql
             - ./sql/racao.sql:/docker-entrypoint-initdb.d/04_racao.sql
             - ./sql/estoque_medicamento.sql:/docker-entrypoint-initdb.d/05_estoque_medicamento.sql
-            - ./sql/bovinos.sql:/docker-entrypoint-initdb.d/06_bovinos.sql 
+            # - ./sql/bovinos.sql:/docker-entrypoint-initdb.d/06_bovinos.sql 
             - ./sql/pessoas.sql:/docker-entrypoint-initdb.d/07_pessoas.sql
+            - ./sql/fazendas.sql:/docker-entrypoint-initdb.d/08_fazendas.sql
