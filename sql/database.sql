@@ -287,7 +287,7 @@ SELECT
 			'rua', e.rua,
 			'bairro', e.bairro,
 			'cidade', e.cidade,
-			'estado', e. estado,
+			'estado', e.estado,
 			'pais', e.pais,
 			'numero', e.numero,
 			'quadra', e.quadra,
@@ -299,4 +299,18 @@ SELECT
         WHERE e.id_endereco = p.id_endereco
 	) AS endereco 
 FROM fazenda p;
+
+CREATE OR REPLACE VIEW medicamento_view AS
+SELECT
+	p.*,
+	(
+		SELECT json_build_object(
+			'id_medicamento_aplicado', e.id_medicamento_aplicado,
+			'id_bovino', e.id_bovino,
+			'id_medicamento', e.id_medicamento
+		)
+		FROM medicamento_aplicado e
+		WHERE e.id_medicamento = p.id_medicamento
+	)AS medicamento_aplicado
+FROM medicamento p;
 
