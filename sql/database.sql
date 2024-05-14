@@ -77,8 +77,8 @@ CREATE TABLE bovino (
 	id_fazenda INTEGER NULL, -- foreign key  OK
 	display_brinco VARCHAR(180),
 	uid_brinco VARCHAR(180),
-	id_medicamento INTEGER NULL, -- foreing key a fazer
-	id_racao INTEGER NULL, -- foreing key a fazer
+	id_medicamento_aplicado INTEGER NULL, -- foreing key a fazer
+	id_racao_aplicado INTEGER NULL, -- foreing key a fazer
 	id_pessoa_proprietario_atual INTEGER NULL, -- foreing key a fazer
 	data_nascimento date_type,
 	data_entrada_confinamento date_type,
@@ -109,7 +109,7 @@ create table racao(
 	nome_racao VARCHAR(255),
 	fabricante_racao VARCHAR(255),
 	-- quantidade_racao INT,
-	peso_saco INT,
+	peso_saco FLOAT,
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
@@ -207,24 +207,31 @@ ADD CONSTRAINT fk_fazenda_bovino
 FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
 alter table medicamento_aplicado
-add constraint fk_bovino
-foreign key (id_bovino) references bovino(id_bovino),
-add constraint fk_medicamento_
+add constraint fk_medicamento
 foreign key (id_medicamento) references medicamento(id_medicamento);
 
+alter table racao_aplicado
+add constraint fk_racao
+foreign key (id_racao) references racao(id_racao);
+
 -- Relacionamento: bovino }o--|| vacina
---alter table bovino
---add constraint fk_medicamento
---foreign key (id_medicamento) references vacina(id_medicamento);
+alter table bovino
+add constraint fk_medicamento_aplicado
+foreign key (id_medicamento_aplicado) references medicamento_aplicado(id_medicamento_aplicado);
+
+alter table bovino
+add constraint fk_racao_aplicado
+foreign key (id_racao_aplicado) references racao_aplicado(id_racao_aplicado);
+
 
 -- Relacionamento: bovino }o--|| racao
 
 
-alter table racao_aplicado
-add constraint fk_bovino
-foreign key (id_bovino) references bovino(id_bovino),
-add constraint fk_racao
-foreign key (id_racao) references racao(id_racao);
+-- alter table racao_aplicado
+-- add constraint fk_bovino
+-- foreign key (id_bovino) references bovino(id_bovino),
+-- add constraint fk_racao
+-- foreign key (id_racao) references racao(id_racao);
 
 
 alter table estoque
@@ -263,19 +270,45 @@ FROM pessoa p;
 
 CREATE OR REPLACE VIEW bovino_view AS 
 SELECT 
-	p.*,
-	(
-		SELECT json_build_object(
-			'id_fazenda' , e.id_fazenda,
-			'id_endereco', e.id_endereco,
-			'nome_fazenda', e.nome,
-			'tamanho_hectare', e.tamanho_hectare,
-			'pecuaria', e.pecuaria
-		)
-		FROM fazenda e
+    p.*,
+    (
+        SELECT json_build_object(
+            'id_fazenda' , e.id_fazenda,
+            'id_endereco', e.id_endereco,
+            'nome_fazenda', e.nome,
+            'tamanho_hectare', e.tamanho_hectare,
+            'pecuaria', e.pecuaria
+        )
+        FROM fazenda e
         WHERE e.id_fazenda = p.id_fazenda
-	) AS fazenda 
+    ) AS fazenda, 
+    (
+        SELECT json_build_object
+        (
+            'id_medicamento_aplicado', a.id_medicamento_aplicado,
+            'id_bovino', a.id_bovino,
+            'id_medicamento', a.id_medicamento -- Corrected field name
+        )
+        FROM medicamento_aplicado a
+        WHERE a.id_medicamento_aplicado = p.id_medicamento_aplicado
+    ) AS medicamento_aplicado,
+    (
+        SELECT json_build_object
+        (
+            'id_racao_aplicado', b.id_racao_aplicado,
+            'id_bovino', b.id_bovino,
+            'id_racao', b.id_racao
+        )
+        FROM racao_aplicado b
+        WHERE b.id_racao_aplicado = p.id_racao_aplicado
+    ) AS racao_aplicado
 FROM bovino p;
+
+
+
+
+
+
 
 CREATE OR REPLACE VIEW fazenda_view AS 
 SELECT 
@@ -313,4 +346,52 @@ SELECT
 		WHERE e.id_medicamento = p.id_medicamento
 	)AS medicamento_aplicado
 FROM medicamento p;
+
+
+CREATE OR REPLACE VIEW racao_view AS
+SELECT
+	p.*,
+	(
+		SELECT json_build_object(
+			'id_racao_aplicado', e.id_racao_aplicado,
+			'id_bovino', e.id_bovino,
+			'id_racao', e.id_racao
+		)
+		FROM racao_aplicado e
+		WHERE e.id_racao = p.id_racao
+	)AS racao_aplicado
+FROM racao p;
+
+CREATE OR REPLACE VIEW estoque_view AS
+SELECT
+	p.*,
+	(
+		SELECT json_build_object
+		(
+			'id_medicamento_aplicado', e.id_medicamento_aplicado,
+			'id_medicamento', e.id_medicamento,
+			'fabricante_medicamento', e.fabricante_medicamento,
+			'volume_medicamento', e.volume_medicamento,
+			'unidade_medida', e.unidade_medida,
+			'data_validade', e.data_validade,
+			'data_registro', e.data_registro,
+			'bula', e.bula
+		) FROM medicamento e
+		WHERE e.id_medicamento = p.id_medicamento
+	) AS medicamento,
+	(
+		SELECT json_build_object(
+			'id_racao_aplicado', a.id_racao_aplicado,
+			'id_racao', a.id_racao,
+			'fabricante_racao', a.fabricante_racao,
+			'peso_saco', a.peso_saco,
+			'unidade_medida', a.unidade_medida,
+			'data_validade', a.data_validade,
+			'data_registro', a.data_registro,
+			'informacao_racao', a.informacao_racao
+		) FROM racao a
+		WHERE a.id_racao = p.id_racao
+	) AS racao
+FROM estoque p;
+
 
