@@ -1,22 +1,20 @@
-
-import { IMaskInput } from "react-imask";
-import React, { useState } from 'react';
-import type { CascaderProps } from 'antd';
-// import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
+import { NavLink } from "react-router-dom";
 import {
     AutoComplete,
     Button,
-    Checkbox,
-    Col,
     Form,
     Input,
-    InputNumber,
-    Row,
     Select,
+    message,
 } from 'antd';
-import { NavLink } from "react-router-dom";
+
+import { PessoaType } from '@/types/people';
+
+import axios from 'axios';
+import { MessageType } from 'antd/es/message/interface';
 
 const { Option } = Select;
 
@@ -55,8 +53,37 @@ const Registration_people: React.FC = () => {
 
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+    const hideLoading = useRef<MessageType>();
+
+    const [ loading, setLoading ] = useState<boolean>(false);
+    const [ insertionResult, setInsertionResult ] = useState<PessoaType>();
+
+    useEffect(() => {
+        if(loading){
+            const hide = message.loading(`Inserindo...`, 0);
+            hideLoading.current = hide;
+        }
+        else{
+            hideLoading.current && hideLoading.current();
+        }
+    }, [ loading ]);
+
+    const onFinish = async (values: any) => {
+        try{
+            setLoading(true);
+            const { confirma_senha, prefix, ..._pessoa } = values;
+            const pessoa = _pessoa as Omit<PessoaType, 'id_pessoa'>;
+            const result = await axios.post('http://localhost:6754/pessoas', pessoa).then(({ data }) => data.result[0] as PessoaType);
+            message.success(`${pessoa.nome} inserido com sucesso`);
+            setInsertionResult(result);
+        }
+        catch(err){
+            console.error(err);
+            message.error('Erro ao inserir pessoa');
+        }
+        finally{
+            setLoading(false);
+        }
     };
 
     const prefixSelector = (
@@ -101,6 +128,7 @@ const Registration_people: React.FC = () => {
                 initialValues={{ prefix: '55' }}
                 style={{ maxWidth: 600 }}
                 scrollToFirstError
+                disabled={loading}
             >
 
 
@@ -131,10 +159,10 @@ const Registration_people: React.FC = () => {
                 </Form.Item>
 
                 <Form.Item
-                name="data_nascimento"
-                label="Nascimento"
-                tooltip="Selecione a Data de Nascimento"
-                rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
+                    name="nascimento"
+                    label="Nascimento"
+                    tooltip="Selecione a Data de Nascimento"
+                    // rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
                 >
                     <Space direction="vertical">
                     
@@ -152,7 +180,7 @@ const Registration_people: React.FC = () => {
                 >
                     <Select placeholder="Selecionar Gênero">
                         <Option value="Masculino">Masculino</Option>
-                        <Option value="Femenino">Femenino</Option>
+                        <Option value="Feminino">Feminino</Option>
                         <Option value="Outros">Outros</Option>
                     </Select>
                 </Form.Item>
@@ -176,27 +204,6 @@ const Registration_people: React.FC = () => {
                         <Input />
                     </AutoComplete>
                 </Form.Item>
-
-
-                {/* <Form.Item
-                    name="email"
-                    label="E-mail"
-                    rules={[
-                        {
-                            type: 'email',
-                            message: 'The input is not valid E-mail!',
-                        },
-                        {
-                            required: true,
-                            message: 'Please input your E-mail!',
-                        },
-                    ]}
-                >
-                     <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="email">
-                        <Input />
-                    </AutoComplete>
-                    <Input />
-                </Form.Item> */}
 
                 <Form.Item
                     name="senha"
@@ -238,14 +245,25 @@ const Registration_people: React.FC = () => {
 
 
             
-                <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
-                        <NavLink to='/registration_farm'>
-                            Salvar
-                        </NavLink>
-                    </Button>
-                   
-                </Form.Item>
+                {
+                    !insertionResult
+                        ? <Form.Item {...tailFormItemLayout}>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                            >
+                                Salvar
+                            </Button>
+                        
+                        </Form.Item>
+                        : <Form.Item {...tailFormItemLayout}>
+                            <Button type='primary'>
+                                <NavLink to={`/registration_farm?id_pessoa=${insertionResult.id_pessoa}`}>
+                                    Próximo
+                                </NavLink>
+                            </Button>
+                        </Form.Item>
+                }
             </Form>
         </div>
     );
