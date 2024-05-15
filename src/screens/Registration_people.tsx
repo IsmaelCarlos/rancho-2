@@ -58,6 +58,8 @@ const Registration_people: React.FC = () => {
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ insertionResult, setInsertionResult ] = useState<PessoaType>();
 
+    useEffect(() => console.log({ insertionResult }), [ insertionResult ]);
+
     useEffect(() => {
         if(loading){
             const hide = message.loading(`Inserindo...`, 0);

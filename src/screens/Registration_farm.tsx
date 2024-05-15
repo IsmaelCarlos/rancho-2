@@ -16,8 +16,8 @@ import {
     Row,
     Select,
 } from 'antd';
-import { NavLink } from "react-router-dom";
-import {} from 'react-icons'
+import { NavLink, useLocation } from "react-router-dom";
+import { } from 'react-icons'
 
 const { Option } = Select;
 
@@ -53,6 +53,10 @@ const tailFormItemLayout = {
 };
 
 const Registration_farm: React.FC = () => {
+
+
+    const { search } = useLocation();
+    const queryParams = new URLSearchParams(search);
 
     const [form] = Form.useForm();
 
@@ -93,13 +97,22 @@ const Registration_farm: React.FC = () => {
 
     return (
 
-        <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
-            
 
+            <Form
+                {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                initialValues={{ prefix: '55' }}
+                style={{ maxWidth: 600 }}
+                scrollToFirstError
+                // disabled={loading}
+            >
 
                 <Form.Item
-                style={{maxWidth:540}}
+                    style={{ maxWidth: 540 }}
 
                     name="nome_fazenda"
                     label="Fazenda"
@@ -146,9 +159,9 @@ const Registration_farm: React.FC = () => {
                 <div style={{ display: 'flex' }}>
 
                     <div >
-                        
+
                         <Form.Item
-                          
+
                             name="estado"
                             label="Estado"
                             tooltip="Informe o Estado"
@@ -156,13 +169,13 @@ const Registration_farm: React.FC = () => {
                             rules={[{ required: true, message: 'Por favor insira o Estado', whitespace: true }]}
 
                         >
-                            <Input  style={{maxWidth:184}}/>
+                            <Input style={{ maxWidth: 184 }} />
                         </Form.Item>
                     </div>
-                    
+
                     <div >
                         <Form.Item
-                        //    style={{maxWidth:300}}
+                            //    style={{maxWidth:300}}
                             name="cidade"
                             label="Cidade"
                             tooltip="Informe a Cidade"
@@ -170,7 +183,7 @@ const Registration_farm: React.FC = () => {
                             rules={[{ required: true, message: 'Por favor insira a Cidade', whitespace: true }]}
 
                         >
-                            <Input style={{maxWidth:182}}/>
+                            <Input style={{ maxWidth: 182 }} />
                         </Form.Item>
                     </div>
 
@@ -193,13 +206,13 @@ const Registration_farm: React.FC = () => {
                     </Select>
                 </Form.Item>
 
-                
+
                 <div style={{ display: 'flex' }}>
 
                     <div >
-                        
+
                         <Form.Item
-                          
+
                             name="alqueiro"
                             label="Alqueiro"
                             tooltip="Alqueire é uma referência para definir o tamanho de uma área rural "
@@ -207,10 +220,10 @@ const Registration_farm: React.FC = () => {
                             rules={[{ required: true, message: 'Por favor insira o tamanho do Alqueiro', whitespace: true }]}
 
                         >
-                            <Input  style={{maxWidth:184}}/>
+                            <Input style={{ maxWidth: 184 }} />
                         </Form.Item>
                     </div>
-                    
+
                     {/* <div >
                         <Form.Item
                         //    style={{maxWidth:300}}
@@ -227,7 +240,7 @@ const Registration_farm: React.FC = () => {
 
                 </div>
 
-      
+
 
 
 
@@ -245,10 +258,24 @@ const Registration_farm: React.FC = () => {
                     </Button>
 
                 </Form.Item>
-            {/* </Form> */}
+                </Form>
 
         </div>
     );
 };
 
 export default Registration_farm;
+
+
+
+	
+	// rua VARCHAR(255),
+	// bairro VARCHAR(255),
+
+	// estado estados_enum,
+	// pais VARCHAR(50),
+	// numero INT,
+	// quadra INT,
+	// lote INT,
+	// complemento VARCHAR(120),
+	// zona zona_enum,
