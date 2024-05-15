@@ -61,7 +61,8 @@ on endereco (cep_endereco);
 
 CREATE TABLE pessoa (
 	id_pessoa SERIAL,
-	id_endereco INTEGER NULL, -- foreign key OK
+	-- id_endereco INTEGER NULL, -- foreign key OK
+	id_fazenda INTEGER NULL,
 	nome VARCHAR(255),
 	cpf cpf_type,
 	nascimento date_type,
@@ -191,9 +192,12 @@ add constraint fk_fazenda_endereco
 foreign key (id_endereco) references endereco(id_endereco);
 
 -- Relacionamento: pessoa }o--|| endereco
-alter table pessoa
-add constraint fk_pessoa_endereco
-foreign key (id_endereco) references endereco(id_endereco);
+-- alter table pessoa
+-- add constraint fk_pessoa_endereco
+-- foreign key (id_endereco) references endereco(id_endereco);
+ALTER TABLE pessoa
+ADD CONSTRAINT fk_pessoa_fazenda
+FOREIGN KEY (id_fazenda) REFERENCES fazenda(id_fazenda);
 
 -- Relacionamento: bovino }o--|| pessoa
 ALTER TABLE bovino
@@ -248,25 +252,16 @@ foreign key (id_racao) references racao(id_racao);
 CREATE OR REPLACE VIEW pessoa_view AS
 SELECT
     p.*,
-    (
-        SELECT json_build_object(
-            'id_endereco', e.id_endereco,
-			'cep_endereco', e.cep_endereco,
-			'rua', e.rua,
-			'bairro', e.bairro,
-			'cidade', e.cidade,
-			'estado', e.estado,
-			'pais', e.pais,
-			'numero', e.numero,
-			'quadra', e.quadra,
-			'lote', e.lote,
-			'complemento', e.complemento,
-			'zona', e.zona
-		)
-        FROM endereco e
-        WHERE e.id_endereco = p.id_endereco
-    ) AS endereco
-FROM pessoa p;
+    json_build_object(
+		'id_fazenda' , f.id_fazenda,
+		'id_endereco', f.id_endereco,
+		'nome_fazenda', f.nome,
+		'tamanho_hectare', f.tamanho_hectare,
+		'pecuaria', f.pecuaria
+	) as fazenda
+FROM pessoa p
+JOIN fazenda f
+	ON p.id_fazenda = f.id_fazenda;
 
 CREATE OR REPLACE VIEW bovino_view AS 
 SELECT 
@@ -315,7 +310,7 @@ SELECT
 	p.*,
 	(
 		SELECT json_build_object(
-			'id_endereco', e.id_endereco,
+			-- 'id_endereco', e.id_endereco,
 			'cep_endereco', e.cep_endereco,
 			'rua', e.rua,
 			'bairro', e.bairro,

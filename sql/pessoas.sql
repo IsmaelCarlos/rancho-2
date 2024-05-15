@@ -1,7 +1,7 @@
 \c rancho;
 
 INSERT INTO pessoa (
-    id_endereco,
+    id_fazenda,
     nome,
     cpf,
     nascimento,
