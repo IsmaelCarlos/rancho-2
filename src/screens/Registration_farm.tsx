@@ -1,31 +1,18 @@
 
-import { IMaskInput } from "react-imask";
-import React, { useState } from 'react';
-import type { CascaderProps } from 'antd';
-// import React from 'react';
-import type { DatePickerProps } from 'antd';
-import { DatePicker, Space } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-    AutoComplete,
     Button,
-    Checkbox,
-    Col,
     Form,
     Input,
-    InputNumber,
-    Row,
     Select,
+    message,
 } from 'antd';
 import { NavLink, useLocation } from "react-router-dom";
-import { } from 'react-icons'
+import { FormFazendaType } from '@/types/fazenda';
+import axios from 'axios';
+import { MessageType } from 'antd/es/message/interface';
 
 const { Option } = Select;
-
-interface DataNodeType {
-    value: string;
-    label: string;
-    children?: DataNodeType[];
-}
 
 
 const formItemLayout = {
@@ -54,44 +41,48 @@ const tailFormItemLayout = {
 
 const Registration_farm: React.FC = () => {
 
-
+    
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
 
+    const hideLoading = useRef<MessageType>();
+
+    const [ loading, setLoading ] = useState(false);
+
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-    };
-
-    const prefixSelector = (
-        <Form.Item name="prefix" noStyle>
-            <Select style={{ width: 70 }}>
-                <Option value="55">+55</Option>
-
-            </Select>
-        </Form.Item>
-    );
-
-
-
-    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-    const onWebsiteChange = (value: string) => {
-        if (!value) {
-            setAutoCompleteResult([]);
-        } else {
-            setAutoCompleteResult(['@gmail.com', '@hotmail.com'].map((domain) => `${value}${domain}`));
+    useEffect(() => {
+        if(!loading && hideLoading.current){
+            hideLoading.current();
         }
-    };
+    }, [ loading ]);
 
-    const websiteOptions = autoCompleteResult.map((website) => ({
-        label: website,
-        value: website,
-    }));
+    const onFinish = async (values: any) => {
+        try{
+            setLoading(true);
+            const to_send = {
+                nome: values.nome_fazenda,
+                tamanho_hectare: values.alqueiro,
+                cep_endereco: values.cep,
+                cidade: values.cidade,
+                estado: values.estado,
+                zona: values.zona_area,
+                pecuaria: values.tipo_fazenda,
+                id_pessoa: parseInt(queryParams.get('id_pessoa')??'')
+            } satisfies FormFazendaType;
 
-    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-        console.log(date, dateString);
+            hideLoading.current = message.loading(`Inserindo fazenda: ${to_send.nome}...`, 0);
+    
+            await axios.post('http://localhost:6754/fazendas', to_send);
+
+            message.success(`Fazenda ${to_send.nome} inserida com sucesso`);
+        }
+        catch(err){
+            message.error(`Erro ao inserir`);
+        }
+        finally{
+            setLoading(false);
+        }
     };
 
 
@@ -99,11 +90,9 @@ const Registration_farm: React.FC = () => {
 
         <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
-
             <Form
                 {...formItemLayout}
                 form={form}
-                name="register"
                 onFinish={onFinish}
                 initialValues={{ prefix: '55' }}
                 style={{ maxWidth: 600 }}
@@ -135,8 +124,8 @@ const Registration_farm: React.FC = () => {
                             rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
                         >
                             <Select placeholder="Selecionar o tipo da Área">
-                                <Option value="rural">Zona Rural</Option>
-                                <Option value="urbana">Zona Urbana</Option>
+                                <Option value="RURAL">Zona Rural</Option>
+                                <Option value="URBANA">Zona Urbana</Option>
                             </Select>
                         </Form.Item>
                     </div>
@@ -197,12 +186,12 @@ const Registration_farm: React.FC = () => {
                     rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
                 >
                     <Select placeholder="Selecionar o tipo de Fazendas Pecuárias">
-                        <Option value="fazenda_corte">Fazendas de gado de corte</Option>
-                        <Option value="fazenda_leiteiro">Fazendas de gado leiteiro</Option>
-                        <Option value="pastagem_manejo">Pastagens e Manejo de Rebanho</Option>
-                        <Option value="fazenda_ovinos">Fazendas de criação de ovinos</Option>
-                        <Option value="fazend_suinos">Fazendas de suínos</Option>
-                        <Option value="fazenda_mista">Fazendas mistas</Option>
+                        <Option value='Fazenda corte'>Fazenda de gado de corte</Option>
+                        <Option value='Fazenda leiteiro'>Fazenda de gado leiteiro</Option>
+                        <Option value='Pastagem de manejo'>Pastagem de manejo</Option>
+                        <Option value='Fazenda de ovinos'>Fazenda de ovinos</Option>
+                        <Option value='Fazenda de suinos'>Fazenda de suinos</Option>
+                        <Option value='Fazenda mista'>Fazenda mista</Option>
                     </Select>
                 </Form.Item>
 
@@ -223,43 +212,15 @@ const Registration_farm: React.FC = () => {
                             <Input style={{ maxWidth: 184 }} />
                         </Form.Item>
                     </div>
-
-                    {/* <div >
-                        <Form.Item
-                        //    style={{maxWidth:300}}
-                            name="cidade"
-                            label="Cidade"
-                            tooltip="Informe a Cidade"
-
-                            rules={[{ required: true, message: 'Por favor insira a Cidade', whitespace: true }]}
-
-                        >
-                            <Input style={{maxWidth:182}}/>
-                        </Form.Item>
-                    </div> */}
-
                 </div>
-
-
-
-
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        <NavLink to='/perfil_user'>
-                            Salvar
-                        </NavLink>
-                    </Button>
-
-                    <Button type="primary" htmlType="submit">
-                        <NavLink to='/registration'>
-                            Voltar
-                        </NavLink>
+                        Salvar
                     </Button>
 
                 </Form.Item>
-                </Form>
-
+            </Form>
         </div>
     );
 };
@@ -269,13 +230,3 @@ export default Registration_farm;
 
 
 	
-	// rua VARCHAR(255),
-	// bairro VARCHAR(255),
-
-	// estado estados_enum,
-	// pais VARCHAR(50),
-	// numero INT,
-	// quadra INT,
-	// lote INT,
-	// complemento VARCHAR(120),
-	// zona zona_enum,

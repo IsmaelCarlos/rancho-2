@@ -1,5 +1,5 @@
 export interface PessoaType {
-    id_pessoa: string
+    id_pessoa: number
     nome: string
     cpf: string
     nascimento: string
@@ -7,5 +7,5 @@ export interface PessoaType {
     telefone: string
     email: string
     senha: string
-    id_endereco: number
+    id_fazenda: number
 }

@@ -10,6 +10,7 @@
 \c rancho;
 
 INSERT INTO medicamento (
+    nome_medicamento,
     tipo_medicamento,
     fabricante_medicamento,
     volume_medicamento,
