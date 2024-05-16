@@ -41,24 +41,25 @@ const tailFormItemLayout = {
 
 const Registration_farm: React.FC = () => {
 
-    
+
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
 
     const hideLoading = useRef<MessageType>();
 
-    const [ loading, setLoading ] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [form] = Form.useForm();
+    // const [insertionResult] = useState<FormFazendaType>();
 
     useEffect(() => {
-        if(!loading && hideLoading.current){
+        if (!loading && hideLoading.current) {
             hideLoading.current();
         }
-    }, [ loading ]);
+    }, [loading]);
 
     const onFinish = async (values: any) => {
-        try{
+        try {
             setLoading(true);
             const to_send = {
                 nome: values.nome_fazenda,
@@ -68,19 +69,19 @@ const Registration_farm: React.FC = () => {
                 estado: values.estado,
                 zona: values.zona_area,
                 pecuaria: values.tipo_fazenda,
-                id_pessoa: parseInt(queryParams.get('id_pessoa')??'')
+                id_pessoa: parseInt(queryParams.get('id_pessoa') ?? '')
             } satisfies FormFazendaType;
 
             hideLoading.current = message.loading(`Inserindo fazenda: ${to_send.nome}...`, 0);
-    
+
             await axios.post('http://localhost:6754/fazendas', to_send);
 
             message.success(`Fazenda ${to_send.nome} inserida com sucesso`);
         }
-        catch(err){
+        catch (err) {
             message.error(`Erro ao inserir`);
         }
-        finally{
+        finally {
             setLoading(false);
         }
     };
@@ -97,7 +98,7 @@ const Registration_farm: React.FC = () => {
                 initialValues={{ prefix: '55' }}
                 style={{ maxWidth: 600 }}
                 scrollToFirstError
-                // disabled={loading}
+            // disabled={loading}
             >
 
                 <Form.Item
@@ -214,12 +215,18 @@ const Registration_farm: React.FC = () => {
                     </div>
                 </div>
 
+
+
+
                 <Form.Item {...tailFormItemLayout}>
+
                     <Button type="primary" htmlType="submit">
                         Salvar
                     </Button>
 
                 </Form.Item>
+
+
             </Form>
         </div>
     );
@@ -229,4 +236,4 @@ export default Registration_farm;
 
 
 
-	
+

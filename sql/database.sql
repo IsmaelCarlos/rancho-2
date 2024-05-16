@@ -92,9 +92,9 @@ CREATE TABLE bovino (
 create table medicamento(
 	id_medicamento SERIAL,
 	id_medicamento_aplicado INTEGER NULL,
+	nome_medicamento VARCHAR(255),
 	tipo_medicamento medicamento_enum,
 	fabricante_medicamento VARCHAR(255),
-	-- quantidade_medicamento INT,
 	volume_medicamento FLOAT,
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
