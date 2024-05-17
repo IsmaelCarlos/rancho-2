@@ -1,3 +1,15 @@
+<!-- Autor: Ismael Carlos do Nascimento Galvão -->
+
+# PARA ACESSAR O PROJETO MRANCHO 
+## Acesse os seguintes links para acessar o Rancho Frontend, Rancho Backend e Rancho Board
+[Fontend](https://github.com/IsmaelCarlos/rancho-2)
+
+[Backend](https://github.com/IsmaelCarlos/rancho-backend)
+    
+[Board](https://github.com/IsmaelCarlos/rancho-board)
+
+
+
 # Bem vindo ao rancho 2
 
 ## Como instalar facilmente
@@ -10,17 +22,17 @@ npm install
 
 # FRONTEND
 Todo o Frontend foi desenvolvido com TypeScript, CSS, BOOTSTRAP
-    * As bibliotecas necessarias para rodar o Frontend
-        - npm
-        - react
+* As bibliotecas necessarias para rodar o Frontend
+    - npm
+    - react
 
 # BACKEND
 Todo o Backend foi desenvolvido com Express Framework web rápido, flexível e minimalista para Node.js
 foi ultilizado o Docker para subir o Banco
-    * As bibliotecas necessarias para rodar o Backen
-        - knex
-        - express
-        - docker
+* As bibliotecas necessarias para rodar o Backen
+    - knex
+    - express
+    - docker
 
 # Banco de Dados
 O para poder execultar o banco de dados foi escolhido o PostgresSql, pois facilita com a comunicação com o Backend.
@@ -56,3 +68,33 @@ O Frontend fica em espera até a TAG ser aproximada no modulo MFRC522, assim que
                         user informa 12
 Assim que o user terminar de cadastrar as informações iniciais do Bovino a identificação do bovino será 12 tanto tabela do Banco de dados como na id brinco
 
+
+# COLOCAR CODIGOS DAS PAGINAS AQUI 
+## CODIGO DE CADASTRO USUARIO E FAZENDA
+
+```jsx
+    const Registration_people: React.FC = () => {
+    };
+```
+Para mais informação [Registration_people](./src/screens/Registration_people.tsx) 
+
+# COLOCAR CODIGOS DO ESP32 
+    ...........
+    ...........
+    ...........
+
+# COLOCAR CODIGOS DO BACKEND 
+    ...........
+    ...........
+    ...........
+
+# COLOCAR CODIGOS BANCO DE DADOS  
+    ...........
+    ...........
+    ...........
+
+
+
+
+
+https://www.usinainfo.com.br/blog/esp32-wifi-comunicacao-com-a-internet/
