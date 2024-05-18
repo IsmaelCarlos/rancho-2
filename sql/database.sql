@@ -25,6 +25,10 @@ create type medicamento_enum as ENUM('Antibióticos', 'Anti-inflamatórios','Ant
 create type unidade_medida_enum as enum('ug','mg','g','mL','CP','AP','TB','FR','CX','CX2','CX3','L', 'T','kg', 'SC');
 -- Enum racao
 create type racao_enum as ENUM('Ração', 'Proteína','Suplemento','Sal','Nutricional');
+-- Enum raca
+create type raca_bovino as ENUM('Agnus','Nelore','Brahman','Brangus','Senepol','Hereford','caracu','Charolês','Guzerá','Tabapuã','Simental','Limousin','Chiania','Devon','Belgian Blue','Wagyu');
+-- Enum classificação 
+create type classificacao_bovino as ENUM('Gol','Cruzado');
 
 
 CREATE TYPE tipo_estoque AS ENUM('medicamento', 'racao');
@@ -78,6 +82,8 @@ CREATE TABLE bovino (
 	id_fazenda INTEGER NULL, -- foreign key  OK
 	display_brinco VARCHAR(180),
 	uid_brinco VARCHAR(180),
+	raca raca_bovino,
+	classe classificacao_bovino,
 	id_medicamento_aplicado INTEGER NULL, -- foreing key a fazer
 	id_racao_aplicado INTEGER NULL, -- foreing key a fazer
 	id_pessoa_proprietario_atual INTEGER NULL, -- foreing key a fazer
