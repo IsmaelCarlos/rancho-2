@@ -1,4 +1,5 @@
-<!-- Autor: Ismael Carlos do Nascimento Galvão -->
+# Bem vindo ao rancho 2 <img src="./src/assets/images/logotipo.svg">
+### Autor: Ismael Carlos do Nascimento Galvão
 
 # PARA ACESSAR O PROJETO MRANCHO 
 ## Acesse os seguintes links para acessar o Rancho Frontend, Rancho Backend e Rancho Board
@@ -10,7 +11,6 @@
 
 
 
-# Bem vindo ao rancho 2
 
 ## Como instalar facilmente
 
