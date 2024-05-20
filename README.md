@@ -1,4 +1,4 @@
-# Bem vindo ao rancho 2 <img src="./src/assets/images/logotipo.svg" height="42" width="42">
+# Bem vindo ao rancho 2 <img src="./src/assets/images/logotipo.svg" height="50" width="50">
 ### Autor: Ismael Carlos do Nascimento Galvão
 
 # PARA ACESSAR O PROJETO MRANCHO 
