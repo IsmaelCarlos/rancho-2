@@ -1,52 +1,29 @@
-
-import { IMaskInput } from "react-imask";
 import React, { useEffect, useRef, useState } from 'react';
-
-import type { CascaderProps } from 'antd';
 // import React from 'react';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space, message } from 'antd';
 import {
-    AutoComplete,
     Button,
-    Checkbox,
-    Col,
     Form,
     Input,
-    InputNumber,
-    Row,
     Select,
-    ConfigProvider,
+    Alert,
 } from 'antd';
-import { NavLink, useNavigate, useLocation, useLoaderData } from "react-router-dom";
-import { FaChevronLeft as BackIcon } from "react-icons/fa6";
-import { IoSaveSharp as SaveIcon } from "react-icons/io5";
-import BackNSave from '@/components/CommonButtons';
+import { NavLink, useNavigate, useLocation, useLoaderData } from "react-router-dom"
 import { MessageType } from "antd/es/message/interface";
 import { BovinoType } from "@/types/bovino";
 import axios from "axios";
 
+import styled from '@emotion/styled';
 
 
 const { Option } = Select;
 
-interface DataNodeType {
-    value: string;
-    label: string;
-    children?: DataNodeType[];
-}
-
-
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
+const AlertContainer = styled('div')(() => ({
+    '.ant-alert-description': {
+        maxWidth: 450,
+    }
+}))
 
 const tailFormItemLayout = {
     wrapperCol: {
@@ -76,11 +53,13 @@ const Registration_bovine: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [insertionResult, setInsertionResult] = useState<BovinoType>();
 
+    const [ openAlert, setOpenAlert ] = useState(false);
+
     useEffect(() => console.log({ insertionResult }), [insertionResult]);
 
     useEffect(() => {
         if (loading) {
-            const hide = message.loading(`Inserindo...`, 0);
+            const hide = message.loading(`Aguardando...`, 0);
             hideLoading.current = hide;
         } else {
             hideLoading.current && hideLoading.current();
@@ -90,6 +69,7 @@ const Registration_bovine: React.FC = () => {
     const onFinish = async (values: any) => {
         // console.log('Received values of form: ', values);
         try {
+            setLoading(true);
             const { ..._bovino } = values;
             const bovino = _bovino as Omit<BovinoType, 'id_bovino'>;
             const result = await axios.post('http://localhost:6754/bovino', bovino) as BovinoType;
@@ -208,13 +188,13 @@ const Registration_bovine: React.FC = () => {
                 </div>
 
                 <Form.Item
-                    name="uid_bovino"
+                    name="display_brinco"
                     label=" "
-                    tooltip="Identificação do brinco, o número que contem no brinco"
-                    // rules={[{ required: true, message: 'Por favor informe a identificação do brinco', whitespace: true }]}
+                    tooltip="Identificação do brinco, (apelido)"
+                    rules={[{ required: true, message: 'Por favor informe a identificação do brinco', whitespace: true }]}
                 >
                     {/* @ts-ignore */}
-                    <Input ref={idBrincoRef} placeholder=" " disabled title="ID do Brinco" />
+                    <Input ref={idBrincoRef} placeholder="Identificação do brinco, (apelido)" title="ID do Brinco" />
                 </Form.Item>
 
 
@@ -312,13 +292,52 @@ const Registration_bovine: React.FC = () => {
 
 
 
-                <Form.Item {...tailFormItemLayout}>
+                {
+                    !openAlert &&
+                    <Form.Item {...tailFormItemLayout}>
 
-                    <Button type="primary" htmlType="submit">
-                        Salvar
-                    </Button>
+                        <Button type="primary" onClick={async () => {
+                            try{
+                                await form.validateFields();
+                                setOpenAlert(true);
+                            }
+                            catch(err){
+                                message.error("Preencha corretamente os campos");
+                            }
+                        }}>
+                            Salvar
+                        </Button>
 
-                </Form.Item>
+                    </Form.Item>
+                }
+
+                {
+                    openAlert &&
+                    <AlertContainer>
+                        <Alert
+                            message="Salvar"
+                            description={"Para completar o processo de salvamento, ao clicar em continuar, você deve \
+                            aproximar a TAG, (brinco), do sensor para fazer a gravação. O salvamento só concluirá após a gravação. \
+                            Caso não leia a TAG o salvamento irá falahar."}
+                            type="info"
+                            action={
+                                <Space direction="vertical">
+                                    <Button size="small" type="primary" onClick={() => {
+                                        form.submit();
+                                    }}>
+                                        Continuar
+                                    </Button>
+                                    <Button size="small" danger ghost onClick={() => {
+                                        setOpenAlert(false);
+                                    }}>
+                                        Cancelar
+                                    </Button>
+                                </Space>
+                            }
+                            // closable
+                    />
+                    </AlertContainer>
+                }
             </Form>
         </div>
     );
