@@ -7,14 +7,19 @@ import {
     Input,
     Select,
     message,
+    Button,
 } from 'antd';
 import { useNavigate } from "react-router-dom";
 import BackNSave from '@/components/CommonButtons';
+import { BovinoType } from '@/types/bovino';
+import axios from 'axios';
 
 const Vaccinate: React.FC = () => {
 
     const [ ready, setReady ] = useState(false);
+    const [ loadingBovino, setLoadingBovino ] = useState(false);
     const [ brincoRead, setBrincoRead ] = useState(false);
+    const [ bovino, setBovino ] = useState<BovinoType>();
 
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         console.log(date, dateString);
@@ -22,28 +27,14 @@ const Vaccinate: React.FC = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => console.log({ bovino }), [ bovino ]);
+
     useEffect(() => {
         setReady(true);
     }, []);
 
     useEffect(() => {
-        if(ready){
-            message.info('Passe o brinco na leitora', 3);
-            fetch('http://localhost:8080')
-                .then(res => {
-                    if(res.status === 200){
-                        setBrincoRead(true);
-                        message.success('brinco lido', 400);
-                    }
-                    if(res.status === 500){
-                        throw new Error('Erro interno do servidor');
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    message.error('Brinco não lido');
-                })
-        }
+
     }, [ ready ]);
 
     return (
@@ -51,6 +42,75 @@ const Vaccinate: React.FC = () => {
         <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
 
+            {
+                !bovino &&
+                <>
+                    <Button
+                        onClick={async () => {
+                            try{
+                                setLoadingBovino(true);
+                                const result = await axios.get<{ payload: BovinoType }>('http://localhost:6754/bovino/rfid').then(({ data }) => data.payload);
+                                setBovino(result);
+                                setBrincoRead(true);
+                            }
+                            catch(err){
+                                console.error(err);
+                                if(axios.isAxiosError(err)){
+                                    message.error('Erro ao ler bovino: ' + err.response?.data.message);
+                                }
+                                else{
+                                    message.error('Erro ao ler bovino: ' + (err as Error).message);
+                                }
+                            }
+                            finally{
+                                setLoadingBovino(false);
+                            }
+                        }}
+                        loading={loadingBovino}
+                    >
+                        Ler bovino
+                    </Button>
+
+                    <div style={{ height: 50 }}></div>
+                </>
+            }
+
+            {
+                bovino
+                && <div style={{ marginBottom: 60, maxWidth: 590 }}>
+                    <h1>
+                        <strong>Bovino:</strong>
+                        &nbsp;
+                        { bovino.display_brinco }
+                    </h1>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        fontSize: '14pt',
+                    }}>
+                        <span>
+                            <strong>Raça:</strong>
+                            &nbsp;
+                            { bovino.raca }
+                        </span>
+                        <span>
+                            <strong>Id brinco:</strong>
+                            &nbsp;
+                            { bovino.uid_brinco }
+                        </span>
+                        <span>
+                            <strong>Nascimento:</strong>
+                            &nbsp;
+                            { new Date(bovino.data_nascimento).toLocaleDateString() }
+                        </span>
+                        <span>
+                            <strong>Peso:</strong>
+                            &nbsp;
+                            { bovino.peso_atual }
+                        </span>
+                    </div>
+                </div>
+            }
 
             <div style={{ display: 'flex' }}>
 
@@ -123,14 +183,18 @@ const Vaccinate: React.FC = () => {
 
 
 
-            <BackNSave
-                onBackClick={() => {
-                    navigate(-1);
-                }}
-                onSaveClick={() => {
-                    alert('Cliquei em salvar');
-                }}
-            />
+            {
+                brincoRead &&
+                <BackNSave
+                    onBackClick={() => {
+                        navigate(-1);
+                    }}
+                    onSaveClick={() => {
+                        alert('Cliquei em salvar');
+                    }}
+                />
+            }
+            
 
         </div>
     );
