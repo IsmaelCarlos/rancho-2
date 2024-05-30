@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
@@ -12,7 +11,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import BackNSave from '@/components/CommonButtons';
 import { BovinoType } from '@/types/bovino';
+import { MedicamentoType } from '@/types/medicamento';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
+const fetchMedicamentos = () => {
+    return axios.get<MedicamentoType[]>('http://localhost:6754/medicamento').then(({ data }) => data);
+}
 
 const Vaccinate: React.FC = () => {
 
@@ -20,6 +25,11 @@ const Vaccinate: React.FC = () => {
     const [ loadingBovino, setLoadingBovino ] = useState(false);
     const [ brincoRead, setBrincoRead ] = useState(false);
     const [ bovino, setBovino ] = useState<BovinoType>();
+
+    const getMedicamentos = useQuery({
+        queryKey: [ 'getMedicamentos' ],
+        queryFn: fetchMedicamentos,
+    });
 
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         console.log(date, dateString);
@@ -36,6 +46,14 @@ const Vaccinate: React.FC = () => {
     useEffect(() => {
 
     }, [ ready ]);
+
+    if(getMedicamentos.isLoading) return <div>
+        Carregando...
+    </div>;
+
+    if(getMedicamentos.isError) return <div>
+        { getMedicamentos.error.message }
+    </div>
 
     return (
 
@@ -124,19 +142,16 @@ const Vaccinate: React.FC = () => {
                     >
                         <Select disabled={!brincoRead} placeholder="Definir Vacina" style={{ width: 550 }}>
                             <option value=""></option>
+                            {
+                                getMedicamentos.data &&
+                                getMedicamentos.data.map(({ id_medicamento, tipo_medicamento, nome_medicamento }) => {
+                                    return <option key={id_medicamento} value={id_medicamento}>{ `${nome_medicamento}/${tipo_medicamento}` }</option>
+                                })
+                            }
                         </Select>
                     </Form.Item>
                 </div>
             </div>
-
-            <Form.Item
-                name="uid_bovino"
-                label=" "
-                tooltip="Identificação do brinco, o número que contem no brinco"
-                rules={[{ required: true, message: 'Por favor informe a identificação do brinco', whitespace: true }]}
-            >
-                <Input placeholder="Identificação do brinco" disabled={!brincoRead} />
-            </Form.Item>
 
             <Form.Item
                 name="observacao"
@@ -157,18 +172,14 @@ const Vaccinate: React.FC = () => {
                         tooltip="Selecione a data da vacinacao"
                         rules={[{ required: true, message: 'Por favor selecione a Data da vacinação', whitespace: true }]}
                     >
-                        <Space direction="vertical" >
-
-                            <DatePicker disabled={!brincoRead} onChange={onChange} placeholder="Data da Vacinação" style={{ width: 250 }} />
-
-                        </Space>
+                        <DatePicker disabled={!brincoRead} onChange={onChange} placeholder="Data da Vacinação" style={{ width: 250 }} />
                     </Form.Item >
                 </div>
 
                 <div >
                     <Form.Item
 
-                        name="peso_nascimento"
+                        name="peso_atual"
                         label=" "
                         tooltip="Informe o peso em @ do nascimento do Bovino"
 
