@@ -103,7 +103,7 @@ const Report_bovine = () => {
                                                         return <tr style={{ cursor: 'pointer' }} key={id_bovino} onClick={() => navigate(`/report_bovine/bovine/${uid_brinco}`)}  >
                                                             <td>{ display_brinco }</td>
                                                             <td style={{ textAlign: raca ? 'center' : undefined }}>{ raca || '-' }</td>
-                                                            <td>{ data_entrada_confinamento }</td>
+                                                            <td>{ (new Date(data_entrada_confinamento)).toLocaleString() }</td>
                                                             <td>
                                                                 <label className={`badge badge-${corPesoInicial(peso_nascimento)}`} htmlFor="">
                                                                     { peso_nascimento }kg
