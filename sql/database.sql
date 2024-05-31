@@ -105,7 +105,7 @@ create table medicamento(
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
-	bula VARCHAR(3000),
+	bula VARCHAR(5000),
 	primary key(id_medicamento)
 );
 
@@ -120,7 +120,7 @@ create table racao(
 	unidade_medida unidade_medida_enum,
 	data_validade date_type,
 	data_registro date_type,
-	informacao_racao VARCHAR(3000),
+	informacao_racao VARCHAR(5000),
 	primary key(id_racao)
 );
 
@@ -138,6 +138,8 @@ create table medicamento_aplicado(
 	id_medicamento_aplicado SERIAL,
 	id_bovino INTEGER NULL,
 	id_medicamento INTEGER NULL,
+	observacao VARCHAR (5000),
+	data_aplicada date_type,
 	primary key(id_medicamento_aplicado)
 );
 

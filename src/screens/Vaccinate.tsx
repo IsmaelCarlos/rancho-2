@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 import {
@@ -14,6 +14,8 @@ import { BovinoType } from '@/types/bovino';
 import { MedicamentoType } from '@/types/medicamento';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { MessageType } from 'antd/es/message/interface';
+import {Medicamento_aplicadoType} from '@/types/vacina';
 
 const fetchMedicamentos = () => {
     return axios.get<MedicamentoType[]>('http://localhost:6754/medicamento').then(({ data }) => data);
@@ -26,6 +28,13 @@ const Vaccinate: React.FC = () => {
     const [ brincoRead, setBrincoRead ] = useState(false);
     const [ bovino, setBovino ] = useState<BovinoType>();
 
+    const [loading, setLoading] = useState<boolean>(false);
+    const [insertionResult, setInsertionResult] = useState<Medicamento_aplicadoType>();
+
+    const navigate = useNavigate();
+
+    const [form] = Form.useForm();
+
     const getMedicamentos = useQuery({
         queryKey: [ 'getMedicamentos' ],
         queryFn: fetchMedicamentos,
@@ -35,7 +44,24 @@ const Vaccinate: React.FC = () => {
         console.log(date, dateString);
     };
 
-    const navigate = useNavigate();
+    const onFinish = async (values: any) =>{
+        try{
+            const { peso_atual, ...medicamento } = values;
+            const insert1 = await axios.post('http://localhost:6754/vacina', { ...medicamento, id_bovino: bovino?.id_bovino });
+            const insert2 = await axios.patch(`http://localhost:6754/bovino/${bovino?.id_bovino}`, { peso_atual });
+            console.log({
+                insert1,
+                insert2
+            });
+        }
+        catch (err){
+            console.error(err);
+            message.error('Erro ao inserir medicamento')
+        }
+        finally{
+            setLoading(false);
+        }
+    };
 
     useEffect(() => console.log({ bovino }), [ bovino ]);
 
@@ -55,10 +81,27 @@ const Vaccinate: React.FC = () => {
         { getMedicamentos.error.message }
     </div>
 
+    
+
+    // const hideLoading = useRef<MessageType>();
+
+    
+
+    
+
     return (
 
         <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
-
+             <Form
+                // {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                // initialValues={{ prefix: '55' }}
+                // style={{ maxWidth: 600 }}
+                scrollToFirstError
+                // disabled={loading}
+            >
 
             {
                 !bovino &&
@@ -131,11 +174,10 @@ const Vaccinate: React.FC = () => {
             }
 
             <div style={{ display: 'flex' }}>
-
+            
                 <div  >
                     <Form.Item
-
-                        name="define_vacina"
+                        name="id_medicamento"
                         label=" "
                         tooltip="Definar a vacina desejada para vacinar o bovino"
                         rules={[{ required: true, message: 'Por favor seleciona a vacina!' }]}
@@ -166,11 +208,11 @@ const Vaccinate: React.FC = () => {
                 <div >
 
                     <Form.Item
-                        name="data_bovino"
+                        name="data_aplicada"
                         label=" "
 
                         tooltip="Selecione a data da vacinacao"
-                        rules={[{ required: true, message: 'Por favor selecione a Data da vacinação', whitespace: true }]}
+                        rules={[{ required: true, message: 'Por favor selecione a Data da vacinação' }]}
                     >
                         <DatePicker disabled={!brincoRead} onChange={onChange} placeholder="Data da Vacinação" style={{ width: 250 }} />
                     </Form.Item >
@@ -181,12 +223,12 @@ const Vaccinate: React.FC = () => {
 
                         name="peso_atual"
                         label=" "
-                        tooltip="Informe o peso em @ do nascimento do Bovino"
+                        tooltip="Informe o peso em Kg Atual do Bovino"
 
                         rules={[{ required: true, message: 'Por favor insira o peso', whitespace: true }]}
 
                     >
-                        <Input disabled={!brincoRead} style={{ width: 250 }} placeholder="Peso de Nascimento" />
+                        <Input disabled={!brincoRead} style={{ width: 250 }} placeholder="Peso de Atual" />
                     </Form.Item>
                 </div>
 
@@ -201,12 +243,12 @@ const Vaccinate: React.FC = () => {
                         navigate(-1);
                     }}
                     onSaveClick={() => {
-                        alert('Cliquei em salvar');
+                        form.submit();
                     }}
                 />
             }
             
-
+            </Form>
         </div>
     );
 };
