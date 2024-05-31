@@ -53,6 +53,8 @@ const Vaccinate: React.FC = () => {
                 insert1,
                 insert2
             });
+
+            window.location.reload();
         }
         catch (err){
             console.error(err);

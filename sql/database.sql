@@ -272,44 +272,33 @@ JOIN fazenda f
 	ON p.id_fazenda = f.id_fazenda;
 
 CREATE OR REPLACE VIEW bovino_view AS 
-SELECT 
-    p.*,
-    (
-        SELECT json_build_object(
-            'id_fazenda' , e.id_fazenda,
-            'id_endereco', e.id_endereco,
-            'nome_fazenda', e.nome,
-            'tamanho_hectare', e.tamanho_hectare,
-            'pecuaria', e.pecuaria
-        )
-        FROM fazenda e
-        WHERE e.id_fazenda = p.id_fazenda
-    ) AS fazenda, 
-    (
-        SELECT json_build_object
-        (
-            'id_medicamento_aplicado', a.id_medicamento_aplicado,
-            'id_bovino', a.id_bovino,
-            'id_medicamento', a.id_medicamento -- Corrected field name
-        )
-        FROM medicamento_aplicado a
-        WHERE a.id_medicamento_aplicado = p.id_medicamento_aplicado
-    ) AS medicamento_aplicado,
-    (
-        SELECT json_build_object
-        (
-            'id_racao_aplicado', b.id_racao_aplicado,
-            'id_bovino', b.id_bovino,
-            'id_racao', b.id_racao
-        )
-        FROM racao_aplicado b
-        WHERE b.id_racao_aplicado = p.id_racao_aplicado
-    ) AS racao_aplicado
-FROM bovino p;
-
-
-
-
+select
+	b.*,
+	json_agg(
+		json_build_object(
+			'id_medicamento_aplicado', ma.id_medicamento_aplicado,
+			'id_bovino', ma.id_bovino,
+			'id_medicamento', ma.id_medicamento,
+			'observacao', ma.observacao,
+			'data_aplicada', ma.data_aplicada,
+			'medicamento', json_build_object(
+				'id_medicamento', m.id_medicamento,
+				'id_medicamento_aplicado', m.id_medicamento_aplicado,
+				'nome_medicamento', m.nome_medicamento,
+				'tipo_medicamento', m.tipo_medicamento,
+				'fabricante_medicamento', m.fabricante_medicamento,
+				'volume_medicamento', m.volume_medicamento,
+				'unidade_medida', m.unidade_medida,
+				'data_validade', m.data_validade,
+				'data_registro', m.data_registro,
+				'bula', m.bula
+			) 
+		) 
+	) as medicamentos_aplicados
+from bovino b
+left join medicamento_aplicado ma on ma.id_bovino = b.id_bovino
+left join medicamento m on m.id_medicamento = ma.id_medicamento
+group by b.id_bovino;
 
 
 
@@ -337,18 +326,9 @@ SELECT
 FROM fazenda p;
 
 CREATE OR REPLACE VIEW medicamento_view AS
-SELECT
-	p.*,
-	(
-		SELECT json_build_object(
-			'id_medicamento_aplicado', e.id_medicamento_aplicado,
-			'id_bovino', e.id_bovino,
-			'id_medicamento', e.id_medicamento
-		)
-		FROM medicamento_aplicado e
-		WHERE e.id_medicamento = p.id_medicamento
-	)AS medicamento_aplicado
-FROM medicamento p;
+select
+	m.*
+from medicamento m;
 
 
 CREATE OR REPLACE VIEW racao_view AS

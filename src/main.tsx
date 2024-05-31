@@ -85,10 +85,10 @@ const router = createBrowserRouter([
             },
             {
                 path:  '/report_bovine',
-                element: <Report_bovine/>
+                element: <Report_bovine/>,
             },
             {
-                path: '/bovine/:id',
+                path: '/report_bovine/bovine/:id',
                 element: <Bovine/>
             },
             {   

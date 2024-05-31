@@ -1,3 +1,4 @@
+import { MedicamentoType } from '@/types/medicamento';
 export interface BovinoType{
     id_bovino : number
 	id_fazenda: number
@@ -13,6 +14,10 @@ export interface BovinoType{
 	peso_nascimento: number
 	peso_confinamento: number
 	peso_atual: number
+	medicamentos_aplicados: Array<{
+		
+		medicamento: MedicamentoType
+	}>
     // destino_bovino: string
 }
     

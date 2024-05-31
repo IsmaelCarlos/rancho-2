@@ -2,18 +2,31 @@ import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { FaChevronLeft as BackIcon } from 'react-icons/fa6';
 import BackNSave from '@/components/CommonButtons';
+import { BovinoType } from '@/types/bovino';
 import { bovine } from '@/data/bonive';
 
 import { useNavigate } from "react-router";
-// import { FaChevronLeft as BackIcon } from "react-icons/fa6";
-const Report_bovine: React.FC = () => {
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
+function fetchBovino() {
+    return axios.get<BovinoType[]>('http://localhost:6754/bovino').then(({ data }) => data);
+}
+
+
+const Report_bovine = () => {
+
+    const getBovino = useQuery({
+        queryKey: [ 'getbovino' ],
+        queryFn: fetchBovino
+    });
 
 
     const corPesoInicial = (peso: number): string => {
         const pesoNum = peso;
-        if (pesoNum <= 2)
+        if (pesoNum <= 12)
             return 'danger';
-        else if (pesoNum > 2)
+        else if (pesoNum > 12)
             return 'success';
         else
             return 'info';
@@ -22,11 +35,11 @@ const Report_bovine: React.FC = () => {
 
     const corPesoAtual = (peso: number): string => {
         const pesoNum = peso;
-        if (pesoNum < 8)
+        if (pesoNum < 200)
             return  'danger';
-        else if (pesoNum < 17)
+        else if (pesoNum < 300)
             return 'warning';
-        else if (pesoNum >= 17)
+        else if (pesoNum >= 400)
             return 'success';
         else
             return 'info';
@@ -36,6 +49,14 @@ const Report_bovine: React.FC = () => {
     }, []);
 
     const navigate = useNavigate();
+
+    if(getBovino.isLoading) return <div>
+        Carregando...
+    </div>
+
+    if(getBovino.isError) return <div>
+        Erro: { getBovino.error.message }
+    </div>
 
     return (
         <div>
@@ -69,19 +90,28 @@ const Report_bovine: React.FC = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    bovine.map(element => {
-                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/bovine/${element.id}`)} key={element.id} >
-                                                            <td>{ element.id }</td>
-                                                            <td style={{ textAlign: element.raca ? 'center' : undefined }}>{ element.raca || '-' }</td>
-                                                            <td>{ element.data_nascimento }</td>
+                                                    getBovino.data &&
+                                                    getBovino.data.map(({
+                                                        id_bovino,
+                                                        display_brinco,
+                                                        uid_brinco,
+                                                        raca,
+                                                        data_entrada_confinamento,
+                                                        peso_nascimento,
+                                                        peso_atual
+                                                    }) => {
+                                                        return <tr style={{ cursor: 'pointer' }} key={id_bovino} onClick={() => navigate(`/report_bovine/bovine/${uid_brinco}`)}  >
+                                                            <td>{ display_brinco }</td>
+                                                            <td style={{ textAlign: raca ? 'center' : undefined }}>{ raca || '-' }</td>
+                                                            <td>{ data_entrada_confinamento }</td>
                                                             <td>
-                                                                <label className={`badge badge-${corPesoInicial(element.peso_inicial)}`} htmlFor="">
-                                                                    { element.peso_inicial }@
+                                                                <label className={`badge badge-${corPesoInicial(peso_nascimento)}`} htmlFor="">
+                                                                    { peso_nascimento }kg
                                                                 </label>
                                                             </td>
                                                             <td>
-                                                                <label className={`badge badge-${corPesoAtual(element.peso_atual)}`} htmlFor="">
-                                                                    { element.peso_atual }@
+                                                                <label className={`badge badge-${corPesoAtual(peso_atual)}`} htmlFor="">
+                                                                    { peso_atual }kg
                                                                 </label>
                                                             </td>
                                                         </tr>

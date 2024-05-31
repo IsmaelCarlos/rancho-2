@@ -3,9 +3,16 @@ import { useNavigate, useParams } from "react-router";
 import React, { useEffect } from 'react';
 import { Flex } from 'antd';
 import CommonButtons from '@/components/CommonButtons';
+import { type QueryFunction, useQuery } from '@tanstack/react-query';
+import { BovinoType } from '@/types/bovino';
 
 import '@/css/tables_bovines_report_v2.css';
+import axios from 'axios';
 
+const fetchBovino: QueryFunction<BovinoType, (string | undefined)[], never> = ({ queryKey }) => {
+    // @ts-ignore
+    return axios.get(`http://localhost:6754/bovino/by-uid-brinco/${ queryKey[1] }`).then(({ data }) => data[0]);
+}
 
 
 const Bovine: React.FC = ()=>{
@@ -16,6 +23,21 @@ const Bovine: React.FC = ()=>{
     // @ts-ignore
     const bovine = bovines.find(b => b.id == id);
 
+    const getBovino = useQuery({
+        queryKey: [ 'getBovino', id ],
+        queryFn: fetchBovino
+    });
+
+    if(getBovino.isLoading) return <div>
+        Carregando...
+    </div>
+
+    if(getBovino.isError) return <div>
+        Erro: { getBovino.error.message }
+    </div>
+
+    const { data } = getBovino;
+
     return(
        <div className="row">
             <div className="col py-3  ">
@@ -25,15 +47,13 @@ const Bovine: React.FC = ()=>{
                     <div className=" col-lg-12 stretch-card">
                         <div >
                             <div >
-
-
-
                                 <div id="dados_imprimir" className="table-responsive">
                                     <div className="table2">
-                                        <h4 className="span-24" id="identificador">Relatórios do Bovino <text>de numerção { id } { bovine?.raca } {bovine?.classificacao}</text>
+                                        <h1>{ data?.display_brinco }</h1>
+                                        <h4 className="span-24" id="identificador">Relatórios do Bovino <text>do brinco { id } { bovine?.raca } {bovine?.classificacao}</text>
                                         </h4>
-                                        <h4 className="span-24 subtitle" id="proprietario" >Proprietário 
-                                            <text> {bovine?.proprietario}</text></h4>
+                                        {/* <h4 className="span-24 subtitle" id="proprietario" >Proprietário 
+                                            <text> {bovine?.proprietario}</text></h4> */}
 
                                         <div className="span-24 vspace"></div>
 
@@ -42,29 +62,30 @@ const Bovine: React.FC = ()=>{
 
                                         {/* Primeiros dados  */}
                                         <div className="th span-6">Data de Nascimento</div>
-                                        <div className="th span-6">Peso de Nascimento @</div>
-                                        <div className="th span-6">Peso Atual @</div>
+                                        <div className="th span-6">Peso de Nascimento kg</div>
+                                        <div className="th span-6">Peso Atual kg</div>
                                         <div className="th span-6">Raça</div>
                                         {/* <div className="th span-6">Classificação</div> */}
                                         <hr className="span-24"/>
 
                                         <div className="td span-6">
-                                            <p id="data_nascimento"> <text>{ bovine?.data_nascimento }</text></p>
+                                            {/* @ts-ignore */}
+                                            <p id="data_nascimento"> <text>{ (new Date(data?.data_nascimento)).toLocaleString() }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="peso_inicial"> <text>{ bovine?.peso_inicial }</text></p>
+                                            <p id="peso_inicial"> <text>{ data?.peso_nascimento }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="peso_atual"> <text>{ bovine?.peso_atual }</text></p>
+                                            <p id="peso_atual"> <text>{ data?.peso_atual }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="raca"> <text>{ bovine?.raca }</text></p>
+                                            <p id="raca"> <text>{ data?.raca }</text></p>
                                         </div>
                                         <div className="span-24 vspace"></div>
                                         {/* Fim Primeiros dados  */}
 
                                         {/* Segunda Linha de dados  */}
-                                        <h6 className="span-24">Alimentação e Suplementação</h6>
+                                        {/* <h6 className="span-24">Alimentação e Suplementação</h6>
 
                                         <div className="th span-6">Ração</div>
                                         <div className="th span-6">Capim</div>
@@ -84,7 +105,7 @@ const Bovine: React.FC = ()=>{
                                         <div className="td span-6">
                                             <p id="silo"> <text>{ bovine?.silo }</text></p>
                                         </div>
-                                        <div className="span-24 vspace"></div>
+                                        <div className="span-24 vspace"></div> */}
                                         {/* Fim segunda Linha de dados  */}
 
                                         {/* Terceira Linha de dados  */}
@@ -99,8 +120,9 @@ const Bovine: React.FC = ()=>{
                                         <div className="td span-6">
                                             <ul>
                                                 {
-                                                    bovine?.vacina.map((vacina, indice) => {
-                                                        return <li key={indice}>{ vacina.name }</li>
+                                                    data?.medicamentos_aplicados.map(({ medicamento }) => {
+                                                        const { id_medicamento, nome_medicamento } = medicamento;
+                                                        return <li key={id_medicamento}>{nome_medicamento}</li>
                                                     })
                                                 }
                                             </ul>
@@ -108,8 +130,9 @@ const Bovine: React.FC = ()=>{
                                         <div className="td span-6">
                                             <ul>
                                                 {
-                                                    bovine?.vacina.map((vacina, indice) => {
-                                                        return <li key={indice}>{ vacina.tipo_vacina }</li>
+                                                    data?.medicamentos_aplicados.map(({ medicamento }) => {
+                                                        const { id_medicamento, tipo_medicamento } = medicamento;
+                                                        return <li key={id_medicamento}>{ tipo_medicamento }</li>
                                                     })
                                                 }
                                             </ul>
@@ -117,8 +140,9 @@ const Bovine: React.FC = ()=>{
                                         <div className="td span-6">
                                             <ul>
                                                 {
-                                                    bovine?.vacina.map((vacina, indice) => {
-                                                        return <li key={indice}>{ vacina.dosagem_quantidade_vacina }</li>
+                                                    data?.medicamentos_aplicados.map(({ medicamento }) => {
+                                                        const { id_medicamento, volume_medicamento } = medicamento;
+                                                        return <li key={id_medicamento}>{ volume_medicamento }</li>
                                                     })
                                                 }
                                             </ul>
@@ -126,8 +150,9 @@ const Bovine: React.FC = ()=>{
                                         <div className="td span-6">
                                             <ul>
                                                 {
-                                                    bovine?.vacina.map((vacina, indice) => {
-                                                        return <li key={indice}>{ vacina.name }</li>
+                                                    data?.medicamentos_aplicados.map(({ medicamento }) => {
+                                                        const { id_medicamento,  } = medicamento;
+                                                        return <li key={id_medicamento}>A implementar</li>
                                                     })
                                                 }
                                             </ul>
@@ -135,19 +160,19 @@ const Bovine: React.FC = ()=>{
                                         <div className="span-24 vspace"></div>
                                         {/* Fim Terceira Linha de dados  */}
 
-                                        {
+                                        {/* {
                                             bovine?.relatorio &&
                                             <div className="tr span-24">
                                                 <h5>Relatório prescrito pelo Zootecnista: </h5>
                                                 <p id="relatorio"> <text>{ bovine?.relatorio }</text></p>
                                             </div>
-                                        }
+                                        } */}
                                     </div>
                                 </div>
                                 <CommonButtons
-                                    onBackClick={() => navigate('/report')}
-                                    onNextClick={() => navigate(`/bovine/${parseInt(id??'0')+1}`)}
-                                    onPreviousClick={() => navigate(`/bovine/${parseInt(id??'0')-1}`)}
+                                    onBackClick={() => navigate(-1)}
+                                    // onNextClick={() => navigate(`/bovine/${parseInt(id??'0')+1}`)}
+                                    // onPreviousClick={() => navigate(`/bovine/${parseInt(id??'0')-1}`)}
                                 />
                             </div>
                         </div>
