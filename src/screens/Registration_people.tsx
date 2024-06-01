@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 import { NavLink } from "react-router-dom";
+// import { Form, Input } from 'antd';
+import InputMask from 'react-input-mask';
 import {
     AutoComplete,
     Button,
@@ -75,6 +77,9 @@ const Registration_people: React.FC = () => {
             setLoading(true);
             const { confirma_senha, prefix, ..._pessoa } = values;
             const pessoa = _pessoa as Omit<PessoaType, 'id_pessoa'>;
+            // Corrigindo dado que está indo
+            pessoa.cpf = pessoa.cpf.replace(/_$/, '');
+            // console.log(pessoa) aqui  verifica o que está vindo 
             const result = await axios.post('http://localhost:6754/pessoas', pessoa).then(({ data }) => data.result[0] as PessoaType);
             message.success(`${pessoa.nome} inserido com sucesso`);
             setInsertionResult(result);
@@ -119,16 +124,44 @@ const Registration_people: React.FC = () => {
     };
 
 
+    const validarCPF = (cpf: string): boolean => {
+        cpf = cpf.replace(/[^\d]+/g, '');
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+    
+        let soma = 0;
+        let resto;
+    
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+    
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf.substring(9, 10))) return false;
+    
+        soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+    
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf.substring(10, 11))) return false;
+    
+        return true;
+    };
+    
+
     return (
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
             <Form
-                {...formItemLayout}
+                // {...formItemLayout}
                 form={form}
                 name="register"
                 onFinish={onFinish}
                 initialValues={{ prefix: '55' }}
-                style={{ maxWidth: 600 }}
+                // style={{ maxWidth: 600 }}
                 scrollToFirstError
                 disabled={loading}
             >
@@ -137,11 +170,11 @@ const Registration_people: React.FC = () => {
                 <Form.Item
 
                     name="nome"
-                    label="Nome"
+                    label=" "
                     tooltip="Digite o nome completo"
                     rules={[{ required: true, message: 'Por favor insira seu nome!', whitespace: true }]}
                 >
-                    <Input />
+                    <Input placeholder="Nome Completo" style={{ width: 500 }} />
                 </Form.Item>
 
 
@@ -149,34 +182,48 @@ const Registration_people: React.FC = () => {
                 <Form.Item
 
                     name="cpf"
-                    label="CPF"
+                    label=" "
                     tooltip="Informe  o CPF"
 
-                    rules={[{ required: true, message: 'Por favor insira o CPF', whitespace: true }]}
-
+                    // rules={[{ required: true, message: 'Por favor insira o CPF', whitespace: true }]}
+                    rules={[
+                        { required: true, message: 'Por favor insira o CPF', whitespace: true },
+                        {
+                            validator: (_, value) => {
+                                if (!value) {
+                                    return Promise.resolve();
+                                }
+                                return validarCPF(value)
+                                    ? Promise.resolve()
+                                    : Promise.reject(new Error('CPF inválido'));
+                            }
+                        }
+                    ]}
 
                 >
-                   
-                    <Input />
+                    <InputMask mask="999.999.999-99" placeholder="CPF">
+                        {/* @ts-ignore */}
+                        {(inputProps: any) => <Input {...inputProps} style={{ width: 500 }} />}
+                    </InputMask>
+                    {/* <Input placeholder="CPF" style={{ width: 500 }} /> */}
                 </Form.Item>
 
                 <Form.Item
                     name="nascimento"
-                    label="Nascimento"
+                    label=" "
                     tooltip="Selecione a Data de Nascimento"
-                    // rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento', whitespace: true }]}
+                    // rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento' }]}
                 >
-                    <Space direction="vertical">
                     
-                    <DatePicker onChange={onChange} />
+                    <DatePicker onChange={onChange} placeholder='Data Nascimento' style={{width: 500}} />
                     
-                </Space>
+                
                 </Form.Item>
                 
 
                 <Form.Item
                     name="genero"
-                    label="Gênero"
+                    label=" "
                     tooltip="Selecione o Gênero que se identifica"
                     rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
                 >
@@ -189,27 +236,29 @@ const Registration_people: React.FC = () => {
                     
                 <Form.Item
                     name="telefone"
-                    label="Telefone"
+                    label=" "
                     tooltip="Digite o número de contato"
                     rules={[{ required: true, message: 'Por favor insira seu número' }]}
                 >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
+                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder='Telefone'/>
                 </Form.Item>
 
 
                 <Form.Item
                     name="email"
-                    label="Email"
+                    label=" "
+                    tooltip="Digitar o Email para o cadastrato"
                     rules={[{ required: true, message: 'Por favor insira seu email!' }]}
                 >
-                    <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="exemplo@gmail.com">
+                    <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="Email:exemplo@gmail.com">
                         <Input />
                     </AutoComplete>
                 </Form.Item>
 
                 <Form.Item
                     name="senha"
-                    label="Senha"
+                    label=" "
+                    tooltip="Digite a senha, aconselho a digitar uma senha com letras maiúsculas minúsclas e números para uma segurança maior"
                     rules={[
                         {
                             required: true,
@@ -218,30 +267,31 @@ const Registration_people: React.FC = () => {
                     ]}
                     hasFeedback
                 >
-                    <Input.Password />
+                    <Input.Password  placeholder='Senha'/>
                 </Form.Item>
 
                 <Form.Item
                     name="confirma_senha"
-                    label="Confirma Senha"
+                    label=" "
+                    tooltip="Digite a senha novamente, para confirmar o cadastro"
                     dependencies={['senha']}
                     hasFeedback
                     rules={[
                         {
                             required: true,
-                            message: 'Porfavor inserir senha corretamente',
+                            message: 'Por favor inserir senha corretamente',
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value || getFieldValue('senha') === value) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('A senha inserida não corresponde!'));
+                                return Promise.reject(new Error('A senha inserida não corresponde, por favor verifique novamente!'));
                             },
                         }),
                     ]}
                 >
-                    <Input.Password />
+                    <Input.Password placeholder='Confirme a Senha'/>
                 </Form.Item>
 
 
