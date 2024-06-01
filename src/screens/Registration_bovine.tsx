@@ -12,6 +12,7 @@ import {
 import { NavLink, useNavigate, useLocation, useLoaderData } from "react-router-dom"
 import { MessageType } from "antd/es/message/interface";
 import { BovinoType } from "@/types/bovino";
+import CommonButtons from '@/components/CommonButtons';
 import axios from "axios";
 
 import styled from '@emotion/styled';
@@ -290,27 +291,40 @@ const Registration_bovine: React.FC = () => {
                 </Select>
             </Form.Item> */}
 
+                <div style={{ display: 'flex' }}>
+                    <div>
+                        <CommonButtons
+                            onBackClick={() => navigate('/perfil_user')}
+                        />    
+                    </div>
 
+                    <div>
+                    {
+                        !openAlert &&
+                        
+                        <Form.Item {...tailFormItemLayout}>
+                            
+                            <Button type="primary" onClick={async () => {
+                                try{
+                                    await form.validateFields();
+                                    setOpenAlert(true);
+                                }
+                                catch(err){
+                                    message.error("Preencha corretamente os campos");
+                                }
+                            }}>
+                                Salvar
+                            </Button>
 
-                {
-                    !openAlert &&
-                    <Form.Item {...tailFormItemLayout}>
+                        </Form.Item>
+                    
+                    }
 
-                        <Button type="primary" onClick={async () => {
-                            try{
-                                await form.validateFields();
-                                setOpenAlert(true);
-                            }
-                            catch(err){
-                                message.error("Preencha corretamente os campos");
-                            }
-                        }}>
-                            Salvar
-                        </Button>
-
-                    </Form.Item>
-                }
-
+                    </div> 
+                
+                </div>
+            
+           
                 {
                     openAlert &&
                     <AlertContainer>
@@ -338,6 +352,7 @@ const Registration_bovine: React.FC = () => {
                     />
                     </AlertContainer>
                 }
+                 
             </Form>
         </div>
     );
