@@ -9,6 +9,9 @@ export interface FazendaType {
     pecuaria: string
 }
 
+export interface FazendaComEnderecoType extends FazendaType {
+    endereco: EnderecoType
+}
 
 export type FormFazendaType =  Omit<FazendaType, 'id_fazenda' | 'id_endereco'>
     & Pick<EnderecoType, 'zona' | 'cep_endereco' | 'estado' | 'cidade'>

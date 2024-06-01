@@ -22,7 +22,7 @@ export default function Sidebar(props: PropsWithChildren<{ color?: string }>){
                     <span className="fa fa-user"></span> Conta
                 </NavLink>
             </li>
-            <li>
+            {/* <li>
                 <a href="#"><span className="fa fa-sticky-note"></span> Blog</a>
             </li>
             <li>./code
@@ -30,7 +30,7 @@ export default function Sidebar(props: PropsWithChildren<{ color?: string }>){
             </li>
             <li>
                 <a href="#"><span className="fa fa-paper-plane"></span> Contacts</a>
-            </li>
+            </li> */}
         </ul>
     </nav>
 }

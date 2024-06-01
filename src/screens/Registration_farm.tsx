@@ -8,9 +8,11 @@ import {
     message,
 } from 'antd';
 import { NavLink, useLocation } from "react-router-dom";
-import { FormFazendaType } from '@/types/fazenda';
+import { FormFazendaType, FazendaComEnderecoType } from '@/types/fazenda';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { MessageType } from 'antd/es/message/interface';
+
 
 const { Option } = Select;
 
@@ -86,30 +88,29 @@ const Registration_farm: React.FC = () => {
         }
     };
 
-
     return (
 
         <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
             <Form
-                {...formItemLayout}
+                // {...formItemLayout}
                 form={form}
                 onFinish={onFinish}
-                initialValues={{ prefix: '55' }}
-                style={{ maxWidth: 600 }}
+                // initialValues={{ prefix: '55' }}
+                // style={{ maxWidth: 600 }}
                 scrollToFirstError
             // disabled={loading}
             >
 
                 <Form.Item
-                    style={{ maxWidth: 540 }}
+
 
                     name="nome_fazenda"
-                    label="Fazenda"
+                    label=" "
                     tooltip="Digite o nome da Fazenda"
                     rules={[{ required: true, message: 'Por favor insira o nome!', whitespace: true }]}
                 >
-                    <Input />
+                    <Input placeholder='Nome da Fazenda' style={{ width: 540 }} />
                 </Form.Item>
 
 
@@ -117,30 +118,35 @@ const Registration_farm: React.FC = () => {
                 <div style={{ display: 'flex' }}>
 
                     <div >
+
+
                         <Form.Item
 
-                            name="zona_area"
-                            label="Área "
-                            tooltip="Localização de área de zona rural ou zona urbana da Fazenda."
-                            rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
+                            name="zona"
+                            label=" "
+                            tooltip="Informe a Zona."
+                            rules={[{ required: true, message: 'Por favor seleciona o Estado!' }]}
                         >
-                            <Select placeholder="Selecionar o tipo da Área">
+                            <Select placeholder="Zona" style={{ width: 250 }}>
                                 <Option value="RURAL">Zona Rural</Option>
                                 <Option value="URBANA">Zona Urbana</Option>
                             </Select>
                         </Form.Item>
+
+
+
                     </div>
                     <div >
                         <Form.Item
 
                             name="cep"
-                            label="CEP"
+                            label=" "
                             tooltip="Informe  o CEP"
 
                             rules={[{ required: true, message: 'Por favor insira o CEP', whitespace: true }]}
 
                         >
-                            <Input />
+                            <Input placeholder='CEP' style={{ width: 250 }} />
                         </Form.Item>
                     </div>
 
@@ -150,30 +156,49 @@ const Registration_farm: React.FC = () => {
 
                     <div >
 
-                        <Form.Item
+                        {/* <Form.Item
 
                             name="estado"
-                            label="Estado"
+                            label=" "
                             tooltip="Informe o Estado"
 
                             rules={[{ required: true, message: 'Por favor insira o Estado', whitespace: true }]}
 
                         >
-                            <Input style={{ maxWidth: 184 }} />
+                            <Input style={{ width: 250 }} placeholder='Estado' />
+                        </Form.Item> */}
+
+                        <Form.Item
+
+                            name="estado"
+                            label=" "
+                            tooltip="Localização de área de zona rural ou zona urbana da Fazenda."
+                            rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
+                        >
+                            <Select placeholder="Selecionar o tipo da Área" style={{ width: 250 }}>
+                                {
+                                    [
+                                        'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+                                    ].map(estado => {
+                                        return <option key={estado} value={estado}>{`${estado}`}</option>
+                                    })
+                                }
+                            </Select>
                         </Form.Item>
+
                     </div>
 
                     <div >
                         <Form.Item
                             //    style={{maxWidth:300}}
                             name="cidade"
-                            label="Cidade"
+                            label=" "
                             tooltip="Informe a Cidade"
 
                             rules={[{ required: true, message: 'Por favor insira a Cidade', whitespace: true }]}
 
                         >
-                            <Input style={{ maxWidth: 182 }} />
+                            <Input style={{ width: 250}} placeholder='Cidade' />
                         </Form.Item>
                     </div>
 
@@ -182,11 +207,11 @@ const Registration_farm: React.FC = () => {
 
                 <Form.Item
                     name="tipo_fazenda"
-                    label="Pecuária "
+                    label=" "
                     tooltip="Tipos de fazendas pecuárias, cada uma especializada em diferentes aspectos da criação de animais."
                     rules={[{ required: true, message: 'Por favor seleciona o Gênero!' }]}
                 >
-                    <Select placeholder="Selecionar o tipo de Fazendas Pecuárias">
+                    <Select placeholder="Selecionar o tipo de Fazendas Pecuárias" style={{width: 540}}>
                         <Option value='Fazenda corte'>Fazenda de gado de corte</Option>
                         <Option value='Fazenda leiteiro'>Fazenda de gado leiteiro</Option>
                         <Option value='Pastagem de manejo'>Pastagem de manejo</Option>
@@ -204,13 +229,13 @@ const Registration_farm: React.FC = () => {
                         <Form.Item
 
                             name="alqueiro"
-                            label="Alqueiro"
+                            label=" "
                             tooltip="Alqueire é uma referência para definir o tamanho de uma área rural "
 
                             rules={[{ required: true, message: 'Por favor insira o tamanho do Alqueiro', whitespace: true }]}
 
                         >
-                            <Input style={{ maxWidth: 184 }} />
+                            <Input style={{ width: 540 }} placeholder='Tamanho Alqueiro'/>
                         </Form.Item>
                     </div>
                 </div>

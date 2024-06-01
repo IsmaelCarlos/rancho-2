@@ -17,6 +17,7 @@ import { PessoaType } from '@/types/people';
 
 import axios from 'axios';
 import { MessageType } from 'antd/es/message/interface';
+import { InputContainer } from '@/screens/Registration_people/style';
 
 const { Option } = Select;
 
@@ -57,23 +58,33 @@ const Registration_people: React.FC = () => {
 
     const hideLoading = useRef<MessageType>();
 
-    const [ loading, setLoading ] = useState<boolean>(false);
-    const [ insertionResult, setInsertionResult ] = useState<PessoaType>();
+    const [phone, setPhone] = useState('');
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+        }
+    };
 
-    useEffect(() => console.log({ insertionResult }), [ insertionResult ]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [insertionResult, setInsertionResult] = useState<PessoaType>();
+
+    useEffect(() => console.log(phone), [phone]);
+
+    useEffect(() => console.log({ insertionResult }), [insertionResult]);
 
     useEffect(() => {
-        if(loading){
+        if (loading) {
             const hide = message.loading(`Inserindo...`, 0);
             hideLoading.current = hide;
         }
-        else{
+        else {
             hideLoading.current && hideLoading.current();
         }
-    }, [ loading ]);
+    }, [loading]);
 
     const onFinish = async (values: any) => {
-        try{
+        try {
+            values = { ...values, telefone: phone }
             setLoading(true);
             const { confirma_senha, prefix, ..._pessoa } = values;
             const pessoa = _pessoa as Omit<PessoaType, 'id_pessoa'>;
@@ -84,15 +95,15 @@ const Registration_people: React.FC = () => {
             message.success(`${pessoa.nome} inserido com sucesso`);
             setInsertionResult(result);
         }
-        catch(err){
+        catch (err) {
             console.error(err);
             message.error('Erro ao inserir pessoa');
         }
-        finally{
+        finally {
             setLoading(false);
         }
     };
-
+    const { Option } = Select;
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>
             <Select style={{ width: 70 }}>
@@ -102,7 +113,19 @@ const Registration_people: React.FC = () => {
         </Form.Item>
     );
 
+    {/* @ts-ignore */ }
+    const maskPhone = value => {
+        // return value;
+        const masked = value
+            .replace(/\D/g, "")
+            .replace(/(\d{2})(\d)/, "($1) $2")
+            .replace(/(\(\d{2}\)\s+\d{5})(.*)/, '$1-$2');
 
+        console.log({ value, masked });
+        return masked;
+    }
+
+    
 
     const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
 
@@ -127,30 +150,33 @@ const Registration_people: React.FC = () => {
     const validarCPF = (cpf: string): boolean => {
         cpf = cpf.replace(/[^\d]+/g, '');
         if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-    
+
         let soma = 0;
         let resto;
-    
+
         for (let i = 1; i <= 9; i++) {
             soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
         }
-    
+
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
         if (resto !== parseInt(cpf.substring(9, 10))) return false;
-    
+
         soma = 0;
         for (let i = 1; i <= 10; i++) {
             soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
         }
-    
+
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
         if (resto !== parseInt(cpf.substring(10, 11))) return false;
-    
+
         return true;
     };
-    
+
+
+
+
 
     return (
 
@@ -212,14 +238,14 @@ const Registration_people: React.FC = () => {
                     name="nascimento"
                     label=" "
                     tooltip="Selecione a Data de Nascimento"
-                    // rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento' }]}
+                // rules={[{ required: true, message: 'Por favor selecione a Data de Nascimento' }]}
                 >
-                    
-                    <DatePicker onChange={onChange} placeholder='Data Nascimento' style={{width: 500}} />
-                    
-                
+
+                    <DatePicker onChange={onChange} placeholder='Data Nascimento' style={{ width: 500 }} />
+
+
                 </Form.Item>
-                
+
 
                 <Form.Item
                     name="genero"
@@ -233,15 +259,51 @@ const Registration_people: React.FC = () => {
                         <Option value="Outros">Outros</Option>
                     </Select>
                 </Form.Item>
-                    
-                <Form.Item
+
+                {/* <Form.Item
                     name="telefone"
                     label=" "
                     tooltip="Digite o número de contato"
                     rules={[{ required: true, message: 'Por favor insira seu número' }]}
                 >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} placeholder='Telefone'/>
+                    
+                </Form.Item> */}
+                <Form.Item
+                    label=" "
+                     rules={[{ required: true, message: 'Por favor insira seu número' }]}
+                    tooltip="Informar o Telefone"
+                   
+                >
+                    <InputContainer>
+
+                        <Input
+                          
+
+                            // type='number'
+                            value={phone}
+                            onChange={(e) => setPhone(maskPhone(e.target.value))}
+                            placeholder="Telefone"
+                            // rules={[{ required: true, message: 'Por favor insira seu número' }]}
+                            onKeyPress={handleKeyPress}
+                            maxLength={15}
+                        />
+                    </InputContainer>
                 </Form.Item>
+
+
+
+                {/* <Form.Item
+                name="telefone"
+                label={<span>Telefone&nbsp;<Tooltip title="Por favor informe o telefone"><span className="ant-tooltip-icon"></span></Tooltip></span>}
+                rules={[{ required: true, message: 'Por favor insira seu número' }]}
+            >
+                <Input
+                    name='telefone'
+                    value={phone}
+                    onChange={(e) => setPhone(maskPhone(e.target.value))}
+                    placeholder="Telefone - formato: (00) 00000-0000"
+                />
+            </Form.Item> */}
 
 
                 <Form.Item
@@ -267,7 +329,7 @@ const Registration_people: React.FC = () => {
                     ]}
                     hasFeedback
                 >
-                    <Input.Password  placeholder='Senha'/>
+                    <Input.Password placeholder='Senha' />
                 </Form.Item>
 
                 <Form.Item
@@ -291,12 +353,9 @@ const Registration_people: React.FC = () => {
                         }),
                     ]}
                 >
-                    <Input.Password placeholder='Confirme a Senha'/>
+                    <Input.Password placeholder='Confirme a Senha' />
                 </Form.Item>
 
-
-
-            
                 {
                     !insertionResult
                         ? <Form.Item {...tailFormItemLayout}>
@@ -306,7 +365,7 @@ const Registration_people: React.FC = () => {
                             >
                                 Salvar
                             </Button>
-                        
+
                         </Form.Item>
                         : <Form.Item {...tailFormItemLayout}>
                             <Button type='primary'>
