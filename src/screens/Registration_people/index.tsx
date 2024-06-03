@@ -191,7 +191,9 @@ const Registration_people: React.FC = () => {
                 scrollToFirstError
                 disabled={loading}
             >
-
+                <div>
+                    <h1>Cadastrar Usuário</h1>
+                </div>
 
                 <Form.Item
 

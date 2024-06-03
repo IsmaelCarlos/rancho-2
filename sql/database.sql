@@ -92,6 +92,7 @@ CREATE TABLE bovino (
 	peso_nascimento FLOAT,
 	peso_confinamento FLOAT,
 	peso_atual FLOAT,
+	observacao VARCHAR(5000),
 	primary key(id_bovino)
 );
 

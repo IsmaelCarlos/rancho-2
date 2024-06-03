@@ -1,6 +1,6 @@
 import { bovine as bovines } from '@/data/bonive';
 import { useNavigate, useParams } from "react-router";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Flex } from 'antd';
 import CommonButtons from '@/components/CommonButtons';
 import { type QueryFunction, useQuery } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ const fetchBovino: QueryFunction<BovinoType, (string | undefined)[], never> = ({
     // @ts-ignore
     return axios.get(`http://localhost:6754/bovino/by-uid-brinco/${ queryKey[1] }`).then(({ data }) => data[0]);
 }
+
 
 
 const Bovine: React.FC = ()=>{
@@ -37,6 +38,8 @@ const Bovine: React.FC = ()=>{
     </div>
 
     const { data } = getBovino;
+
+    
 
     return(
        <div className="row">
@@ -151,8 +154,10 @@ const Bovine: React.FC = ()=>{
                                             <ul>
                                                 {
                                                     data?.medicamentos_aplicados.map(({ medicamento }) => {
-                                                        const { id_medicamento,  } = medicamento;
-                                                        return <li key={id_medicamento}>A implementar</li>
+                                                        const { id_medicamento_aplicado, data_registro  } = medicamento;
+                                                        return <li key={id_medicamento_aplicado}>{
+                                                            (new Date(data_registro)).toLocaleDateString()
+                                                        }</li>
                                                     })
                                                 }
                                             </ul>
@@ -160,13 +165,24 @@ const Bovine: React.FC = ()=>{
                                         <div className="span-24 vspace"></div>
                                         {/* Fim Terceira Linha de dados  */}
 
-                                        {/* {
-                                            bovine?.relatorio &&
+                                        {
+                                            // bovine?.relatorio &&
                                             <div className="tr span-24">
                                                 <h5>Relatório prescrito pelo Zootecnista: </h5>
-                                                <p id="relatorio"> <text>{ bovine?.relatorio }</text></p>
+                                                <ul>
+                                                {
+                                                    data?.medicamentos_aplicados.map(({ observacao, medicamento  }) => {
+                                                        const { id_medicamento_aplicado, data_registro } = medicamento;
+                                                        return <li key={id_medicamento_aplicado}>
+                                                            O relatório foi realizado no dia {
+                                                                (new Date(data_registro)).toLocaleDateString()
+                                                            }: { observacao }
+                                                        </li>
+                                                    })
+                                                }
+                                            </ul>
                                             </div>
-                                        } */}
+                                        }
                                     </div>
                                 </div>
                                 <CommonButtons

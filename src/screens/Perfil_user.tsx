@@ -15,6 +15,9 @@ import { PiCirclesThreePlusFill as RegisterIcon} from "react-icons/pi";
 const Perfil_user: React.FC = () => {
   return (
     <div className="container text-center">
+      <div>
+          <h3>Bem vindo ao Perfil da Fazenda Caracol, Ismael Carlos do Nascimento Galvão</h3>
+      </div>
       <div className="row">
         <div className="col">
           {/* <i className="fa-light fa-folder-tree"></i> */}

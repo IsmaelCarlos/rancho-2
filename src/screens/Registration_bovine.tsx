@@ -139,7 +139,9 @@ const Registration_bovine: React.FC = () => {
                 scrollToFirstError
                 disabled={loading}
             >
-
+                <div>
+                     <h3>Registrar Bovino</h3>
+                </div>
                 <div style={{ display: 'flex' }}>
 
                     <div  >

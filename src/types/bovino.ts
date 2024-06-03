@@ -14,9 +14,11 @@ export interface BovinoType{
 	peso_nascimento: number
 	peso_confinamento: number
 	peso_atual: number
+	
 	medicamentos_aplicados: Array<{
 		
 		medicamento: MedicamentoType
+		observacao: string
 	}>
     // destino_bovino: string
 }

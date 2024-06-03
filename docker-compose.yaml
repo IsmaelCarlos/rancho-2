@@ -18,4 +18,4 @@ services:
             - ./sql/estoque.sql:/docker-entrypoint-initdb.d/05_estoque.sql
             # - ./sql/bovinos.sql:/docker-entrypoint-initdb.d/06_bovinos.sql
             - ./sql/fazendas.sql:/docker-entrypoint-initdb.d/07_fazendas.sql
-            - ./sql/pessoas.sql:/docker-entrypoint-initdb.d/08_pessoas.sql
+            # - ./sql/pessoas.sql:/docker-entrypoint-initdb.d/08_pessoas.sql
