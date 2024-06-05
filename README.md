@@ -36,27 +36,27 @@ foi ultilizado o Docker para subir o Banco
 
 # Banco de Dados
 O para poder execultar o banco de dados foi escolhido o PostgresSql, pois facilita com a comunicação com o Backend.
-     * No PostGres eu posso passar um segundo parametro
-     * para o insert do knex escolhendo as colunas
-     * da tabela que foram inseridas e que serão retornadas
+* No PostGres eu posso passar um segundo parametro
+* para o insert do knex escolhendo as colunas
+* da tabela que foram inseridas e que serão retornadas
 
-     * Podendo fazer o Json diretamente dentro do Banco de Dados ultilizando esta função: json_build_object
-        - Ela é útil quando você precisa gerar um objeto JSON
-          Por exemplo, você pode usá-la para criar uma 
-           a partir de dados em um banco de dados relacional. 
-          representação JSON de uma linha de dados 
-          selecionada em uma tabela, ou para construir 
-          objetos JSON complexos agregando valores 
-          de diferentes fontes. 
-        - Essa consulta cria um objeto JSON com as chaves e 
-          valores correspondentes às colunas da tabela pessoa. 
-          Portanto, enquanto o nome e a sintaxe das funções podem 
-          variar entre os sistemas de gerenciamento de banco de dados, 
-          a funcionalidade básica de manipulação de JSON está disponível em ambos.
-        
-     * A função json_build_object é específica do PostgreSQL e não está disponível no MySQL. 
-        - No entanto, o MySQL oferece funcionalidades 
-          semelhantes para manipulação de JSON, mas com sintaxe diferente.
+* Podendo fazer o Json diretamente dentro do Banco de Dados ultilizando esta função: json_build_object
+- Ela é útil quando você precisa gerar um objeto JSON
+    Por exemplo, você pode usá-la para criar uma 
+    a partir de dados em um banco de dados relacional. 
+    representação JSON de uma linha de dados 
+    selecionada em uma tabela, ou para construir 
+    objetos JSON complexos agregando valores 
+    de diferentes fontes. 
+- Essa consulta cria um objeto JSON com as chaves e 
+    valores correspondentes às colunas da tabela pessoa. 
+    Portanto, enquanto o nome e a sintaxe das funções podem 
+    variar entre os sistemas de gerenciamento de banco de dados, 
+    a funcionalidade básica de manipulação de JSON está disponível em ambos.
+
+* A função json_build_object é específica do PostgreSQL e não está disponível no MySQL. 
+- No entanto, o MySQL oferece funcionalidades 
+    semelhantes para manipulação de JSON, mas com sintaxe diferente.
 
 
 #  O MODULO DE RFID UTILIZADO MFRC522 13.5 MHZ

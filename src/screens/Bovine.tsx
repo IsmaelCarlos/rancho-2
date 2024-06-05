@@ -9,6 +9,10 @@ import { BovinoType } from '@/types/bovino';
 import '@/css/tables_bovines_report_v2.css';
 import axios from 'axios';
 
+
+import { format } from 'date-fns';
+
+
 const fetchBovino: QueryFunction<BovinoType, (string | undefined)[], never> = ({ queryKey }) => {
     // @ts-ignore
     return axios.get(`http://localhost:6754/bovino/by-uid-brinco/${ queryKey[1] }`).then(({ data }) => data[0]);
@@ -38,7 +42,16 @@ const Bovine: React.FC = ()=>{
     </div>
 
     const { data } = getBovino;
-
+    // const data = {
+    //     medicamentos_aplicados: [
+    //         {
+    //             medicamento: {
+    //                 id_medicamento_aplicado: 1,
+    //                 data_registro: "2024-06-05T00:00:00Z" // Exemplo de data ISO 8601
+    //             }
+    //         }
+    //     ]
+    // };
     
 
     return(
@@ -88,27 +101,27 @@ const Bovine: React.FC = ()=>{
                                         {/* Fim Primeiros dados  */}
 
                                         {/* Segunda Linha de dados  */}
-                                        {/* <h6 className="span-24">Alimentação e Suplementação</h6>
+                                                <h6 className="span-24">Alimentação e Suplementação</h6>
 
-                                        <div className="th span-6">Ração</div>
-                                        <div className="th span-6">Capim</div>
-                                        <div className="th span-6">Suplemto</div>
-                                        <div className="th span-6">Silo</div>
-                                        <hr className="span-24"/>
+                                                <div className="th span-6">Ração</div>
+                                                <div className="th span-6">Capim</div>
+                                                <div className="th span-6">Suplemto</div>
+                                                <div className="th span-6">Silo</div>
+                                                <hr className="span-24"/>
 
-                                        <div className="td span-6">
-                                            <p id="racao"><text>{ bovine?.racao }</text></p>
-                                        </div>
-                                        <div className="td span-6">
-                                            <p id="tipo_capim"> <text>{ bovine?.tipo_capim }</text></p>
-                                        </div>
-                                        <div className="td span-6">
-                                            <p id="suplemento"><text>{ bovine?.suplemento }</text></p>
-                                        </div>
-                                        <div className="td span-6">
-                                            <p id="silo"> <text>{ bovine?.silo }</text></p>
-                                        </div>
-                                        <div className="span-24 vspace"></div> */}
+                                                <div className="td span-6">
+                                                    <p id="racao"><text>{ bovine?.racao }</text></p>
+                                                </div>
+                                                <div className="td span-6">
+                                                    <p id="tipo_capim"> <text>{ bovine?.tipo_capim }</text></p>
+                                                </div>
+                                                <div className="td span-6">
+                                                    <p id="suplemento"><text>{ bovine?.suplemento }</text></p>
+                                                </div>
+                                                <div className="td span-6">
+                                                    <p id="silo"> <text>{ bovine?.silo }</text></p>
+                                                </div>
+                                                <div className="span-24 vspace"></div>
                                         {/* Fim segunda Linha de dados  */}
 
                                         {/* Terceira Linha de dados  */}
@@ -156,7 +169,8 @@ const Bovine: React.FC = ()=>{
                                                     data?.medicamentos_aplicados.map(({ medicamento }) => {
                                                         const { id_medicamento_aplicado, data_registro  } = medicamento;
                                                         return <li key={id_medicamento_aplicado}>{
-                                                            (new Date(data_registro)).toLocaleDateString()
+                                                            format(new Date(), "dd/MM/yyyy")
+                                                            //  (new Date(data_registro)).toLocaleDateString()
                                                         }</li>
                                                     })
                                                 }
@@ -172,11 +186,13 @@ const Bovine: React.FC = ()=>{
                                                 <ul>
                                                 {
                                                     data?.medicamentos_aplicados.map(({ observacao, medicamento  }) => {
-                                                        const { id_medicamento_aplicado, data_registro } = medicamento;
+                                                        const { id_medicamento_aplicado } = medicamento;
                                                         return <li key={id_medicamento_aplicado}>
                                                             O relatório foi realizado no dia {
-                                                                (new Date(data_registro)).toLocaleDateString()
-                                                            }: { observacao }
+                                                                // 
+                                                                format(new Date(), "dd/MM/yyyy")
+                                                            }: 
+                                                            { observacao }
                                                         </li>
                                                     })
                                                 }

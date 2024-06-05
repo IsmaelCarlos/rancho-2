@@ -252,16 +252,24 @@ const Vaccinate: React.FC = () => {
                     onSaveClick={() => {
                         form.submit();
                     }}
+
                 />
+                
             }
             {
+
                 !brincoRead &&
                 <BackNSave
                     onBackClick={() => {
                         navigate(-1);
                     }}
+
+                    onSaveClick={() => {
+                        form.submit();
+                    }}
                    
                 />
+                
             }
             
             </Form>
