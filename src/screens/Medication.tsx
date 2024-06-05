@@ -147,8 +147,8 @@ const Medication: React.FC = ()=>{
                                 </div>
                                 <CommonButtons
                                     onBackClick={() => navigate('/report')}
-                                    onNextClick={() => navigate(`/bovine/${parseInt(id??'0')+1}`)}
-                                    onPreviousClick={() => navigate(`/bovine/${parseInt(id??'0')-1}`)}
+                                    onNextClick={() => navigate(`/medication/${parseInt(id??'0')+1}`)}
+                                    onPreviousClick={() => navigate(`/medication/${parseInt(id??'0')-1}`)}
                                 />
                             </div>
                         </div>

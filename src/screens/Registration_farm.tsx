@@ -244,7 +244,7 @@ const Registration_farm: React.FC = () => {
                 </div>
 
 
-
+                
 
                 <Form.Item {...tailFormItemLayout}>
 

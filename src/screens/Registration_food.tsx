@@ -20,7 +20,7 @@ import { NavLink } from "react-router-dom";
 import { } from 'react-icons'
 import BackNSave from '@/components/CommonButtons'
 import { useNavigate } from 'react-router-dom'
-
+import CommonButtons from '@/components/CommonButtons';
 const { Option } = Select;
 
 interface DataNodeType {
@@ -99,7 +99,9 @@ const Registration_food: React.FC = () => {
 
         <div style={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
 
-
+                <div>
+                    <h3>Registrar Ração</h3>
+                </div>
 
             <div style={{ display: 'flex' }}>
 
@@ -114,7 +116,9 @@ const Registration_food: React.FC = () => {
                         <Select placeholder="Tipo de ração" style={{ width: 500 }}>
                             <option value="racao">Ração</option>
                             <option value="proteina">Proteína</option>
+                            <option value="sal">Sal</option>
                             <option value="suplemento">Suplemento</option>
+                            
                         </Select>
                     </Form.Item>
                 </div>
@@ -210,20 +214,47 @@ const Registration_food: React.FC = () => {
                         </Space>
                     </Form.Item>
                 </div>
+                
 
             </div>
 
 
+                <div>
+                    <Form.Item
+                        name="bula"
+                        label=" "
+                        tooltip="Digite uma observação caso tenha uma. Este Campo não é obrigatório, mas ter o máximo de informação melhor para compreender sobre a ração."
+                    >
+                        <Input.TextArea placeholder="Informar Detalhes." autoSize={{ minRows: 1, maxRows: 6 }} spellCheck={true} />
+                    </Form.Item>
+                </div>
+
+                <div>
+                    <div style={{display: 'flex'}}>
+                        <CommonButtons
+                            // onBackClick={() => navigate('/perfil_user')}
+                            onBackClick={() => navigate(-1)}
+
+                        />
 
 
-            <BackNSave
-                onBackClick={() => {
-                    navigate(-1);
-                }}
-                onSaveClick={() => {
-                    // alert('Cliquei em salvar');
-                }}
-            />
+                        <Form.Item {...tailFormItemLayout}>
+                            <Button type="primary" htmlType="submit">
+                                Salvar
+                            </Button>
+                        </Form.Item>
+
+                    </div>
+                    
+                    {/* <Form.Item >
+
+                        <Button type="primary" htmlType="submit">
+                            Salvar
+                        </Button>
+
+                    </Form.Item> */}
+
+                </div>
 
         </div>
     );

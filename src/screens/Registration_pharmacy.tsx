@@ -20,6 +20,7 @@ import { } from 'react-icons'
 import BackNSave from "@/components/CommonButtons";
 import { MessageType } from "antd/es/message/interface";
 import axios from "axios";
+import CommonButtons from '@/components/CommonButtons';
 // import { medication } from "@/data/medication";
 
 export const NUMERO_PI = 3.1415;
@@ -145,7 +146,9 @@ export default function () {
                 scrollToFirstError
                 disabled={loading}
             >
-
+                <div>
+                    <h3>Registrar Medicamento</h3>
+                </div>
                 <div style={{ display: 'flex' }}>
 
                     <div  >
@@ -239,13 +242,13 @@ export default function () {
                             label=" "
 
                             tooltip="Selecione a data de validade do medicamento"
-                            // rules={[{ required: true, message: 'Por favor selecione a data de validade', whitespace: true }]}
+                        // rules={[{ required: true, message: 'Por favor selecione a data de validade', whitespace: true }]}
                         >
-                            
 
-                                <DatePicker onChange={onChange} placeholder="Data de Validade" style={{ width: 230 }} />
 
-                            
+                            <DatePicker onChange={onChange} placeholder="Data de Validade" style={{ width: 230 }} />
+
+
                         </Form.Item >
                     </div>
 
@@ -254,13 +257,13 @@ export default function () {
                             name="data_registro"
                             label=" "
                             tooltip="Cadastro do medicamento"
-                            // rules={[{ required: true, message: 'Por favor selecione a para cadastrar o medicamento', whitespace: true }]}
+                        // rules={[{ required: true, message: 'Por favor selecione a para cadastrar o medicamento', whitespace: true }]}
                         >
-                           
 
-                                <DatePicker onChange={onChange} placeholder="Data do Registro" style={{ width: 230 }} />
 
-                    
+                            <DatePicker onChange={onChange} placeholder="Data do Registro" style={{ width: 230 }} />
+
+
                         </Form.Item >
                     </div>
 
@@ -289,13 +292,39 @@ export default function () {
                     }}
                 />
             </Form.Item> */}
-                <Form.Item {...tailFormItemLayout}>
+                <div>
+                    <div style={{display: 'flex'}}>
+                        <CommonButtons
+                            // onBackClick={() => navigate('/perfil_user')}
+                            onBackClick={() => navigate(-1)}
+
+                        />
+
+
+                        <Form.Item {...tailFormItemLayout}>
+                            <Button type="primary" htmlType="submit">
+                                Salvar
+                            </Button>
+                        </Form.Item>
+
+                    </div>
+                    
+                    {/* <Form.Item >
+
+                        <Button type="primary" htmlType="submit">
+                            Salvar
+                        </Button>
+
+                    </Form.Item> */}
+
+                </div>
+                {/* <Form.Item {...tailFormItemLayout}>
 
                     <Button type="primary" htmlType="submit">
                         Salvar
                     </Button>
 
-                </Form.Item>
+                </Form.Item> */}
             </Form>
         </div>
     );

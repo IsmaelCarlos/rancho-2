@@ -296,7 +296,8 @@ const Registration_bovine: React.FC = () => {
                 <div style={{ display: 'flex' }}>
                     <div>
                         <CommonButtons
-                            onBackClick={() => navigate('/perfil_user')}
+                            // onBackClick={() => navigate('/perfil_user')}
+                            onBackClick={() => navigate(-1)}
                         />    
                     </div>
 

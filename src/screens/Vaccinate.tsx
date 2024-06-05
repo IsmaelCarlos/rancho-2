@@ -104,10 +104,14 @@ const Vaccinate: React.FC = () => {
                 scrollToFirstError
                 // disabled={loading}
             >
+               
 
             {
                 !bovino &&
-                <>
+                <>  
+                  <div>
+                    <h3>Vacinar Bovino</h3>
+                  </div>
                     <Button
                         onClick={async () => {
                             try{
@@ -136,6 +140,7 @@ const Vaccinate: React.FC = () => {
 
                     <div style={{ height: 50 }}></div>
                 </>
+                
             }
 
             {
@@ -241,12 +246,21 @@ const Vaccinate: React.FC = () => {
             {
                 brincoRead &&
                 <BackNSave
-                    onBackClick={() => {
-                        navigate(-1);
-                    }}
+                    // onBackClick={() => {
+                    //     navigate(-1);
+                    // }}
                     onSaveClick={() => {
                         form.submit();
                     }}
+                />
+            }
+            {
+                !brincoRead &&
+                <BackNSave
+                    onBackClick={() => {
+                        navigate(-1);
+                    }}
+                   
                 />
             }
             

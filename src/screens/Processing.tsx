@@ -31,7 +31,7 @@ const Processing: React.FC = () => {
 
                 <div className="col">
 
-                    <a href="#" className="card opcao_menu ">
+                    <a href="set_diet" className="card opcao_menu ">
                         {/* <img src="../images/Icons/consultar.png" className="icone_perfil_user"> */}
                         <SearchIcon size={60} style={{ color: 'blue' }} />
                         <div className="overlay"></div>

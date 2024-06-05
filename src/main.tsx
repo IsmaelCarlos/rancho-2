@@ -18,6 +18,7 @@ import Report_food from '@/screens/Report_food'
 import Food from '@/screens/Food'
 import Processing from './screens/Processing'
 import Vaccinate from './screens/Vaccinate'
+import Set_diet from './screens/Set_diet'
 import Brinco from './screens/brinco'
 // import Management from '@/screens/Management'
 import {
@@ -118,6 +119,10 @@ const router = createBrowserRouter([
             {
                 path: '/brinco',
                 element:<Brinco/>
+            },
+            {
+                path: '/set_diet',
+                element: <Set_diet/>
             }
             // {
             //     path'/management',
