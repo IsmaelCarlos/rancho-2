@@ -1,6 +1,6 @@
 
 import { IMaskInput } from "react-imask";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { CascaderProps } from 'antd';
 // import React from 'react';
 import type { DatePickerProps } from 'antd';
@@ -15,7 +15,14 @@ import {
     InputNumber,
     Row,
     Select,
+    message
 } from 'antd';
+
+
+import axios from "axios";
+import {RacaoType} from '@/types/racao'
+import { MessageType } from "antd/es/message/interface";
+
 import { NavLink } from "react-router-dom";
 import { } from 'react-icons'
 import BackNSave from '@/components/CommonButtons'
@@ -55,13 +62,43 @@ const tailFormItemLayout = {
 };
 
 const Registration_food: React.FC = () => {
-
     const navigate = useNavigate();
 
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+    const hideLoading = useRef<MessageType>();
+
+    const [loading, setLoading] = useState<boolean>(false);
+    const [insertionResult, setInsertionResult] = useState<RacaoType>();
+
+    useEffect(() => console.log({ insertionResult }), [insertionResult]);
+
+    useEffect(() => {
+        if (loading) {
+            const hide = message.loading(`Inserindo...`, 0);
+            hideLoading.current = hide;
+        } else {
+            hideLoading.current && hideLoading.current();
+        }
+    }, [loading]);
+
+    const onFinish = async (values: any) => {
+        try {
+            setLoading(true);
+            const { ..._racao } = values;
+            const racao = _racao as Omit<RacaoType, 'id_racao'>;
+            // const result = await axios.post('http://localhost:6754/medicamento', medicamento).then(({data}) => data.result[0] as MedicamentoType);
+            const result = await axios.post('http://localhost:6754/racao', racao) as RacaoType;
+            message.success(`${racao.nome_racao} inserido com sucesso`);
+            setInsertionResult(result);
+        }
+        catch (err) {
+            console.error(err);
+            message.error('Erro ao inserir medicamento');
+        }
+        finally {
+            setLoading(false);
+        }
     };
 
     const prefixSelector = (
@@ -102,6 +139,16 @@ const Registration_food: React.FC = () => {
                 <div>
                     <h3>Registrar Ração</h3>
                 </div>
+            <Form
+                // {...formItemLayout}
+                form={form}
+                name="register"
+                onFinish={onFinish}
+                // initialValues={{ prefix: '55' }}
+                // style={{ maxWidth: 600 }}
+                scrollToFirstError
+                disabled={loading}
+            >
 
             <div style={{ display: 'flex' }}>
 
@@ -114,10 +161,11 @@ const Registration_food: React.FC = () => {
                         rules={[{ required: true, message: 'Por favor seleciona o tipo!' }]}
                     >
                         <Select placeholder="Tipo de ração" style={{ width: 500 }}>
-                            <option value="racao">Ração</option>
-                            <option value="proteina">Proteína</option>
-                            <option value="sal">Sal</option>
-                            <option value="suplemento">Suplemento</option>
+                            <option value="Ração">Ração</option>
+                            <option value="Proteína">Proteína</option>
+                            <option value="Nutricional">Nutricional</option>
+                            <option value="Sal">Sal</option>
+                            <option value="Suplemento">Suplemento</option>
                             
                         </Select>
                     </Form.Item>
@@ -137,7 +185,7 @@ const Registration_food: React.FC = () => {
 
 
             <Form.Item
-                name="fabrica_racao"
+                name="fabricante_racao"
                 label=" "
                 tooltip="Informe a fabricamente do ração."
                 rules={[{ required: true, message: 'Digite o nome a fabricante da ração.', whitespace: true }]}
@@ -152,12 +200,12 @@ const Registration_food: React.FC = () => {
 
                 <div >
                     <Form.Item
-                        name="quantidade_racao"
+                        name="peso_saco"
                         label=" "
-                        tooltip="Informar a quantidade da ração"
-                        rules={[{ required: true, message: 'Por favor digite a quantidade', whitespace: true }]}
+                        tooltip="Informe o peso"
+                        rules={[{ required: true, message: 'Por favor digite o peso', whitespace: true }]}
                     >
-                        <Input placeholder="Quantidade" style={{ width: 230 }} />
+                        <Input placeholder="Peso" style={{ width: 230 }} />
                     </Form.Item>
 
                 </div>
@@ -165,15 +213,15 @@ const Registration_food: React.FC = () => {
                 <div >
                     <Form.Item
 
-                        name="unidade_medida_quantidade_racao"
+                        name="unidade_medida"
                         label=" "
                         tooltip="Ao informar a quantidade do ração informe a sua unidade de medida. Ex: 20g, 100ml..."
                         rules={[{ required: true, message: 'Por favor seleciona a unidade' }]}
                     >
                         <Select placeholder="Unidade de Media" style={{ width: 230 }}>
-                            <option value="tonela" title="Toneladas">t</option>
-                            <option value="quilos" title="Quilos">kg</option>
-                            <option value="litro" title="Litros">L</option>
+                            <option value="T" title="Toneladas">T</option>
+                            <option value="kg" title="Quilos">kg</option>
+                            <option value="L" title="Litros">L</option>
 
                         </Select>
                     </Form.Item>
@@ -186,32 +234,32 @@ const Registration_food: React.FC = () => {
                 <div >
 
                     <Form.Item
-                        name="data_validade_racao"
+                        name="data_validade"
                         label=" "
 
                         tooltip="Selecione a data de validade do ração"
-                        rules={[{ required: true, message: 'Por favor selecione a data de validade', whitespace: true }]}
+                        rules={[{ required: true, message: 'Por favor selecione a data de validade' }]}
                     >
-                        <Space direction="vertical" >
+                      
 
                             <DatePicker onChange={onChange} placeholder="Data de Validade" style={{ width: 230 }} />
 
-                        </Space>
+                   
                     </Form.Item >
                 </div>
 
                 <div >
                     <Form.Item
-                        name="data_cadastro_racao"
+                        name="data_registro"
                         label=" "
                         tooltip="Cadastro do ração"
-                        rules={[{ required: true, message: 'Por favor selecione a para cadastrar o ração', whitespace: true }]}
+                        rules={[{ required: true, message: 'Por favor selecione a para cadastrar o ração' }]}
                     >
-                        <Space direction="vertical">
+                        
 
                             <DatePicker onChange={onChange} placeholder="Data do Registro" style={{ width: 230 }} />
 
-                        </Space>
+                    
                     </Form.Item>
                 </div>
                 
@@ -221,7 +269,7 @@ const Registration_food: React.FC = () => {
 
                 <div>
                     <Form.Item
-                        name="bula"
+                        name="informacao_racao"
                         label=" "
                         tooltip="Digite uma observação caso tenha uma. Este Campo não é obrigatório, mas ter o máximo de informação melhor para compreender sobre a ração."
                     >
@@ -255,7 +303,7 @@ const Registration_food: React.FC = () => {
                     </Form.Item> */}
 
                 </div>
-
+            </Form>
         </div>
     );
 };
