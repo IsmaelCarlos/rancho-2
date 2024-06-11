@@ -1,12 +1,19 @@
 import { food as foods } from '@/data/food';
 import { useNavigate, useParams } from "react-router";
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Flex } from 'antd';
 import CommonButtons from '@/components/CommonButtons';
-
+import {RacaoType} from '@/types/racao'
 
 import '@/css/tables_bovines_report_v2.css';
 
+import axios from 'axios';
+import { type QueryFunction, useQuery } from '@tanstack/react-query';
+
+const fetchRacao: QueryFunction<RacaoType, (string | undefined)[], never> = ({ queryKey }) => {
+    // @ts-ignore
+    return axios.get(`http://localhost:6754/racao/${ queryKey[1] }`).then(({ data }) => data[0]);
+}
 
 
 const Medication: React.FC = ()=>{
@@ -14,9 +21,21 @@ const Medication: React.FC = ()=>{
     const navigate = useNavigate();
 
     const { id } = useParams();
-    // @ts-ignore
-    const medication = medications.find(b => b.id == id);
 
+    const getRacao = useQuery({
+         queryKey: ['getracao', id],
+         queryFn: fetchRacao
+     });
+     
+     if(getRacao.isLoading) return <div>
+        Carregando...
+    </div>
+
+    if(getRacao.isError) return <div>
+        Erro: { getRacao.error.message }
+    </div>
+
+    const { data } = getRacao;
     return(
        <div className="row">
             <div className="col py-3  ">
@@ -31,10 +50,10 @@ const Medication: React.FC = ()=>{
 
                                 <div id="dados_imprimir" className="table-responsive">
                                     <div className="table2">
-                                        <h4 className="span-24" id="identificador">Informações do   {medication?.tipo} <text>de numerção { id } { medication?.nome }</text>
+                                        <h4 className="span-24" id="identificador">Informações do   {data?.tipo_racao} <text>de numerção { id } { data?.nome_racao}</text>
                                         </h4>
                                         <h4 className="span-24 subtitle" id="proprietario" >Faricante 
-                                            <text> {medication?.proprietario}</text></h4>
+                                            <text> {data?.fabricante_racao}</text></h4>
 
                                         <div className="span-24 vspace"></div>
 
@@ -50,22 +69,22 @@ const Medication: React.FC = ()=>{
                                         <hr className="span-24"/>
 
                                         <div className="td span-6">
-                                            <p id="data_validade"> <text>{ medication?.data_validade }</text></p>
+                                            <p id="data_validade"> <text>{ data?.data_validade }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="data_registro"> <text>{ medication?.data_registro }</text></p>
+                                            <p id="data_registro"> <text>{ data?.data_registro }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="quantidade"> <text>{ medication?.quantidade }</text></p>
+                                            <p id="quantidade"> <text>{ data?.quantidade_racao_estoque }</text></p>
                                         </div>
                                         <div className="td span-6">
-                                            <p id="tipo"> <text>{ medication?.tipo }</text></p>
+                                            <p id="tipo"> <text>{ data?.tipo_racao }</text></p>
                                         </div>
                                         <div className="span-24 vspace"></div>
                                         {/* Fim Primeiros dados  */}
 
                                         {/* Segunda Linha de dados  */}
-                                        <h6 className="span-24">Bula do {medication?.nome} </h6>
+                                        <h6 className="span-24">Bula do {data?.nome_racao} </h6>
 
                                         <div className="th span-6">Detalhes</div>
                                         {/* <div className="th span-6">Capim</div>
@@ -74,7 +93,7 @@ const Medication: React.FC = ()=>{
                                         <hr className="span-24"/> */}
 
                                         <div className="td span-20">
-                                            <p id="racao"><text>{ medication?.bula_medicamento }</text></p>
+                                            <p id="racao"><text>{ data?.informacao_racao }</text></p>
                                         </div>
                                         {/* <div className="td span-6">
                                             <p id="tipo_capim"> <text>{ bovine?.tipo_capim }</text></p>
@@ -147,8 +166,8 @@ const Medication: React.FC = ()=>{
                                 </div>
                                 <CommonButtons
                                     onBackClick={() => navigate('/report')}
-                                    onNextClick={() => navigate(`/medication/${parseInt(id??'0')+1}`)}
-                                    onPreviousClick={() => navigate(`/medication/${parseInt(id??'0')-1}`)}
+                                    onNextClick={() => navigate(`/racao/${parseInt(id??'0')+1}`)}
+                                    onPreviousClick={() => navigate(`/racao/${parseInt(id??'0')-1}`)}
                                 />
                             </div>
                         </div>

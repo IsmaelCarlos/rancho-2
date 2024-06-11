@@ -4,10 +4,28 @@ import { FaChevronLeft as BackIcon } from 'react-icons/fa6';
 import BackNSave from '@/components/CommonButtons';
 import {food} from '@/data/food';
 
-import { useNavigate } from "react-router";
+
+import { useNavigate, useParams } from "react-router";
+import { QueryFunction, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+
+import {RacaoType} from '@/types/racao';
+
+const fetchRacao: QueryFunction<RacaoType[], (string | undefined)[], never> = ({ queryKey }) => {
+    return axios.get(`http://localhost:6754/racao`).then(({ data }) => data);
+}
+
 // import { FaChevronLeft as BackIcon } from "react-icons/fa6";
 const Report_food: React.FC = () => {
 
+    const navigate = useNavigate();
+
+    const { id } = useParams();
+
+    const getRacao = useQuery({
+        queryKey: [ 'getRacao', id ],
+        queryFn: fetchRacao
+    });
 
     const corInicial = (peso: number): string => {
         const pesoNum = peso;
@@ -35,7 +53,20 @@ const Report_food: React.FC = () => {
     useEffect(() => {
     }, []);
 
-    const navigate = useNavigate();
+    const racao = getRacao.data;
+
+    if(getRacao.isLoading){
+        return <div>Carregando...</div>
+    }
+
+    if(getRacao.isError){
+        console.error(getRacao.error);
+        return <div>
+            Erro:
+            { getRacao.error.message }
+        </div>
+    }
+
 
     return (
         <div>
@@ -69,19 +100,23 @@ const Report_food: React.FC = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    food.map(element => {
-                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/food/${element.id}`)} key={element.id} >
-                                                            <td>{element.tipo}</td>
+                                                    racao?.map(element => {
+                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/racao/${element.id_racao}`)} key={element.id_racao} >
+                                                            <td>{element.tipo_racao}</td>
                                                             {/* <td style={{ textAlign: element.nome ? 'center' : undefined }}>{element.nome || '-'}</td> */}
-                                                            <td >{element.nome || '-'}</td>
-                                                            <td>{element.data_validade}</td>
-                                                            <td>{element.data_registro}</td>
+                                                            <td >{element.nome_racao || '-'}</td>
+                                                            <td>{ element.data_validade && (new Date(element.data_validade)).toLocaleDateString()}</td>
+                                                            <td>{ element.data_registro && (new Date(element.data_registro)).toLocaleDateString()}</td>
                                                             <td>
-                                                                {/* <label className={`badge badge-${corInicial(element.quantidade)}`} htmlFor="">
-                                                                    { element.quantidade }
-                                                                </label> */}
-                                                                <label className={`badge badge-${corInicial(parseInt(element.quantidade))}`} htmlFor="">
-                                                                    {element.quantidade}
+                                                            <label className={`badge badge-${corInicial(
+                                                                    parseInt(
+                                                                        element
+                                                                            ?.quantidade_racao_estoque
+                                                                            ?.toString()
+                                                                            ??'0'
+                                                                    )
+                                                                )}`} htmlFor="">
+                                                                    {element.quantidade_racao_estoque}
                                                                 </label>
 
                                                             </td>

@@ -105,7 +105,7 @@ const router = createBrowserRouter([
                 element: <Report_food/>
             },
             {
-                path: '/food/:id',
+                path: '/racao/:id',
                 element: <Food/>
             },
             {

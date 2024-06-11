@@ -226,9 +226,20 @@ const Registration_food: React.FC = () => {
                         </Select>
                     </Form.Item>
                 </div>
-
             </div>
+            <div style={{ display: 'flex' }}>
+                     <div >
+                        <Form.Item
+                            name="quantidade_racao_estoque"
+                            label=" "
+                            tooltip="V"
+                            rules={[{ required: true, message: 'Por favor digite a quatidade', whitespace: true }]}
+                        >
+                            <Input placeholder="Quantidade de estoque" style={{ width: 500 }} />
+                        </Form.Item>
 
+                    </div>
+                </div>
             <div style={{ display: 'flex' }}>
 
                 <div >
