@@ -19,7 +19,6 @@ const fetchBovino: QueryFunction<BovinoType, (string | undefined)[], never> = ({
 }
 
 
-
 const Bovine: React.FC = ()=>{
 
     const navigate = useNavigate();

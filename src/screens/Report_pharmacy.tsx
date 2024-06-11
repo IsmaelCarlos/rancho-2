@@ -2,11 +2,28 @@ import React, { useEffect } from 'react';
 import { Button } from 'antd';
 import { FaChevronLeft as BackIcon } from 'react-icons/fa6';
 import BackNSave from '@/components/CommonButtons';
-import { medication } from '@/data/medication';
+import {MedicamentoType} from '@/types/medicamento';
 
-import { useNavigate } from "react-router";
+
+import { useNavigate, useParams } from "react-router";
+import { QueryFunction, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 // import { FaChevronLeft as BackIcon } from "react-icons/fa6";
-const Report_pharmacy: React.FC = () => {
+
+const fetchPharmacy: QueryFunction<MedicamentoType[], (string | undefined)[], never> = ({ queryKey }) => {
+    return axios.get(`http://localhost:6754/medicamento`).then(({ data }) => data);
+}
+
+const Report_pharmacy = () => {
+
+    const navigate = useNavigate();
+
+    const { id } = useParams();
+
+    const getPharmacy = useQuery({
+        queryKey: [ 'getPharmacy', id ],
+        queryFn: fetchPharmacy
+    });
 
 
     const corInicial = (peso: number): string => {
@@ -35,7 +52,19 @@ const Report_pharmacy: React.FC = () => {
     useEffect(() => {
     }, []);
 
-    const navigate = useNavigate();
+    const medication = getPharmacy.data;
+
+    if(getPharmacy.isLoading){
+        return <div>Carregando...</div>
+    }
+
+    if(getPharmacy.isError){
+        console.error(getPharmacy.error);
+        return <div>
+            Erro:
+            { getPharmacy.error.message }
+        </div>
+    }
 
     return (
         <div>
@@ -69,19 +98,26 @@ const Report_pharmacy: React.FC = () => {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    medication.map(element => {
-                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/medication/${element.id}`)} key={element.id} >
-                                                            <td>{element.tipo}</td>
+                                                    medication?.map(element => {
+                                                        return <tr style={{ cursor: 'pointer' }} onClick={() => navigate(`/medication/${element.id_medicamento}`)} key={element.id_medicamento} >
+                                                            <td>{element.tipo_medicamento}</td>
                                                             {/* <td style={{ textAlign: element.nome ? 'center' : undefined }}>{element.nome || '-'}</td> */}
-                                                            <td >{element.nome || '-'}</td>
-                                                            <td>{element.data_validade}</td>
-                                                            <td>{element.data_registro}</td>
+                                                            <td >{element.nome_medicamento || '-'}</td>
+                                                            <td>{ element.data_validade && (new Date(element.data_validade)).toLocaleDateString()}</td>
+                                                            <td>{ element.data_registro && (new Date(element.data_registro)).toLocaleDateString()}</td>
                                                             <td>
                                                                 {/* <label className={`badge badge-${corInicial(element.quantidade)}`} htmlFor="">
                                                                     { element.quantidade }
                                                                 </label> */}
-                                                                <label className={`badge badge-${corInicial(parseInt(element.quantidade))}`} htmlFor="">
-                                                                    {element.quantidade}
+                                                                <label className={`badge badge-${corInicial(
+                                                                    parseInt(
+                                                                        element
+                                                                            ?.quantidade_medicamento_estoque
+                                                                            ?.toString()
+                                                                            ??'0'
+                                                                    )
+                                                                )}`} htmlFor="">
+                                                                    {element.quantidade_medicamento_estoque}
                                                                 </label>
 
                                                             </td>
