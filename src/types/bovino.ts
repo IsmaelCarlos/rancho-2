@@ -1,4 +1,5 @@
 import { MedicamentoType } from '@/types/medicamento';
+import {RacaoType} from '@/types/racao'
 export interface BovinoType{
     id_bovino : number
 	id_fazenda: number
@@ -18,6 +19,12 @@ export interface BovinoType{
 	medicamentos_aplicados: Array<{
 		
 		medicamento: MedicamentoType
+		observacao: string
+	}>
+
+	racoes_aplicadas: Array<{
+		
+		racao: RacaoType
 		observacao: string
 	}>
     // destino_bovino: string

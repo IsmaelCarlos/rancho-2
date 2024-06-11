@@ -8,5 +8,5 @@ export interface MedicamentoType {
     unidade_medida: string
     data_valida: string
     data_registro: string
-    bula: string   
+    bula: string
 }

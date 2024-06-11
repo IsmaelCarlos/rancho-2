@@ -103,23 +103,62 @@ const Bovine: React.FC = ()=>{
                                         {/* Segunda Linha de dados  */}
                                                 <h6 className="span-24">Alimentação e Suplementação</h6>
 
-                                                <div className="th span-6">Ração</div>
-                                                <div className="th span-6">Capim</div>
-                                                <div className="th span-6">Suplemto</div>
-                                                <div className="th span-6">Silo</div>
+                                                <div className="th span-6">Nome</div>
+                                                <div className="th span-6">Tipo</div>
+                                                <div className="th span-6">Quantidade</div>
+                                                <div className="th span-6">Data</div>
                                                 <hr className="span-24"/>
 
                                                 <div className="td span-6">
-                                                    <p id="racao"><text>{ bovine?.racao }</text></p>
+                                                    {/* <p id="racao"><text>{ bovine?.racao }</text></p> */}
+                                                    <ul>
+                                                        {
+                                                            data?.racoes_aplicadas.map(({ racao }) => {
+                                                                const { id_racao, nome_racao } = racao;
+                                                                return <li key={id_racao}>{nome_racao}</li>
+                                                            })
+                                                        }
+                                                    </ul>
                                                 </div>
                                                 <div className="td span-6">
-                                                    <p id="tipo_capim"> <text>{ bovine?.tipo_capim }</text></p>
+                                                    {/* <p id="tipo_capim"> <text>{ bovine?.tipo_capim }</text></p> */}
+                                                    <ul>
+                                                        {
+                                                            data?.racoes_aplicadas.map(({ racao }) => {
+                                                                const { id_racao, tipo_racao } = racao;
+                                                                return <li key={id_racao}>{ tipo_racao }</li>
+                                                            })
+                                                        }
+                                                    </ul>
                                                 </div>
                                                 <div className="td span-6">
-                                                    <p id="suplemento"><text>{ bovine?.suplemento }</text></p>
+                                                    {/* <p id="suplemento"><text>{ bovine?.suplemento }</text></p> */}
+                                                    <ul>
+                                                        {
+                                                            data?.racoes_aplicadas.map(({ racao }) => {
+                                                                const { id_racao, peso_saco } = racao;
+                                                                return <li key={id_racao}>{ peso_saco }</li>
+                                                            })
+                                                        }
+                                                    </ul>
                                                 </div>
                                                 <div className="td span-6">
-                                                    <p id="silo"> <text>{ bovine?.silo }</text></p>
+                                                    {/* <p id="silo"> <text>{ bovine?.silo }</text></p> */}
+                                                    <ul>
+                                                        {
+                                                            data?.racoes_aplicadas
+                                                                .filter(({ racao }) => {
+                                                                    return true;
+                                                                })
+                                                                .map(({ racao }) => {
+                                                                    const { id_racao_aplicado, data_registro  } = racao;
+                                                                    return <li key={id_racao_aplicado}>{
+                                                                        // format(new Date(data_registro), "dd/MM/yyyy")
+                                                                         (new Date(data_registro)).toLocaleDateString()
+                                                                    }</li>
+                                                                })
+                                                        }
+                                                    </ul>
                                                 </div>
                                                 <div className="span-24 vspace"></div>
                                         {/* Fim segunda Linha de dados  */}
@@ -180,9 +219,9 @@ const Bovine: React.FC = ()=>{
                                         {/* Fim Terceira Linha de dados  */}
 
                                         {
-                                            // bovine?.relatorio &&
+                                            //  bovine?.relatorio &&
                                             <div className="tr span-24">
-                                                <h5>Relatório prescrito pelo Zootecnista: </h5>
+                                                <h5>Relatório prescrito pelo Zootecnista Vacina: </h5>
                                                 <ul>
                                                 {
                                                     data?.medicamentos_aplicados.map(({ observacao, medicamento  }) => {
@@ -198,6 +237,28 @@ const Bovine: React.FC = ()=>{
                                                 }
                                             </ul>
                                             </div>
+                                            
+                                        }
+                                         {
+                                            //  bovine?.relatorio &&
+                                            <div className="tr span-24">
+                                                <h5>Relatório prescrito pelo Zootecnista Dieta: </h5>
+                                                <ul>
+                                                {
+                                                    data?.racoes_aplicadas.map(({ observacao, racao  }) => {
+                                                        const { id_racao_aplicado } = racao;
+                                                        return <li key={id_racao_aplicado}>
+                                                            O relatório foi realizado no dia {
+                                                                // 
+                                                                format(new Date(), "dd/MM/yyyy")
+                                                            }: 
+                                                            { observacao }
+                                                        </li>
+                                                    })
+                                                }
+                                            </ul>
+                                            </div>
+                                            
                                         }
                                     </div>
                                 </div>

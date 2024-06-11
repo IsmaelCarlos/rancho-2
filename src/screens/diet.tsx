@@ -10,7 +10,7 @@ import {
 } from 'antd';
 import { useNavigate } from "react-router-dom";
 import BackNSave from '@/components/CommonButtons';
-
+// import { MedicamentoType } from '@/types';
 import { BovinoType } from '@/types/bovino';
 import {RacaoType} from '@/types/racao'; 
 
@@ -49,11 +49,11 @@ const Vaccinate: React.FC = () => {
     const onFinish = async (values: any) =>{
         try{
             const { peso_atual, ...racao } = values;
-            const insert1 = await axios.post('http://localhost:6754/racao_aplicado', { ...racao, id_bovino: bovino?.id_bovino });
-            // const insert2 = await axios.patch(`http://localhost:6754/bovino/${bovino?.id_bovino}`, { peso_atual });
+            const insert1 = await axios.post('http://localhost:6754/racao', { ...racao, id_bovino: bovino?.id_bovino });
+            const insert2 = await axios.patch(`http://localhost:6754/bovino/${bovino?.id_bovino}`, { peso_atual });
             console.log({
                 insert1,
-                // insert2
+                insert2
             });
 
             window.location.reload();
