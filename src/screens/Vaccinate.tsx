@@ -75,7 +75,7 @@ const Vaccinate: React.FC = () => {
 
            await  patchMedicamento.mutateAsync(selectedMedicamento);
 
-            // window.location.reload();
+            window.location.reload();
         }
         catch (err){
             console.error(err);
@@ -210,12 +210,12 @@ const Vaccinate: React.FC = () => {
                             onChange={index => {
                                 setSelectedMedicamento(
                                     getMedicamentos.data
-                                        ? getMedicamentos.data[index]
+                                        ? getMedicamentos.data.find(({ id_medicamento }) => id_medicamento === index)
                                         : undefined
                                 );
                             }}
                         >
-                            <option value=""></option>
+                            {/* <option value=""></option> */}
                             {
                                 getMedicamentos.data &&
                                 getMedicamentos.data.map(({ id_medicamento, tipo_medicamento, nome_medicamento }) => {
