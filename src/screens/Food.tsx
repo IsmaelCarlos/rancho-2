@@ -23,9 +23,9 @@ const Medication: React.FC = ()=>{
     const { id } = useParams();
 
     const getRacao = useQuery({
-         queryKey: ['getracao', id],
-         queryFn: fetchRacao
-     });
+        queryKey: ['getracao', id],
+        queryFn: fetchRacao
+    });
      
      if(getRacao.isLoading) return <div>
         Carregando...

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { DatePickerProps } from 'antd';
-import { DatePicker, Space } from 'antd';
+import { DatePicker } from 'antd';
 import {
     Form,
     Input,
@@ -13,8 +13,7 @@ import BackNSave from '@/components/CommonButtons';
 import { BovinoType } from '@/types/bovino';
 import { MedicamentoType } from '@/types/medicamento';
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-import { MessageType } from 'antd/es/message/interface';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {Medicamento_aplicadoType} from '@/types/vacina';
 
 const fetchMedicamentos = () => {
@@ -27,17 +26,40 @@ const Vaccinate: React.FC = () => {
     const [ loadingBovino, setLoadingBovino ] = useState(false);
     const [ brincoRead, setBrincoRead ] = useState(false);
     const [ bovino, setBovino ] = useState<BovinoType>();
+    const [ selectedMedicamento, setSelectedMedicamento ] = useState<MedicamentoType>();
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [insertionResult, setInsertionResult] = useState<Medicamento_aplicadoType>();
+    // const [loading, setLoading] = useState<boolean>(false);
+    // const [insertionResult, setInsertionResult] = useState<Medicamento_aplicadoType>();
+    
 
     const navigate = useNavigate();
 
     const [form] = Form.useForm();
 
+    const queryClient = useQueryClient();
+
     const getMedicamentos = useQuery({
         queryKey: [ 'getMedicamentos' ],
         queryFn: fetchMedicamentos,
+    });
+
+    const patchMedicamento = useMutation({
+        mutationFn: async ({ id_medicamento, quantidade_medicamento_estoque: qtt }: MedicamentoType) => {
+            const quantidade_medicamento_estoque = (qtt??1) - 1;
+
+            console.log({ quantidade_medicamento_estoque, id_medicamento });
+
+            return axios.patch(
+                `http://localhost:6754/medicamento/${id_medicamento}`,
+                {
+                    quantidade_medicamento_estoque
+                } satisfies Pick<MedicamentoType, 'quantidade_medicamento_estoque'>
+            ).then(({ data }) => data);
+        },
+        onSuccess: () =>{
+            // @ts-ignore
+            queryClient.invalidateQueries([ 'getMedicamentos' ]);
+        }
     });
 
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
@@ -46,22 +68,21 @@ const Vaccinate: React.FC = () => {
 
     const onFinish = async (values: any) =>{
         try{
+            if(!selectedMedicamento) throw new Error('No medicamento selected');
             const { peso_atual, ...medicamento } = values;
             const insert1 = await axios.post('http://localhost:6754/vacina', { ...medicamento, id_bovino: bovino?.id_bovino });
             const insert2 = await axios.patch(`http://localhost:6754/bovino/${bovino?.id_bovino}`, { peso_atual });
-            console.log({
-                insert1,
-                insert2
-            });
 
-            window.location.reload();
+           await  patchMedicamento.mutateAsync(selectedMedicamento);
+
+            // window.location.reload();
         }
         catch (err){
             console.error(err);
             message.error('Erro ao inserir medicamento')
         }
         finally{
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -83,13 +104,6 @@ const Vaccinate: React.FC = () => {
         { getMedicamentos.error.message }
     </div>
 
-    
-
-    // const hideLoading = useRef<MessageType>();
-
-    
-
-    
 
     return (
 
@@ -189,7 +203,18 @@ const Vaccinate: React.FC = () => {
                         tooltip="Definar a vacina desejada para vacinar o bovino"
                         rules={[{ required: true, message: 'Por favor seleciona a vacina!' }]}
                     >
-                        <Select disabled={!brincoRead} placeholder="Definir Vacina" style={{ width: 550 }}>
+                        <Select
+                            disabled={!brincoRead}
+                            placeholder="Definir Vacina"
+                            style={{ width: 550 }}
+                            onChange={index => {
+                                setSelectedMedicamento(
+                                    getMedicamentos.data
+                                        ? getMedicamentos.data[index]
+                                        : undefined
+                                );
+                            }}
+                        >
                             <option value=""></option>
                             {
                                 getMedicamentos.data &&
